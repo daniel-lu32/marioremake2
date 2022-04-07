@@ -59,11 +59,11 @@ public class Block {
 	public void setCoin(boolean coin) {
 		this.coin = coin;
 	}
-	public void setScaleX(double newScaleX) {
-		scaleX = newScaleX;
+	public void setScaleX(double scaleX) {
+		this.scaleX = scaleX;
 	}
-	public void setScaleY(double newScaleY) {
-		scaleY = newScaleY;
+	public void setScaleY(double scaleY) {
+		this.scaleY = scaleY;
 	}
 	
 	// graphics settings

@@ -88,11 +88,11 @@ public class Character {
 	public void setAbility(String ability) {
 		this.ability = ability;
 	}
-	public void setScaleX(double newScaleX) {
-		scaleX = newScaleX;
+	public void setScaleX(double scaleX) {
+		this.scaleX = scaleX;
 	}
-	public void setScaleY(double newScaleY) {
-		scaleY = newScaleY;
+	public void setScaleY(double scaleY) {
+		this.scaleY = scaleY;
 	}
 	
 	// graphics settings
