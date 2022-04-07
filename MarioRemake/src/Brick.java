@@ -7,26 +7,21 @@ import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.net.URL;
 
-public class Character {
-	private int x, y, height, width;
-	private boolean big, small, hasAbility;
-	private String ability;
+public class Brick {
+	private int x, y, size;
+	private boolean coin;
 	private double scaleX, scaleY;
 	private Image img;
 	private AffineTransform tx;
 	
-	public Character(int x, int y) {
+	public Brick(int x, int y, boolean coin) {
 		this.x = x;
 		this.y = y;
-		height = 80;
-		width = 25;
-		big = false;
-		small = false;
-		hasAbility = false;
-		ability = "";
+		size = 20;
+		this.coin = coin;
 		scaleX = 1.0;
 		scaleY = 1.0;
-		img = getImage("/imgs/mariorunninggif.gif");
+		img = getImage("/imgs/block.gif");
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y);
 	}
@@ -38,23 +33,11 @@ public class Character {
 	public int getY() {
 		return y;
 	}
-	public int getHeight() {
-		return height;
+	public int getSize() {
+		return size;
 	}
-	public int getWidth() {
-		return width;
-	}
-	public boolean getBig() {
-		return big;
-	}
-	public boolean getSmall() {
-		return small;
-	}
-	public boolean getHasAbility() {
-		return hasAbility;
-	}
-	public String getAbility() {
-		return ability;
+	public boolean getCoin() {
+		return coin;
 	}
 	public double getScaleX() {
 		return scaleX;
@@ -70,23 +53,11 @@ public class Character {
 	public void setY(int y) {
 		this.y = y;
 	}
-	public void setHeight(int height) {
-		this.height = height;
+	public void setSize(int size) {
+		this.size = size;
 	}
-	public void setWidth(int width) {
-		this.width = width;
-	}
-	public void setBig(boolean big) {
-		this.big = big;
-	}
-	public void setSmall(boolean small) {
-		this.small = small;
-	}
-	public void setHasAbility(boolean hasAbility) {
-		this.hasAbility = hasAbility;
-	}
-	public void setAbility(String ability) {
-		this.ability = ability;
+	public void setCoin(boolean coin) {
+		this.coin = coin;
 	}
 	public void setScaleX(double scaleX) {
 		this.scaleX = scaleX;
@@ -112,7 +83,7 @@ public class Character {
 	private Image getImage(String path) {
 		Image tempImage = null;
 		try {
-			URL imageURL = Character.class.getResource(path);
+			URL imageURL = Brick.class.getResource(path);
 			tempImage = Toolkit.getDefaultToolkit().getImage(imageURL);
 		} catch (Exception e) {
 			e.printStackTrace();

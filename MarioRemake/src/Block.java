@@ -9,16 +9,16 @@ import java.net.URL;
 
 public class Block {
 	private int x, y, size;
-	private boolean coin;
+	private String contents;
 	private double scaleX, scaleY;
 	private Image img;
 	private AffineTransform tx;
 	
-	public Block(int x, int y, boolean coin) {
+	public Block(int x, int y, String contents) {
 		this.x = x;
 		this.y = y;
 		size = 20;
-		this.coin = coin;
+		this.contents = contents;
 		scaleX = 1.0;
 		scaleY = 1.0;
 		img = getImage("/imgs/block.gif");
@@ -36,8 +36,8 @@ public class Block {
 	public int getSize() {
 		return size;
 	}
-	public boolean getCoin() {
-		return coin;
+	public String getContents() {
+		return contents;
 	}
 	public double getScaleX() {
 		return scaleX;
@@ -56,8 +56,8 @@ public class Block {
 	public void setSize(int size) {
 		this.size = size;
 	}
-	public void setCoin(boolean coin) {
-		this.coin = coin;
+	public void setContents(String contents) {
+		this.contents = contents;
 	}
 	public void setScaleX(double scaleX) {
 		this.scaleX = scaleX;
