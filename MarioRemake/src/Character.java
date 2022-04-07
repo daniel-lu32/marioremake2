@@ -8,35 +8,92 @@ import java.awt.geom.AffineTransform;
 import java.net.URL;
 
 public class Character {
-	private int x;
-	private int y;
-	private int height;
-	private int width;
-	private Image img;
-	private AffineTransform tx;
-	private boolean big;
-	private boolean small;
-	private boolean hasAbility;
+	private int x, y, height, width;
+	private boolean big, small, hasAbility;
 	private String ability;
 	private double scaleX, scaleY;
+	private Image img;
+	private AffineTransform tx;
 	
 	public Character(int x, int y) {
 		this.x = x;
 		this.y = y;
 		height = 80;
 		width = 25;
-		img = getImage("/imgs/mariorun.gif");
-		tx = AffineTransform.getTranslateInstance(x, y);
-		init(x, y);
-		scaleX = 1.0;
-		scaleY = 1.0;
 		big = false;
 		small = false;
 		hasAbility = false;
 		ability = "";
-		
+		scaleX = 1.0;
+		scaleY = 1.0;
+		img = getImage("/imgs/mariorunningbetter.gif");
+		tx = AffineTransform.getTranslateInstance(x, y);
+		init(x, y);
 	}
 	
+	// getters
+	public int getX() {
+		return x;
+	}
+	public int getY() {
+		return y;
+	}
+	public int getHeight() {
+		return height;
+	}
+	public int getWidth() {
+		return width;
+	}
+	public boolean getBig() {
+		return big;
+	}
+	public boolean getSmall() {
+		return small;
+	}
+	public boolean getHasAbility() {
+		return hasAbility;
+	}
+	public String getAbility() {
+		return ability;
+	}
+	public double getScaleX() {
+		return scaleX;
+	}
+	public double getScaleY() {
+		return scaleY;
+	}
+	
+	// setters
+	public void setX(int x) {
+		this.x = x;
+	}
+	public void setY(int y) {
+		this.y = y;
+	}
+	public void setHeight(int height) {
+		this.height = height;
+	}
+	public void setWidth(int width) {
+		this.width = width;
+	}
+	public void setBig(boolean big) {
+		this.big = big;
+	}
+	public void setSmall(boolean small) {
+		this.small = small;
+	}
+	public void setHasAbility(boolean hasAbility) {
+		this.hasAbility = hasAbility;
+	}
+	public void setAbility(String ability) {
+		this.ability = ability;
+	}
+	public void setScaleX(double newScaleX) {
+		scaleX = newScaleX;
+	}
+	public void setScaleY(double newScaleY) {
+		scaleY = newScaleY;
+	}
 	
 	// graphics settings
 	public void paint(Graphics g) {

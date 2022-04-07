@@ -40,13 +40,13 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	
 	// create the background
 
+	Character c = new Character(200, 200);
 	// variables and trackers
 	
 	
 	// main method with code and movement that is called 60 times per second
 	public void paint(Graphics g) {
 		super.paintComponent(g);
-		Character c = new Character(200, 200);
 		bg.paint(g);
 		c.paint(g);
 		
