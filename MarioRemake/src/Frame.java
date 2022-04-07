@@ -45,6 +45,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	// main method with code and movement that is called 60 times per second
 	public void paint(Graphics g) {
 		super.paintComponent(g);
+		Character c = new Character(200, 200);
+		c.paint(g);
 		
 	}
 	
