@@ -24,6 +24,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	//comment
 	
 	// colors and fonts
+	Background bg = new Background(0,0);
 	Color red = new Color(210, 20, 4);
 	Color yellow = new Color(252, 226, 5);
 	Color green = new Color(3, 172, 19);
@@ -46,7 +47,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	public void paint(Graphics g) {
 		super.paintComponent(g);
 		Character c = new Character(200, 200);
+		bg.paint(g);
 		c.paint(g);
+		
 		
 	}
 	
