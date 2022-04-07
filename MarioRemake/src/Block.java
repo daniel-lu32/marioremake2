@@ -9,16 +9,18 @@ import java.net.URL;
 
 public class Block {
 	private int x, y, size;
-	private String contents;
+	private String brickType;
+	private boolean hasCoin;
 	private double scaleX, scaleY;
 	private Image img;
 	private AffineTransform tx;
 	
-	public Block(int x, int y, String contents) {
+	public Block(int x, int y, String brickType, boolean hasCoin) {
 		this.x = x;
 		this.y = y;
 		size = 20;
-		this.contents = contents;
+		this.brickType = brickType;
+		this.hasCoin = hasCoin;
 		scaleX = 1.0;
 		scaleY = 1.0;
 		img = getImage("/imgs/block.gif");
@@ -36,8 +38,11 @@ public class Block {
 	public int getSize() {
 		return size;
 	}
-	public String getContents() {
-		return contents;
+	public String getBrickType() {
+		return brickType;
+	}
+	public boolean getHasCoin() {
+		return hasCoin;
 	}
 	public double getScaleX() {
 		return scaleX;
@@ -56,8 +61,11 @@ public class Block {
 	public void setSize(int size) {
 		this.size = size;
 	}
-	public void setContents(String contents) {
-		this.contents = contents;
+	public void setBrickType(String brickType) {
+		this.brickType = brickType;
+	}
+	public void setHasCoin(boolean hasCoin) {
+		this.hasCoin = hasCoin;
 	}
 	public void setScaleX(double scaleX) {
 		this.scaleX = scaleX;
