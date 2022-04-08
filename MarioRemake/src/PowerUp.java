@@ -23,13 +23,13 @@ public class PowerUp {
 		scaleX = 1.0;
 		scaleY = 1.0;
 		if (type.equals("Big Mushroom")) {
-			img = getImage("/imgs/bigmushroom.png");
+			img = getImage("/imgs/redmushroom.png");
 		} else if (type.equals("Ice Flower")) {
 			img = getImage("/imgs/NOTAVAILABLEYET.png");
 		} else if (type.equals("Fire Flower")) {
 			img = getImage("/imgs/NOTAVAILABLEYET.png");
 		} else if (type.equals("1-UP")) {
-			img = getImage("/imgs/NOTAVAILABLEYET.png");
+			img = getImage("/imgs/greenmushroom.png");
 		}
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y);
