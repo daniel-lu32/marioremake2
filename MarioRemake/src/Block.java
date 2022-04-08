@@ -23,7 +23,7 @@ public class Block {
 		this.hasCoin = hasCoin;
 		scaleX = 1.0;
 		scaleY = 1.0;
-		img = getImage("/imgs/block.gif");
+		img = getImage("/imgs/mysteryblockgif.gif");
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y);
 	}

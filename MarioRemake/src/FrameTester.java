@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import java.awt.Font;
 
-public class Frame extends JPanel implements ActionListener, MouseListener, KeyListener {
+public class FrameTester extends JPanel implements ActionListener, MouseListener, KeyListener {
 	
 	/**
 	 * Game header
@@ -40,27 +40,39 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	
 	// create the background
 
-	Character c = new Character(200, 200);
 	// variables and trackers
-	
+
+	Character c = new Character(200, 200);
 	// main method with code and movement that is called 60 times per second
 	public void paint(Graphics g) {
 		super.paintComponent(g);
 		Pipe p = new Pipe(400, 400, false, false);
 		Pipe p2 = new Pipe(600, 400, true, false);
+		p.setScaleX(0.7);
+		p.setScaleY(0.7);
+		p2.setScaleX(0.7);
+		p2.setScaleY(0.7);
 		bg.paint(g);
 		c.paint(g);
+		p.paint(g);
+		p2.paint(g);
+		Key k1 = new Key(400, 100);
+		k1.paint(g);
+		Block b = new Block(300, 300, "", false);
+		b.setScaleX(0.15);
+		b.setScaleY(0.15);
+		b.paint(g);
 		
 	}
 	
 	// creates a Frame object, makes class runnable
 	public static void main(String[] arg) {
-		Frame f = new Frame();
+		FrameTester f = new FrameTester();
 	}
 	
 	// Frame constructor
-	public Frame() {
-		JFrame f = new JFrame("Mario Remake");
+	public FrameTester() {
+		JFrame f = new JFrame("Mario Remake Tester");
 		f.setSize(new Dimension(1200, 800));
 		f.setBackground(Color.blue);
 		f.add(this);
@@ -102,6 +114,12 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 		System.out.println(arg0.getKeyCode());
+		if (arg0.getKeyCode() == 39) {
+			c.setX(c.getX()+10);
+		}
+		if (arg0.getKeyCode() == 37) {
+			c.setX(c.getX()-10);
+		}
 	}
 
 	@Override
