@@ -15,7 +15,7 @@ public class Background{
 
 	//load bg image at the x,y values given in parameters
 	public Background(int x, int y) {
-		img = getImage("/imgs/temp background.png"); 
+		img = getImage("/imgs/background.png"); 
 		tx = AffineTransform.getTranslateInstance(x, y );
 		init(x, y); 				
 
@@ -41,7 +41,7 @@ public class Background{
 	
 	private void init(double a, double b) {
 		tx.setToTranslation(a, b);
-		tx.scale(5, 5);
+		tx.scale(2, 2);
 	}
 
 	private Image getImage(String path) {
