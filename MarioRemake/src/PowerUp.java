@@ -7,23 +7,29 @@ import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.net.URL;
 
-public class Flag {
-	private int x, y, height, width, reachHeight;
-	private boolean reached;
+public class PowerUp {
+	private int x, y, size;
+	private String type; // Big Mushroom, Freeze Flower, Fire Flower, 1-UP
 	private double scaleX, scaleY;
 	private Image img;
 	private AffineTransform tx;
 	
-	public Flag (int x, int y) {
+	public PowerUp(int x, int y, String type) {
 		this.x = x;
 		this.y = y;
-		height = 200;
-		width = 20;
-		reachHeight = 0;
-		reached = false;
+		size = 20;
+		this.type = type;
 		scaleX = 1.0;
 		scaleY = 1.0;
-		img = getImage("/imgs/NOTAVAILABLEYET.png");
+		if (type.equals("")) {
+			img = getImage("/imgs/bigmushroom.png");
+		} else if (type.equals("")) {
+			img = getImage("/imgs/mysteryblockgif.png");
+		} else if (type.equals("")) {
+			img = getImage("/imgs/mysteryblockgif.png");
+		} else if (type.equals("")) {
+			img = getImage("/imgs/mysteryblockgif.png");
+		}
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y);
 	}
@@ -35,17 +41,8 @@ public class Flag {
 	public int getY() {
 		return y;
 	}
-	public int getHeight() {
-		return height;
-	}
-	public int getWidth() {
-		return width;
-	}
-	public int getReachHeight() {
-		return reachHeight;
-	}
-	public boolean getReacher() {
-		return reached;
+	public int getSize() {
+		return size;
 	}
 	public double getScaleX() {
 		return scaleX;
@@ -61,17 +58,8 @@ public class Flag {
 	public void setY(int y) {
 		this.y = y;
 	}
-	public void setHeight(int height) {
-		this.height = height;
-	}
-	public void setWidth(int width) {
-		this.width = width;
-	}
-	public void setReachHeight(int reachHeight) {
-		this.reachHeight = reachHeight;
-	}
-	public void setReached(boolean reached) {
-		this.reached = reached;
+	public void setSize(int size) {
+		this.size = size;
 	}
 	public void setScaleX(double scaleX) {
 		this.scaleX = scaleX;
@@ -97,7 +85,7 @@ public class Flag {
 	private Image getImage(String path) {
 		Image tempImage = null;
 		try {
-			URL imageURL = Flag.class.getResource(path);
+			URL imageURL = PowerUp.class.getResource(path);
 			tempImage = Toolkit.getDefaultToolkit().getImage(imageURL);
 		} catch (Exception e) {
 			e.printStackTrace();

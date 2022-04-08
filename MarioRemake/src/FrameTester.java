@@ -62,6 +62,8 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 		b.setScaleX(0.15);
 		b.setScaleY(0.15);
 		b.paint(g);
+		Flag f = new Flag(100, 200);
+		f.paint(g);
 		
 	}
 	
