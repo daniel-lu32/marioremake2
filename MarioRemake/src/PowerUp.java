@@ -20,16 +20,22 @@ public class PowerUp {
 		height = 30;
 		width = 20;
 		this.type = type;
-		scaleX = 1.0;
-		scaleY = 1.0;
 		if (type.equals("Big Mushroom")) {
 			img = getImage("/imgs/redmushroom.png");
+			scaleX = 0.2;
+			scaleY = 0.2;
 		} else if (type.equals("Ice Flower")) {
-			img = getImage("/imgs/NOTAVAILABLEYET.png");
+			img = getImage("/imgs/iceflower.png");
+			scaleX = 0.08;
+			scaleY = 0.08;
 		} else if (type.equals("Fire Flower")) {
-			img = getImage("/imgs/NOTAVAILABLEYET.png");
+			img = getImage("/imgs/fireflower.png");
+			scaleX = 0.08;
+			scaleY = 0.08;
 		} else if (type.equals("1-UP")) {
 			img = getImage("/imgs/greenmushroom.png");
+			scaleX = 0.2;
+			scaleY = 0.2;
 		}
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y);

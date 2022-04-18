@@ -22,6 +22,9 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 	 */
 	
 	//comment
+	int vx = 0;
+	int vy = 0;
+	int ay = 1;
 	
 	// colors and fonts
 	Background bg = new Background(0,0);
@@ -42,18 +45,21 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 
 	// variables and trackers
 
-	Character c = new Character(200, 200);
+	Character c = new Character(10, 667);
 	// main method with code and movement that is called 60 times per second
 	public void paint(Graphics g) {
 		super.paintComponent(g);
 		Pipe p = new Pipe(400, 400, false, false);
 		Pipe p2 = new Pipe(600, 400, true, false);
-		p.setScaleX(0.7);
-		p.setScaleY(0.7);
-		p2.setScaleX(0.7);
-		p2.setScaleY(0.7);
 		bg.paint(g);
+		
 		c.paint(g);
+		c.setScaleX(0.3);
+		c.setScaleY(0.3);
+		c.setX(c.getX() + vx);
+		c.setY(c.getY() + vy);
+		vy += ay;
+		
 		p.paint(g);
 		p2.paint(g);
 		Key k1 = new Key(400, 100);
@@ -64,6 +70,23 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 		b.paint(g);
 		Flag f = new Flag(100, 200);
 		f.paint(g);
+		PowerUp big = new PowerUp(600, 400, "Big Mushroom");
+		PowerUp ice = new PowerUp(600, 500, "Ice Flower");
+		PowerUp fire = new PowerUp(600, 600, "Fire Flower");
+		PowerUp up1 = new PowerUp(600, 700, "1-UP");
+		big.paint(g);
+		ice.paint(g);
+		fire.paint(g);
+		up1.paint(g);
+		
+		if (c.getY() >= 665 && !(c.getJumping())) {
+			c.setY(665);
+			vy = 0;
+		}
+		if (c.getY() >= 665) {
+
+			c.setJumping(false);
+		}
 		
 	}
 	
@@ -117,15 +140,30 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 	public void keyPressed(KeyEvent arg0) {
 		System.out.println(arg0.getKeyCode());
 		if (arg0.getKeyCode() == 39) {
-			c.setX(c.getX()+10);
+			c.setImage(true);
+			c.rightPressed(true);
 		}
 		if (arg0.getKeyCode() == 37) {
-			c.setX(c.getX()-10);
+			c.setImage(true);
+			c.leftPressed(true);
 		}
+		if (arg0.getKeyCode() == 38 && !c.getJumping()) {
+			c.setJumping(true);
+			vy = -20;
+		}
+
 	}
 
 	@Override
 	public void keyReleased(KeyEvent arg0) {
+		if (arg0.getKeyCode() == 39) {
+			c.setImage(false);
+			c.rightPressed(false);
+		}
+		if (arg0.getKeyCode() == 37) {
+			c.setImage(false);
+			c.leftPressed(false);
+		}
 	}
 
 	@Override

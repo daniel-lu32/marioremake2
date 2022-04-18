@@ -8,8 +8,8 @@ import java.awt.geom.AffineTransform;
 import java.net.URL;
 
 public class Character {
-	private int x, y, height, width;
-	private boolean big, small, hasAbility;
+	private int x, y, height, width, vx = 0;
+	private boolean big, small, hasAbility, jumping;
 	private String ability;
 	private double scaleX, scaleY;
 	private Image img;
@@ -20,16 +20,69 @@ public class Character {
 		this.y = y;
 		height = 80;
 		width = 25;
+		vx = 0;
 		big = false;
 		small = false;
 		hasAbility = false;
+		jumping = false;
 		ability = "";
-		scaleX = 1.0;
-		scaleY = 1.0;
+		scaleX = 0.3;
+		scaleY = 0.3;
 		img = getImage("/imgs/mariorunninggif.gif");
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y);
 	}
+	
+	public void setImage(boolean run) {
+		if (run == true) {
+			img = getImage("/imgs/mariorunninggif.gif");
+		}
+		else {
+			img = getImage("/imgs/mariostanding.png");
+		}
+	}
+	
+//	public void upPressed(boolean upPressed) {	
+//		if (upPressed == true) {
+//			vy = -12;
+//			upPressed = false;
+//		}
+//		else {
+//			vy = 3;
+//		}
+//		
+//	}
+//	
+//	public void updatePosition(boolean jump) {
+//		if (jump) {
+//			y -= vy;
+//			vy -= ay;
+//		}
+//	}
+//	public void upReleased() {
+//		vy = 3;
+//	}
+	
+	public void rightPressed(boolean rightPressed) {
+		if (rightPressed == true) {
+			vx = 5;
+			rightPressed = false;
+		}
+		else {
+			vx = 0;
+		}
+	}
+	
+	public void leftPressed(boolean leftPressed) {
+		if (leftPressed == true) {
+			vx = -5;
+			leftPressed = false;
+		}
+		else {
+			vx = 0;
+		}
+	}
+
 	
 	// getters
 	public int getX() {
@@ -52,6 +105,9 @@ public class Character {
 	}
 	public boolean getHasAbility() {
 		return hasAbility;
+	}
+	public boolean getJumping() {
+		return jumping;
 	}
 	public String getAbility() {
 		return ability;
@@ -85,6 +141,9 @@ public class Character {
 	public void setHasAbility(boolean hasAbility) {
 		this.hasAbility = hasAbility;
 	}
+	public void setJumping(boolean jumping) {
+		this.jumping = jumping;
+	}
 	public void setAbility(String ability) {
 		this.ability = ability;
 	}
@@ -102,6 +161,7 @@ public class Character {
 		g2.drawImage(img, tx, null);
 	}
 	private void update() {
+		x += vx;
 		tx.setToTranslation(x, y);
 		tx.scale(scaleX, scaleY);
 	}

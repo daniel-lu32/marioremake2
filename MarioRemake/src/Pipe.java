@@ -26,8 +26,8 @@ public class Pipe {
 		}
 		width = 30;
 		this.enterable = enterable;
-		scaleX = 1.0;
-		scaleY = 1.0;
+		scaleX = 0.7;
+		scaleY = 0.7;
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y);
 	}
