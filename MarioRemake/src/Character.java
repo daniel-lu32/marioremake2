@@ -169,6 +169,20 @@ public class Character {
 		tx.setToTranslation(a, b);
 		tx.scale(2.7, 2.5);
 	}
+	public void setImage(boolean runLeft, boolean runRight) {
+		if (runRight == false && runLeft == false) {
+			img = getImage("/imgs/mariostanding.png");
+		}
+		else if (runRight == true) {
+			img = getImage("/imgs/mariorunninggif.gif");
+		}
+		else if (runLeft == true){
+			img = getImage("/imgs/mariorunleft.gif");
+		}
+		else {
+			img = getImage("/imgs/mariostanding.png");
+		}
+	}
 	private Image getImage(String path) {
 		Image tempImage = null;
 		try {

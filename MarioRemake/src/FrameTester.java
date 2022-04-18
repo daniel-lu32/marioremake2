@@ -140,11 +140,11 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 	public void keyPressed(KeyEvent arg0) {
 		System.out.println(arg0.getKeyCode());
 		if (arg0.getKeyCode() == 39) {
-			c.setImage(true);
+			c.setImage(false, true);
 			c.rightPressed(true);
 		}
 		if (arg0.getKeyCode() == 37) {
-			c.setImage(true);
+			c.setImage(true, false);
 			c.leftPressed(true);
 		}
 		if (arg0.getKeyCode() == 38 && !c.getJumping()) {
@@ -157,11 +157,11 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		if (arg0.getKeyCode() == 39) {
-			c.setImage(false);
+			c.setImage(true, false);
 			c.rightPressed(false);
 		}
 		if (arg0.getKeyCode() == 37) {
-			c.setImage(false);
+			c.setImage(false, false);
 			c.leftPressed(false);
 		}
 	}
