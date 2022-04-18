@@ -14,6 +14,9 @@ public class Character {
 	private double scaleX, scaleY;
 	private Image img;
 	private AffineTransform tx;
+	private int vy = 3;
+	private int vx = 0;
+
 	
 	public Character(int x, int y) {
 		this.x = x;
@@ -30,6 +33,50 @@ public class Character {
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y);
 	}
+	
+	public void setImage(boolean run) {
+		if (run == true) {
+			img = getImage("/imgs/mariorunninggif.gif");
+		}
+		else {
+			img = getImage("/imgs/mario standing.png");
+		}
+	}
+	
+	public void upPressed(boolean upPressed) {	
+		if (upPressed == true) {
+			vy = -12;
+			upPressed = false;
+		}
+		else {
+			vy = 3;
+		}
+		
+	}
+	public void upReleased() {
+		vy = 3;
+	}
+	
+	public void rightPressed(boolean rightPressed) {
+		if (rightPressed == true) {
+			vx = 5;
+			rightPressed = false;
+		}
+		else {
+			vx = 0;
+		}
+	}
+	
+	public void leftPressed(boolean leftPressed) {
+		if (leftPressed == true) {
+			vx = -5;
+			leftPressed = false;
+		}
+		else {
+			vx = 0;
+		}
+	}
+
 	
 	// getters
 	public int getX() {
@@ -102,8 +149,16 @@ public class Character {
 		g2.drawImage(img, tx, null);
 	}
 	private void update() {
+		y += vy;
+		x += vx;
+		
 		tx.setToTranslation(x, y);
 		tx.scale(scaleX, scaleY);
+		
+		if (y > 665) {
+			y = 665;
+		}
+
 	}
 	private void init(double a, double b) {
 		tx.setToTranslation(a, b);
