@@ -8,7 +8,7 @@ import java.awt.geom.AffineTransform;
 import java.net.URL;
 
 public class Goomba {
-	private int x, y, size;
+	private int x, y, height, width;
 	private double scaleX, scaleY;
 	private Image img;
 	private AffineTransform tx;
@@ -16,9 +16,10 @@ public class Goomba {
 	public Goomba(int x, int y) {
 		this.x = x;
 		this.y = y;
-		size = 40;
-		scaleX = 1.0;
-		scaleY = 1.0;
+		height = 36;
+		width = 32;
+		scaleX = 0.072;
+		scaleY = 0.072;
 		img = getImage("/imgs/goombagif.gif");
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y);
@@ -31,8 +32,11 @@ public class Goomba {
 	public int getY() {
 		return y;
 	}
-	public int getSize() {
-		return size;
+	public int getHeight() {
+		return height;
+	}
+	public int getWidth() {
+		return width;
 	}
 	public double getScaleX() {
 		return scaleX;
@@ -48,8 +52,11 @@ public class Goomba {
 	public void setY(int y) {
 		this.y = y;
 	}
-	public void setSize(int size) {
-		this.size = size;
+	public void setHeight(int height) {
+		this.height = height;
+	}
+	public void setWidth(int width) {
+		this.width = width;
 	}
 	public void setScaleX(double scaleX) {
 		this.scaleX = scaleX;

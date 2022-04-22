@@ -18,16 +18,16 @@ public class Pipe {
 		this.x = x;
 		this.y = y;
 		if (isLong) {
-			height = 200;
+			height = 260;
 			img = getImage("/imgs/longpipe.png");
 		} else {
-			height = 100;
+			height = 110;
 			img = getImage("/imgs/pipe.png");
 		}
-		width = 30;
+		width = 115;
 		this.enterable = enterable;
-		scaleX = 0.7;
-		scaleY = 0.7;
+		scaleX = 0.5;
+		scaleY = 0.5;
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y);
 	}

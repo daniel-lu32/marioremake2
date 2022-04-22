@@ -17,23 +17,26 @@ public class PowerUp {
 	public PowerUp(int x, int y, String type) {
 		this.x = x;
 		this.y = y;
-		height = 30;
-		width = 20;
+		height = 36;
 		this.type = type;
 		if (type.equals("Big Mushroom")) {
-			img = getImage("/imgs/redmushroom.png");
+			img = getImage("/imgs/redmushroom2.png");
+			width = 36;
 			scaleX = 0.2;
 			scaleY = 0.2;
 		} else if (type.equals("Ice Flower")) {
-			img = getImage("/imgs/iceflower.png");
-			scaleX = 0.08;
-			scaleY = 0.08;
+			img = getImage("/imgs/iceflower2.png");
+			width = 32;
+			scaleX = 0.07;
+			scaleY = 0.075;
 		} else if (type.equals("Fire Flower")) {
-			img = getImage("/imgs/fireflower.png");
-			scaleX = 0.08;
-			scaleY = 0.08;
+			img = getImage("/imgs/fireflower2.png");
+			width = 34;
+			scaleX = 0.07;
+			scaleY = 0.07;
 		} else if (type.equals("1-UP")) {
-			img = getImage("/imgs/greenmushroom.png");
+			img = getImage("/imgs/greenmushroom2.png");
+			width = 36;
 			scaleX = 0.2;
 			scaleY = 0.2;
 		}

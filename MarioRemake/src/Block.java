@@ -18,12 +18,14 @@ public class Block {
 	public Block(int x, int y, String brickType, boolean hasCoin) {
 		this.x = x;
 		this.y = y;
-		size = 20;
+		size = 40;
 		this.brickType = brickType;
 		this.hasCoin = hasCoin;
-		scaleX = 1.0;
-		scaleY = 1.0;
-		img = getImage("/imgs/mysteryblockgif.gif");
+		if (brickType.equals("Normal")) {
+			scaleX = 1.7;
+			scaleY = 1.7;
+			img = getImage("/imgs/brick.png");
+		}
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y);
 	}

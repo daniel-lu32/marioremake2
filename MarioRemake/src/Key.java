@@ -16,10 +16,10 @@ public class Key {
 	public Key(int x, int y) {
 		this.x = x;
 		this.y = y;
-		height = 20;
-		width = 20;
-		scaleX = 1.0;
-		scaleY = 1.0;
+		height = 48;
+		width = 36;
+		scaleX = 0.16;
+		scaleY = 0.16;
 		img = getImage("/imgs/keygif.gif");
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y);

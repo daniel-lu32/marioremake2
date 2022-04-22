@@ -24,10 +24,9 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 	//comment
 	int vx = 0;
 	int vy = 0;
-	int ay = 1;
+	int acceleration = 1;
 	
 	// colors and fonts
-	Background bg = new Background(0,0);
 	Color red = new Color(210, 20, 4);
 	Color yellow = new Color(252, 226, 5);
 	Color green = new Color(3, 172, 19);
@@ -42,51 +41,73 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 	Font courierBig = new Font("Courier", Font.BOLD, 120);
 	
 	// create the background
+	Background background = new Background(0, 0);
 
 	// variables and trackers
 
-	Character c = new Character(10, 667);
+	Character mario = new Character(10, 667);
 	// main method with code and movement that is called 60 times per second
 	public void paint(Graphics g) {
 		super.paintComponent(g);
-		Pipe p = new Pipe(400, 400, false, false);
-		Pipe p2 = new Pipe(600, 400, true, false);
-		bg.paint(g);
 		
-		c.paint(g);
-		c.setScaleX(0.3);
-		c.setScaleY(0.3);
-		c.setX(c.getX() + vx);
-		c.setY(c.getY() + vy);
-		vy += ay;
+		// paint the background
+		background.paint(g);
 		
-		p.paint(g);
-		p2.paint(g);
-		Key k1 = new Key(400, 100);
-		k1.paint(g);
-		Block b = new Block(300, 300, "", false);
-		b.setScaleX(0.15);
-		b.setScaleY(0.15);
-		b.paint(g);
-		Flag f = new Flag(100, 200);
-		f.paint(g);
-		PowerUp big = new PowerUp(600, 400, "Big Mushroom");
-		PowerUp ice = new PowerUp(600, 500, "Ice Flower");
-		PowerUp fire = new PowerUp(600, 600, "Fire Flower");
-		PowerUp up1 = new PowerUp(600, 700, "1-UP");
+		// paint mario
+		mario.paint(g);
+		
+		// update mario's position
+		mario.setX(mario.getX() + vx);
+		mario.setY(mario.getY() + vy);
+		vy += acceleration;
+		
+		// establishes a floor 
+		if (mario.getY() >= 665 && !(mario.getJumping())) {
+			mario.setY(665);
+			vy = 0;
+		}
+		if (mario.getY() >= 665) {
+			mario.setJumping(false);
+		}
+		/* Hitboxes */
+		g.setColor(Color.black);
+		
+		// Goomba
+		Goomba goomba = new Goomba(100, 100);
+		goomba.paint(g);
+		g.drawRect(100, 100, 32, 36);
+		
+		// PowerUp
+		PowerUp big = new PowerUp(200, 100, "Big Mushroom");
+		PowerUp ice = new PowerUp(300, 100, "Ice Flower");
+		PowerUp fire = new PowerUp(400, 100, "Fire Flower");
+		PowerUp oneup = new PowerUp(500, 100, "1-UP");
 		big.paint(g);
 		ice.paint(g);
 		fire.paint(g);
-		up1.paint(g);
+		oneup.paint(g);
+		g.drawRect(200, 100, 36, 36); 
+		g.drawRect(300, 100, 32, 36);
+		g.drawRect(400, 100, 34, 36);
+		g.drawRect(500, 100, 36, 36);
 		
-		if (c.getY() >= 665 && !(c.getJumping())) {
-			c.setY(665);
-			vy = 0;
-		}
-		if (c.getY() >= 665) {
-
-			c.setJumping(false);
-		}
+		// Key
+		Key key = new Key(600, 100);
+		key.paint(g);
+		g.drawRect(600, 100, 36, 48);
+		
+		// Block
+		Block normalBlock = new Block(700, 100, "Normal", false);
+		normalBlock.paint(g);
+		g.drawRect(700, 100, 40, 40);
+		
+		// Pipe
+		Pipe shortPipe = new Pipe(400, 660, false, false);
+		Pipe longPipe = new Pipe(600, 510, true, false);
+		shortPipe.paint(g);
+		longPipe.paint(g);
+		g.drawRect(400, 660, 115, 110);
+		g.drawRect(600, 510, 115, 260);
 		
 	}
 	
@@ -101,7 +122,7 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 		f.setSize(new Dimension(1200, 800));
 		f.setBackground(Color.blue);
 		f.add(this);
-		f.setResizable(false);
+		f.setResizable(true);
 		f.setLayout(new GridLayout(1,2));
 		f.addMouseListener(this);
 		f.addKeyListener(this);
@@ -140,15 +161,15 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 	public void keyPressed(KeyEvent arg0) {
 		System.out.println(arg0.getKeyCode());
 		if (arg0.getKeyCode() == 39) {
-			c.setImage(false, true);
-			c.rightPressed(true);
+			mario.setImage(false, true);
+			mario.rightPressed(true);
 		}
 		if (arg0.getKeyCode() == 37) {
-			c.setImage(true, false);
-			c.leftPressed(true);
+			mario.setImage(true, false);
+			mario.leftPressed(true);
 		}
-		if (arg0.getKeyCode() == 38 && !c.getJumping()) {
-			c.setJumping(true);
+		if (arg0.getKeyCode() == 38 && !mario.getJumping()) {
+			mario.setJumping(true);
 			vy = -20;
 		}
 
@@ -157,12 +178,12 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 	@Override
 	public void keyReleased(KeyEvent arg0) {
 		if (arg0.getKeyCode() == 39) {
-			c.setImage(true, false);
-			c.rightPressed(false);
+			mario.setImage(false, false);
+			mario.rightPressed(false);
 		}
 		if (arg0.getKeyCode() == 37) {
-			c.setImage(false, false);
-			c.leftPressed(false);
+			mario.setImage(false, false);
+			mario.leftPressed(false);
 		}
 	}
 
