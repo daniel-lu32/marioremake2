@@ -14,6 +14,8 @@ public class Flag {
 	private Image img;
 	private AffineTransform tx;
 	
+	private int state;
+	
 	public Flag (int x, int y) {
 		this.x = x;
 		this.y = y;
@@ -21,11 +23,29 @@ public class Flag {
 		width = 20;
 		reachHeight = 0;
 		reached = false;
-		scaleX = 1.0;
-		scaleY = 1.0;
-		img = getImage("/imgs/NOTAVAILABLEYET.png");
+		scaleX = 1.5;
+		scaleY = 1.5;
+		state = 0;
+		img = getImage("/imgs/flag gif.gif");
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y);
+	}
+	
+	public void setImage() {
+		if (state == 0) {
+			img = getImage("/imgs/flag gif.gif");
+		}
+		else if (state == 1){
+			img = getImage("/imgs/flag raise.gif");
+			state = 2;
+		}
+		else {
+			img = getImage("/imgs/flag raised.gif");
+		}
+	}
+	
+	public void setState(int stateParam) {
+		state = stateParam;
 	}
 	
 	// getters
@@ -92,7 +112,7 @@ public class Flag {
 	}
 	private void init(double a, double b) {
 		tx.setToTranslation(a, b);
-		tx.scale(2.7, 2.5);
+		tx.scale(1.5, 1.5);
 	}
 	private Image getImage(String path) {
 		Image tempImage = null;
