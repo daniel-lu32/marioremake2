@@ -8,8 +8,10 @@ import java.awt.geom.AffineTransform;
 import java.net.URL;
 
 public class PowerUp {
+	
+	// attributes
 	private int x, y, height, width;
-	private String type; // Big Mushroom, Ice Flower, Fire Flower, 1-UP
+	private String type;
 	private double scaleX, scaleY;
 	private Image img;
 	private AffineTransform tx;

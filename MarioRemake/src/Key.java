@@ -8,6 +8,8 @@ import java.awt.geom.AffineTransform;
 import java.net.URL;
 
 public class Key {
+	
+	// attributes
 	private int x, y, height, width;
 	private double scaleX, scaleY;
 	private Image img;

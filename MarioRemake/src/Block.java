@@ -8,6 +8,8 @@ import java.awt.geom.AffineTransform;
 import java.net.URL;
 
 public class Block {
+	
+	// attributes
 	private int x, y, size;
 	private String brickType;
 	private boolean hasCoin;

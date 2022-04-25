@@ -9,41 +9,51 @@ import java.net.URL;
 
 public class Background{
 	
-	//add location attributes
+	// attributes
+	private int x, y;
 	private Image img; 	
 	private AffineTransform tx;
 
-	//load bg image at the x,y values given in parameters
+	// constructor
 	public Background(int x, int y) {
+		this.x = x;
+		this.y = y;
 		img = getImage("/imgs/background.png"); 
 		tx = AffineTransform.getTranslateInstance(x, y );
 		init(x, y); 				
 
 	}
-
-	//paint the bg at given location
-	public void paint(Graphics g) {
-		//these are the 2 lines of code needed draw an image on the screen
-		Graphics2D g2 = (Graphics2D) g;
-		
-		
-		//call update to update the actualy picture location
-		update();
-		g2.drawImage(img, tx, null);
-		
-		
-
+	
+	// getters
+	public int getX() {
+		return x;
 	}
-	/* update the picture variable location */
-	private void update() {
-		
+	public int getY() {
+		return y;
 	}
 	
-	private void init(double a, double b) {
-		tx.setToTranslation(a, b);
-		tx.scale(2, 2);
+	// setters
+	public void setX(int x) {
+		this.x = x;
+	}
+	public void setY(int y) {
+		this.y = y;
 	}
 
+	// graphics settings
+	public void paint(Graphics g) {
+		Graphics2D g2 = (Graphics2D) g;
+		update();
+		g2.drawImage(img, tx, null);
+	}
+	private void update() {
+		tx.setToTranslation(x, y);
+		tx.scale(2.0, 2.0);
+	}
+	private void init(double a, double b) {
+		tx.setToTranslation(a, b);
+		tx.scale(2.7, 2.5);
+	}
 	private Image getImage(String path) {
 		Image tempImage = null;
 		try {

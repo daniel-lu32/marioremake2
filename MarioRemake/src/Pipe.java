@@ -8,6 +8,8 @@ import java.awt.geom.AffineTransform;
 import java.net.URL;
 
 public class Pipe {
+	
+	// attributes
 	private int x, y, height, width;
 	private boolean isLong, enterable;
 	private double scaleX, scaleY;

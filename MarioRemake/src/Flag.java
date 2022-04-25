@@ -8,6 +8,8 @@ import java.awt.geom.AffineTransform;
 import java.net.URL;
 
 public class Flag {
+	
+	// attributes
 	private int x, y, height, width, reachHeight;
 	private boolean reached;
 	private double scaleX, scaleY;
