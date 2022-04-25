@@ -9,7 +9,7 @@ import java.net.URL;
 
 public class Character {
 	private int x, y, height, width, vx = 0;
-	private boolean big, small, hasAbility, jumping;
+	private boolean big, small, hasAbility, jumping, onPlatform;
 	private String ability;
 	private double scaleX, scaleY;
 	private Image img;
@@ -18,13 +18,14 @@ public class Character {
 	public Character(int x, int y) {
 		this.x = x;
 		this.y = y;
-		height = 80;
-		width = 25;
+		height = 39;
+		width = 27;
 		vx = 0;
 		big = false;
 		small = false;
 		hasAbility = false;
 		jumping = false;
+		onPlatform = false;
 		ability = "";
 		scaleX = 0.3;
 		scaleY = 0.3;
@@ -109,6 +110,9 @@ public class Character {
 	public boolean getJumping() {
 		return jumping;
 	}
+	public boolean getOnPlatform() {
+		return onPlatform;
+	}
 	public String getAbility() {
 		return ability;
 	}
@@ -143,6 +147,9 @@ public class Character {
 	}
 	public void setJumping(boolean jumping) {
 		this.jumping = jumping;
+	}
+	public void setOnPlatform(boolean onPlatform) {
+		this.onPlatform = onPlatform;
 	}
 	public void setAbility(String ability) {
 		this.ability = ability;

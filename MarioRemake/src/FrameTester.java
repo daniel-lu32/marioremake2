@@ -25,6 +25,9 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 	int vx = 0;
 	int vy = 0;
 	int acceleration = 1;
+	int platform = 665;
+	boolean onShort = false;
+	boolean onLong = false;
 	
 	// colors and fonts
 	Color red = new Color(210, 20, 4);
@@ -45,7 +48,7 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 
 	// variables and trackers
 
-	Character mario = new Character(10, 667);
+	Character mario = new Character(10, 665);
 	// main method with code and movement that is called 60 times per second
 	public void paint(Graphics g) {
 		super.paintComponent(g);
@@ -62,11 +65,11 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 		vy += acceleration;
 		
 		// establishes a floor 
-		if (mario.getY() >= 665 && !(mario.getJumping())) {
-			mario.setY(665);
+		if (mario.getY() >= platform && !(mario.getJumping())) {
+			mario.setY(platform);
 			vy = 0;
 		}
-		if (mario.getY() >= 665) {
+		if (mario.getY() >= platform) {
 			mario.setJumping(false);
 		}
 		
@@ -74,7 +77,7 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 		g.setColor(Color.black);
 		
 		// Mario
-		g.drawRect(10, 665, 28, 40);
+		g.drawRect(10, 665, 27, 39);
 		
 		// Goomba
 		Goomba goomba = new Goomba(100, 100);
@@ -113,10 +116,48 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 		g.drawRect(400, 660, 115, 110);
 		g.drawRect(600, 510, 115, 260);
 		
-		if (mario.getX() >= shortPipe.getX() && mario.getX() <= shortPipe.getX() + shortPipe.getWidth()) {
-			if (mario.getY() >= shortPipe.getY()) {
-				mario.setY(shortPipe.getY()-100);
+		// Short Pipe Collision
+		if (mario.getX() + mario.getWidth() >= shortPipe.getX() && mario.getX() <= shortPipe.getX() + shortPipe.getWidth()) {
+			if (mario.getY() + mario.getHeight() >= shortPipe.getY() && mario.getJumping()) {
+				onShort = true;
+				if (onShort) {
+					platform = shortPipe.getY() - mario.getHeight();
+				}
 			}
+			if (platform == 665 && !mario.getJumping()) {
+				if (mario.getX() <= shortPipe.getX()) {
+					mario.setX(shortPipe.getX() - mario.getWidth());
+				} else {
+					mario.setX(shortPipe.getX() + shortPipe.getWidth());
+				}
+			}
+		}
+		if (!(mario.getX() + mario.getWidth() >= shortPipe.getX() && mario.getX() <= shortPipe.getX() + shortPipe.getWidth())) {
+			onShort = false;
+		}
+		
+		// Long Pipe Collision
+		if (mario.getX() + mario.getWidth() >= longPipe.getX() && mario.getX() <= longPipe.getX() + longPipe.getWidth()) {
+			if (mario.getY() + mario.getHeight() >= longPipe.getY() && mario.getJumping()) {
+				onLong = true;
+				if (onLong) {
+					platform = longPipe.getY() - mario.getHeight();
+				}
+			}
+			if (platform == 665 && !mario.getJumping()) {
+				if (mario.getX() <= longPipe.getX()) {
+					mario.setX(longPipe.getX() - mario.getWidth());
+				} else {
+					mario.setX(longPipe.getX() + longPipe.getWidth());
+				}
+			}
+		}
+		if (!(mario.getX() + mario.getWidth() >= longPipe.getX() && mario.getX() <= longPipe.getX() + longPipe.getWidth())) {
+			onLong = false;
+		}
+		
+		if (!onShort && !onLong) {
+			platform = 665;
 		}
 		
 	}

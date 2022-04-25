@@ -22,7 +22,7 @@ public class Key {
 		width = 36;
 		scaleX = 0.16;
 		scaleY = 0.16;
-		img = getImage("/imgs/keygif.gif");
+		img = getImage("/imgs/key2.gif");
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y);
 	}
