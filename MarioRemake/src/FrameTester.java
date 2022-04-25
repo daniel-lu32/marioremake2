@@ -69,8 +69,12 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 		if (mario.getY() >= 665) {
 			mario.setJumping(false);
 		}
+		
 		/* Hitboxes */
 		g.setColor(Color.black);
+		
+		// Mario
+		g.drawRect(10, 665, 28, 40);
 		
 		// Goomba
 		Goomba goomba = new Goomba(100, 100);
@@ -108,6 +112,12 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 		longPipe.paint(g);
 		g.drawRect(400, 660, 115, 110);
 		g.drawRect(600, 510, 115, 260);
+		
+		if (mario.getX() >= shortPipe.getX() && mario.getX() <= shortPipe.getX() + shortPipe.getWidth()) {
+			if (mario.getY() >= shortPipe.getY()) {
+				mario.setY(shortPipe.getY()-100);
+			}
+		}
 		
 	}
 	

@@ -28,7 +28,7 @@ public class Character {
 		ability = "";
 		scaleX = 0.3;
 		scaleY = 0.3;
-		img = getImage("/imgs/mariorunninggif.gif");
+		img = getImage("/imgs/mariostanding.png");
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y);
 	}
