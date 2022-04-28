@@ -19,7 +19,7 @@ public class Character {
 		this.x = x;
 		this.y = y;
 		height = 39;
-		width = 27;
+		width = 26;
 		vx = 0;
 		big = false;
 		small = false;

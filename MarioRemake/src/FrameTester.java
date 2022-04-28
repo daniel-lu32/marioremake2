@@ -77,7 +77,7 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 		g.setColor(Color.black);
 		
 		// Mario
-		g.drawRect(10, 665, 27, 39);
+		g.drawRect(10, 665, 26, 39);
 		
 		// Goomba
 		Goomba goomba = new Goomba(100, 100);
@@ -117,14 +117,19 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 		g.drawRect(600, 510, 115, 260);
 		
 		// Short Pipe Collision
+		
+		// First, test if Mario is within the X range of the Pipe.
 		if (mario.getX() + mario.getWidth() >= shortPipe.getX() && mario.getX() <= shortPipe.getX() + shortPipe.getWidth()) {
-			if (mario.getY() + mario.getHeight() >= shortPipe.getY() && mario.getJumping()) {
+			
+			// Next, test if Mario is above the Y value of the Pipe.
+			if (mario.getY() + mario.getHeight() < shortPipe.getY() && mario.getJumping()) {
 				onShort = true;
 				if (onShort) {
 					platform = shortPipe.getY() - mario.getHeight();
 				}
 			}
-			if (platform == 665 && !mario.getJumping()) {
+			// Otherwise, set Mario's X position so that the Pipe is a barrier.
+			if (platform == 665 && !(mario.getY() + mario.getHeight() < shortPipe.getY())) {
 				if (mario.getX() <= shortPipe.getX()) {
 					mario.setX(shortPipe.getX() - mario.getWidth());
 				} else {
@@ -138,13 +143,13 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 		
 		// Long Pipe Collision
 		if (mario.getX() + mario.getWidth() >= longPipe.getX() && mario.getX() <= longPipe.getX() + longPipe.getWidth()) {
-			if (mario.getY() + mario.getHeight() >= longPipe.getY() && mario.getJumping()) {
+			if (mario.getY() + mario.getHeight() < longPipe.getY() && mario.getJumping()) {
 				onLong = true;
 				if (onLong) {
 					platform = longPipe.getY() - mario.getHeight();
 				}
 			}
-			if (platform == 665 && !mario.getJumping()) {
+			if (platform == 665 && !(mario.getY() + mario.getHeight() < longPipe.getY())) {
 				if (mario.getX() <= longPipe.getX()) {
 					mario.setX(longPipe.getX() - mario.getWidth());
 				} else {
