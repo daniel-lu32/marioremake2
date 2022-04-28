@@ -21,13 +21,16 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 	 * 
 	 */
 	
-	//comment
+	// variables and trackers
 	int vx = 0;
 	int vy = 0;
 	int acceleration = 1;
 	int platform = 665;
 	boolean onShort = false;
 	boolean onLong = false;
+	private int lives = 7;
+	private int score = 0;
+	private int time = 600;
 	
 	// colors and fonts
 	Color red = new Color(210, 20, 4);
@@ -38,17 +41,11 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 	Color purple = new Color(106, 13, 173);
 	Color white = new Color(255, 255, 255);
 	Color cyan = new Color(0, 255, 255);
-	Font courierTiny = new Font("Courier", Font.BOLD, 15);
-	Font courierSmall = new Font("Courier", Font.BOLD, 40);
-	Font courierMedium = new Font("Courier", Font.BOLD, 80);
-	Font courierBig = new Font("Courier", Font.BOLD, 120);
 	
-	// create the background
+	// create the background and character
 	Background background = new Background(0, 0);
-
-	// variables and trackers
-
 	Character mario = new Character(10, 665);
+	
 	// main method with code and movement that is called 60 times per second
 	public void paint(Graphics g) {
 		super.paintComponent(g);
@@ -60,7 +57,6 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 		mario.paint(g);
 		
 		// update mario's position
-		mario.setX(mario.getX() + vx);
 		mario.setY(mario.getY() + vy);
 		vy += acceleration;
 		
@@ -164,6 +160,9 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 		if (!onShort && !onLong) {
 			platform = 665;
 		}
+		Font f = new Font("Palatino", Font.BOLD, 30);
+		g.setFont(f);
+		g.drawString("HI", 400, 400);
 		
 	}
 	

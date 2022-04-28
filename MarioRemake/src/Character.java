@@ -8,7 +8,7 @@ import java.awt.geom.AffineTransform;
 import java.net.URL;
 
 public class Character {
-	private int x, y, height, width, vx = 0;
+	private int x, y, height, width, vx;
 	private boolean big, small, hasAbility, jumping, onPlatform;
 	private String ability;
 	private double scaleX, scaleY;

@@ -139,12 +139,12 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 	
 	// creates a Frame object, makes class runnable
 	public static void main(String[] arg) {
-		FrameTester f = new FrameTester();
+		BackgroundTester f = new BackgroundTester();
 	}
 	
 	// Frame constructor
 	public BackgroundTester() {
-		JFrame f = new JFrame("Mario Remake Tester");
+		JFrame f = new JFrame("Background Tester");
 		f.setSize(new Dimension(1200, 800));
 		f.setBackground(Color.blue);
 		f.add(this);
