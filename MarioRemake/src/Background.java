@@ -13,18 +13,28 @@ public class Background{
 	private int x, y;
 	private Image img; 	
 	private AffineTransform tx;
+	private int vx;
 
 	// constructor
 	public Background(int x, int y) {
+		vx = 0;
 		this.x = x;
 		this.y = y;
 		img = getImage("/imgs/background.png"); 
-		tx = AffineTransform.getTranslateInstance(x, y );
+		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y); 				
 
 	}
 	
+	public void setVX (int newVX) {
+		this.vx = newVX;
+	}
+	
 	// getters
+	public int getVX() {
+		return vx;
+	}
+	
 	public int getX() {
 		return x;
 	}
@@ -47,12 +57,14 @@ public class Background{
 		g2.drawImage(img, tx, null);
 	}
 	private void update() {
+		x = getX();
+		y = getY();
 		tx.setToTranslation(x, y);
 		tx.scale(2.0, 2.0);
 	}
 	private void init(double a, double b) {
 		tx.setToTranslation(a, b);
-		tx.scale(2.7, 2.5);
+		tx.scale(2.0, 2.0);
 	}
 	private Image getImage(String path) {
 		Image tempImage = null;
