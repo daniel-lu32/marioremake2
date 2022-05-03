@@ -83,7 +83,15 @@ public class Character {
 			vx = 0;
 		}
 	}
-
+	
+	public boolean collideGoomba(Goomba goomba) {
+		if (this.getX() + this.getWidth() >= goomba.getX() && this.getX() <= goomba.getX() + goomba.getWidth()) {
+			if (this.getY() + this.getWidth() >= goomba.getY() && this.getY() <= goomba.getY() + goomba.getHeight()) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	// getters
 	public int getX() {

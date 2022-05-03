@@ -21,8 +21,8 @@ public class Flag {
 	public Flag (int x, int y) {
 		this.x = x;
 		this.y = y;
-		height = 200;
-		width = 20;
+		height = 120;
+		width = 55;
 		reachHeight = 0;
 		reached = false;
 		scaleX = 1.5;
