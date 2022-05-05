@@ -84,9 +84,9 @@ public class Character {
 		}
 	}
 	
-	public boolean collideGoomba(Goomba goomba) {
-		if (this.getX() + this.getWidth() >= goomba.getX() && this.getX() <= goomba.getX() + goomba.getWidth()) {
-			if (this.getY() + this.getWidth() >= goomba.getY() && this.getY() <= goomba.getY() + goomba.getHeight()) {
+	public boolean collide(MarioObject other) {
+		if (this.getX() + this.getWidth() >= other.getX() && this.getX() <= other.getX() + other.getWidth()) {
+			if (this.getY() + this.getWidth() >= other.getY() && this.getY() <= other.getY() + other.getHeight()) {
 				return true;
 			}
 		}

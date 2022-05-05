@@ -7,20 +7,16 @@ import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.net.URL;
 
-public class Flag {
+public class Flag extends MarioObject {
 	
 	// attributes
-	private int x, y, height, width, reachHeight;
+	private int reachHeight;
 	private boolean reached;
-	private double scaleX, scaleY;
-	private Image img;
-	private AffineTransform tx;
 	
 	private int state;
 	
 	public Flag (int x, int y) {
-		this.x = x;
-		this.y = y;
+		super(x, y);
 		height = 120;
 		width = 55;
 		reachHeight = 0;
@@ -51,55 +47,19 @@ public class Flag {
 	}
 	
 	// getters
-	public int getX() {
-		return x;
-	}
-	public int getY() {
-		return y;
-	}
-	public int getHeight() {
-		return height;
-	}
-	public int getWidth() {
-		return width;
-	}
 	public int getReachHeight() {
 		return reachHeight;
 	}
-	public boolean getReacher() {
+	public boolean getReached() {
 		return reached;
-	}
-	public double getScaleX() {
-		return scaleX;
-	}
-	public double getScaleY() {
-		return scaleY;
 	}
 	
 	// setters
-	public void setX(int x) {
-		this.x = x;
-	}
-	public void setY(int y) {
-		this.y = y;
-	}
-	public void setHeight(int height) {
-		this.height = height;
-	}
-	public void setWidth(int width) {
-		this.width = width;
-	}
 	public void setReachHeight(int reachHeight) {
 		this.reachHeight = reachHeight;
 	}
 	public void setReached(boolean reached) {
 		this.reached = reached;
-	}
-	public void setScaleX(double scaleX) {
-		this.scaleX = scaleX;
-	}
-	public void setScaleY(double scaleY) {
-		this.scaleY = scaleY;
 	}
 	
 	// graphics settings

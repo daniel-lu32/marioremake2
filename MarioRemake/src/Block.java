@@ -7,20 +7,16 @@ import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.net.URL;
 
-public class Block {
+public class Block extends MarioObject {
 	
 	// attributes
-	private int x, y, size;
 	private String brickType;
 	private boolean hasCoin;
-	private double scaleX, scaleY;
-	private Image img;
-	private AffineTransform tx;
 	
 	public Block(int x, int y, String brickType, boolean hasCoin) {
-		this.x = x;
-		this.y = y;
-		size = 40;
+		super(x, y);
+		height = 40;
+		width = 40;
 		this.brickType = brickType;
 		this.hasCoin = hasCoin;
 		if (brickType.equals("Normal")) {
@@ -33,49 +29,19 @@ public class Block {
 	}
 	
 	// getters
-	public int getX() {
-		return x;
-	}
-	public int getY() {
-		return y;
-	}
-	public int getSize() {
-		return size;
-	}
 	public String getBrickType() {
 		return brickType;
 	}
 	public boolean getHasCoin() {
 		return hasCoin;
 	}
-	public double getScaleX() {
-		return scaleX;
-	}
-	public double getScaleY() {
-		return scaleY;
-	}
 	
 	// setters
-	public void setX(int x) {
-		this.x = x;
-	}
-	public void setY(int y) {
-		this.y = y;
-	}
-	public void setSize(int size) {
-		this.size = size;
-	}
 	public void setBrickType(String brickType) {
 		this.brickType = brickType;
 	}
 	public void setHasCoin(boolean hasCoin) {
 		this.hasCoin = hasCoin;
-	}
-	public void setScaleX(double scaleX) {
-		this.scaleX = scaleX;
-	}
-	public void setScaleY(double scaleY) {
-		this.scaleY = scaleY;
 	}
 	
 	// graphics settings
