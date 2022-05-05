@@ -136,7 +136,7 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 		if (mario.getX() >= 1120) {	 //** ADDED TO PREVENT GOING OFFSCREEN **//
 			mario.setX(1120);
 		}
-		
+		 
 	}
 	
 	// creates a Frame object, makes class runnable

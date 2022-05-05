@@ -24,7 +24,7 @@ public class Background{
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y); 				
 
-	}
+	} 
 	
 	public void setVX (int newVX) {
 		this.vx = newVX;
