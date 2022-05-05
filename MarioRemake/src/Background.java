@@ -30,6 +30,20 @@ public class Background{
 		this.vx = newVX;
 	}
 	
+	public void slide(boolean moveLeft, boolean moveRight) {
+		if (moveLeft == true) {
+			vx = 3;
+			this.x += vx;
+		}
+		else if (moveRight == true) {
+			vx = -3;
+			this.x += vx;
+		}
+		else {
+			vx = 0;
+		}
+	}
+	
 	// getters
 	public int getVX() {
 		return vx;
@@ -57,14 +71,12 @@ public class Background{
 		g2.drawImage(img, tx, null);
 	}
 	private void update() {
-		x = getX();
-		y = getY();
 		tx.setToTranslation(x, y);
-		tx.scale(2.0, 2.0);
+		tx.scale(3.0, 3.0);
 	}
 	private void init(double a, double b) {
 		tx.setToTranslation(a, b);
-		tx.scale(2.0, 2.0);
+		tx.scale(3.0, 3.0);
 	}
 	private Image getImage(String path) {
 		Image tempImage = null;

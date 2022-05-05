@@ -43,10 +43,10 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 	// variables and trackers
 	Flag flag = new Flag (880,585);
 
-	Character mario = new Character(10, 667);
+	Character mario = new Character(10, 575);  			 //** EDITED COORDINATES **//
 	
 	// create the background
-	Background background = new Background(0, 0);
+	Background background = new Background(0, -440);	 //** EDITED COORDINATES **//
 	
 	// main method with code and movement that is called 60 times per second
 	public void paint(Graphics g) {
@@ -64,11 +64,11 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 		vy += acceleration;
 		
 		// establishes a floor 
-		if (mario.getY() >= 665 && !(mario.getJumping())) {
-			mario.setY(665);
+		if (mario.getY() >= 575 && !(mario.getJumping())) {		  //** EDITED COORDINATES **//
+			mario.setY(575);									  //** EDITED COORDINATES **//
 			vy = 0;
 		}
-		if (mario.getY() >= 665) {
+		if (mario.getY() >= 575) {	 //** EDITED COORDINATES **//
 			mario.setJumping(false);
 		}
 		
@@ -76,7 +76,7 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 		g.setColor(Color.black);
 		
 		// Mario
-		g.drawRect(10, 665, 28, 40);
+		g.drawRect(mario.getX(), mario.getY(), 28, 40);		 //** CHANGED TO FOLLOW MARIO **//
 		
 		// Flag
 		flag.paint(g);
@@ -129,12 +129,14 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 			}
 		}
 		
-		//Background
-		g.drawString("str", 300, 300);
-		System.out.println("str");
-
-		background.setX(mario.getX() + 50);
-		background.setY(mario.getY() - 500);
+		if (mario.getX() <= 10) {	 //** ADDED TO PREVENT GOING OFFSCREEN **//
+			mario.setX(10);
+		}
+		
+		if (mario.getX() >= 1120) {	 //** ADDED TO PREVENT GOING OFFSCREEN **//
+			mario.setX(1120);
+		}
+		
 	}
 	
 	// creates a Frame object, makes class runnable
@@ -189,10 +191,22 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 		if (arg0.getKeyCode() == 39) {
 			mario.setImage(false, true);
 			mario.rightPressed(true);
+			if (background.getX() + 1800 >= 1200) {		 //** ADDED IF **//
+				background.slide(false, true);	
+			}
+		}
+		else {											//** ADDED ELSE **//
+			background.slide(false, false);
 		}
 		if (arg0.getKeyCode() == 37) {
 			mario.setImage(true, false);
 			mario.leftPressed(true);
+			if (background.getX() <= -10) {				//** ADDED IF **//
+				background.slide(true, false);	
+			}
+		}
+		else {											//** ADDED ELSE **//
+			background.slide(false, false);
 		}
 		if (arg0.getKeyCode() == 38 && !mario.getJumping()) {
 			mario.setJumping(true);
