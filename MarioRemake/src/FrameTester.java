@@ -30,7 +30,8 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 	boolean onLong = false;
 	private int lives = 7;
 	private int score = 0;
-	private int time = 600;
+	private int time = 3600;
+	private int frameTracker;
 	
 	// colors and fonts
 	Color red = new Color(210, 20, 4);
@@ -45,10 +46,18 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 	// create the background and character
 	Background background = new Background(0, 0);
 	Character mario = new Character(10, 665);
+	Flag flag = new Flag (880,585);
+	MarioObject goomba2 = new Goomba(500, 665);
 	
 	// main method with code and movement that is called 60 times per second
 	public void paint(Graphics g) {
 		super.paintComponent(g);
+		
+		// update time based on counting frames
+		frameTracker++;
+		if (frameTracker % 35 == 0) {
+			time--;
+		}
 		
 		// paint the background
 		background.paint(g);
@@ -112,13 +121,23 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 		g.drawRect(400, 660, 115, 110);
 		g.drawRect(600, 510, 115, 260);
 		
+		// Flag
+		flag.paint(g);
+		flag.setImage();
+		g.drawRect(flag.getX(), flag.getY(), 55, 120);	
+		if (mario.getX() + mario.getWidth() >= flag.getX() && mario.getX() <= flag.getX() + flag.getWidth()) {
+			if (mario.getY() + mario.getHeight() >= flag.getY() && mario.getY() <= flag.getY() + flag.getHeight()) {
+				flag.setState(2);
+			}
+		}
+		
 		// Short Pipe Collision
 		
 		// First, test if Mario is within the X range of the Pipe.
 		if (mario.getX() + mario.getWidth() >= shortPipe.getX() && mario.getX() <= shortPipe.getX() + shortPipe.getWidth()) {
 			
 			// Next, test if Mario is above the Y value of the Pipe.
-			if (mario.getY() + mario.getHeight() < shortPipe.getY() && mario.getJumping()) {
+			if (mario.getY() + mario.getHeight() < shortPipe.getY()) {
 				onShort = true;
 				if (onShort) {
 					platform = shortPipe.getY() - mario.getHeight();
@@ -139,7 +158,7 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 		
 		// Long Pipe Collision
 		if (mario.getX() + mario.getWidth() >= longPipe.getX() && mario.getX() <= longPipe.getX() + longPipe.getWidth()) {
-			if (mario.getY() + mario.getHeight() < longPipe.getY() && mario.getJumping()) {
+			if (mario.getY() + mario.getHeight() < longPipe.getY()) {
 				onLong = true;
 				if (onLong) {
 					platform = longPipe.getY() - mario.getHeight();
@@ -160,13 +179,35 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 		if (!onShort && !onLong) {
 			platform = 665;
 		}
-		Font f = new Font("Palatino", Font.BOLD, 30);
-		g.setFont(f);
-		g.drawString("HI", 400, 400);
 		
-	}
+		// Goomba collision
+		goomba2.setX(goomba2.getX() - 1);
+		goomba2.paint(g);
+		if (mario.collide(goomba2)) {
+			time = 0;
+		}
+		
+		
+		// Timer
+		g.setFont(new Font("", Font.BOLD, 20));
+		g.drawString("Lives: " + lives, 10, 30);
+		g.drawString("Score: " + score, 310, 30);
+		if (time <= 0) {
+			time = 0;
+		}
+		if (time % 60 == 0 || time < 10) {
+			g.drawString("Time Remaining: " + time / 60 + ":" + "0" + time % 60, 610, 30);
+		} else {
+			g.drawString("Time Remaining: " + time / 60 + ":" + time % 60, 610, 30);
+		}
+		
+		
+		
+		
+		
+	} // end of paint method
 	
-	// creates a Frame object, makes class runnable
+	// creates a FrameTester object, makes class runnable
 	public static void main(String[] arg) {
 		FrameTester f = new FrameTester();
 	}
@@ -223,7 +264,7 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 			mario.setImage(true, false);
 			mario.leftPressed(true);
 		}
-		if (arg0.getKeyCode() == 38 && !mario.getJumping()) {
+		if (arg0.getKeyCode() == 38 && !mario.getJumping() && mario.getY() + mario.getHeight() >= platform) {
 			mario.setJumping(true);
 			vy = -20;
 		}

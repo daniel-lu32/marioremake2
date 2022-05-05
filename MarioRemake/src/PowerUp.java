@@ -7,18 +7,13 @@ import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.net.URL;
 
-public class PowerUp {
+public class PowerUp extends MarioObject {
 	
 	// attributes
-	private int x, y, height, width;
 	private String type;
-	private double scaleX, scaleY;
-	private Image img;
-	private AffineTransform tx;
 	
 	public PowerUp(int x, int y, String type) {
-		this.x = x;
-		this.y = y;
+		super(x, y);
 		height = 36;
 		this.type = type;
 		if (type.equals("Big Mushroom")) {
@@ -47,49 +42,13 @@ public class PowerUp {
 	}
 	
 	// getters
-	public int getX() {
-		return x;
-	}
-	public int getY() {
-		return y;
-	}
-	public int getHeight() {
-		return height;
-	}
-	public int getWidth() {
-		return width;
-	}
 	public String getType() {
 		return type;
 	}
-	public double getScaleX() {
-		return scaleX;
-	}
-	public double getScaleY() {
-		return scaleY;
-	}
 	
 	// setters
-	public void setX(int x) {
-		this.x = x;
-	}
-	public void setY(int y) {
-		this.y = y;
-	}
-	public void setHeight(int height) {
-		this.height = height;
-	}
-	public void setWidth(int width) {
-		this.width = width;
-	}
 	public void setType(String type) {
 		this.type = type;
-	}
-	public void setScaleX(double scaleX) {
-		this.scaleX = scaleX;
-	}
-	public void setScaleY(double scaleY) {
-		this.scaleY = scaleY;
 	}
 	
 	// graphics settings
