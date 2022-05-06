@@ -93,28 +93,50 @@ public class Character {
 		return false;
 	}
 	
-//	public int objectCollideState(MarioObject other) {
-//		boolean result = false;
-//		int platform = 0;
-//		if (x + width >= other.getX() && x <= other.getX() + other.getWidth()) {
-//			if (y + height < other.getY()) {
-//				result = true;
-//				if (result) {
-//					platform = other.getY() - height;
-//				}
-//			}
-//			if (platform == 665 && !(y + height < other.getY())) {
-//				if (x <= other.getX()) {
-//					setX(other.getX() - width);
-//				} else {
-//					setX(other.getX() + other.getWidth());
-//				}
-//			}
-//		}
-//		if (!(x + width >= other.getX() && x <= other.getX() + other.getWidth())) {
-//			result = false;
-//		}
-//	}
+	public boolean aboveObject(MarioObject other, boolean current) {
+		boolean result = current;
+		if (x + width >= other.getX() && x <= other.getX() + other.getWidth()) {
+			if (y + height <= other.getY()) {
+				result = true;
+				if (result) {
+					Frame.platform = other.getY() - height;
+				}
+			}
+			if (Frame.platform == 665 && !(y + height < other.getY()) && !belowObject(other, current)) {
+				if (x <= other.getX()) {
+					x = other.getX() - width;
+				} else {
+					x = other.getX() + other.getWidth();
+				}
+			}
+		}
+		if (!(x + width >= other.getX() && x <= other.getX() + other.getWidth())) {
+			result = false;
+		}
+		return result;
+	}
+	public boolean belowObject(MarioObject other, boolean current) {
+		boolean result = current;
+		if (x + width >= other.getX() && x <= other.getX() + other.getWidth()) {
+			if (y > other.getY() + other.getHeight()) {
+				result = true;
+			}
+		}
+		if (!(x + width >= other.getX() && x <= other.getX() + other.getWidth())) {
+			result = false;
+		}
+		return result;
+	}
+	public boolean hittingObjectFromBelow(MarioObject other, boolean current) {
+		boolean result = false;
+		if (x + width >= other.getX() && x <= other.getX() + other.getWidth()) {
+			if (y + height >= other.getY() && y <= other.getY() + other.getHeight()) {
+				result = true;
+			}
+		}
+		return result && Frame.vy < 0;
+	}
+	
 	
 	// getters
 	public int getX() {

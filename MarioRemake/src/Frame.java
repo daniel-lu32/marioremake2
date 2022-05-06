@@ -23,11 +23,15 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	
 	// variables and trackers
 	int vx = 0;
-	int vy = 0;
+	public static int vy = 0;
 	int acceleration = 1;
-	int platform = 665;
-	boolean onShort = false;
-	boolean onLong = false;
+	public static int platform = 665;
+	private boolean onShort = false;
+	private boolean onLong = false;
+	private boolean onBlock1 = false;
+	private boolean onBlock2 = false;
+	private boolean onBlock3 = false;
+	private boolean onBlock4 = false;
 	private int lives = 7;
 	private int score = 0;
 	private int time = 3600;
@@ -93,55 +97,6 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			}
 		}
 		
-		// Short Pipe Collision
-		
-		// First, test if Mario is within the X range of the Pipe.
-		if (mario.getX() + mario.getWidth() >= shortPipe.getX() && mario.getX() <= shortPipe.getX() + shortPipe.getWidth()) {
-			
-			// Next, test if Mario is above the Y value of the Pipe.
-			if (mario.getY() + mario.getHeight() < shortPipe.getY()) {
-				onShort = true;
-				if (onShort) {
-					platform = shortPipe.getY() - mario.getHeight();
-				}
-			}
-			// Otherwise, set Mario's X position so that the Pipe is a barrier.
-			if (platform == 665 && !(mario.getY() + mario.getHeight() < shortPipe.getY())) {
-				if (mario.getX() <= shortPipe.getX()) {
-					mario.setX(shortPipe.getX() - mario.getWidth());
-				} else {
-					mario.setX(shortPipe.getX() + shortPipe.getWidth());
-				}
-			}
-		}
-		if (!(mario.getX() + mario.getWidth() >= shortPipe.getX() && mario.getX() <= shortPipe.getX() + shortPipe.getWidth())) {
-			onShort = false;
-		}
-		
-		// Long Pipe Collision
-		if (mario.getX() + mario.getWidth() >= longPipe.getX() && mario.getX() <= longPipe.getX() + longPipe.getWidth()) {
-			if (mario.getY() + mario.getHeight() < longPipe.getY()) {
-				onLong = true;
-				if (onLong) {
-					platform = longPipe.getY() - mario.getHeight();
-				}
-			}
-			if (platform == 665 && !(mario.getY() + mario.getHeight() < longPipe.getY())) {
-				if (mario.getX() <= longPipe.getX()) {
-					mario.setX(longPipe.getX() - mario.getWidth());
-				} else {
-					mario.setX(longPipe.getX() + longPipe.getWidth());
-				}
-			}
-		}
-		if (!(mario.getX() + mario.getWidth() >= longPipe.getX() && mario.getX() <= longPipe.getX() + longPipe.getWidth())) {
-			onLong = false;
-		}
-		
-		if (!onShort && !onLong) {
-			platform = 665;
-		}
-		
 		// Goomba collision
 		goomba.setX(goomba.getX() - 1);
 		goomba.paint(g);
@@ -159,16 +114,26 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		fire.paint(g);
 		oneup.paint(g);
 		
-		Block block1 = new Block(500, 550, "Normal", false);
-		Block block2 = new Block(540, 550, "Normal", false);
-		Block block3 = new Block(580, 550, "Normal", false);
-		Block block4 = new Block(620, 550, "Normal", false);
+		Block block1 = new Block(800, 550, "Normal", false);
+		Block block2 = new Block(840, 550, "Normal", false);
+		Block block3 = new Block(880, 550, "Normal", false);
+		Block block4 = new Block(920, 550, "Normal", false);
 		block1.paint(g);
 		block2.paint(g);
 		block3.paint(g);
 		block4.paint(g);
-		if (mario.collide(block1)) {
-			mario.setX(100);
+		
+		onShort = mario.aboveObject(shortPipe, onShort);
+		onLong = mario.aboveObject(longPipe, onLong);
+		onBlock1 = mario.aboveObject(block1, onBlock1);
+		onBlock2 = mario.aboveObject(block2, onBlock2);
+		onBlock3 = mario.aboveObject(block3, onBlock3);
+		onBlock4 = mario.aboveObject(block4, onBlock4);
+		if (!onShort && !onLong && !onBlock1 && !onBlock2 && !onBlock3 && !onBlock4) {
+			platform = 665;
+		}
+		if (mario.hittingObjectFromBelow(block1, onBlock1) || mario.hittingObjectFromBelow(block2, onBlock2) || mario.hittingObjectFromBelow(block3, onBlock3) || mario.hittingObjectFromBelow(block4, onBlock4)) {
+			vy = 4;
 		}
 		
 		// Top Text Display (Lives, Score, and Timer)
