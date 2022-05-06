@@ -25,7 +25,7 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 	int vx = 0;
 	int vy = 0;
 	int acceleration = 1;
-	int platform = 665;
+	int platform = 575;
 	boolean onShort = false;
 	boolean onLong = false;
 	private int lives = 7;
@@ -44,20 +44,14 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 	Color cyan = new Color(0, 255, 255);
 	
 	// create the background and character
-	Background background = new Background(0, 0);
-	Character mario = new Character(10, 665);
-	Flag flag = new Flag (880,585);
+	Background background = new Background(0, -440);	 //** EDITED COORDINATES **//
+	Character mario = new Character(10, 575);  			 //** EDITED COORDINATES **//
+	MarioObject flag = new Flag (880, 585);
 	MarioObject goomba2 = new Goomba(500, 665);
 	
 	// main method with code and movement that is called 60 times per second
 	public void paint(Graphics g) {
 		super.paintComponent(g);
-		
-		// update time based on counting frames
-		frameTracker++;
-		if (frameTracker % 35 == 0) {
-			time--;
-		}
 		
 		// paint the background
 		background.paint(g);
@@ -83,6 +77,7 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 		
 		// Mario
 		g.drawRect(10, 665, 26, 39);
+		g.drawRect(mario.getX(), mario.getY(), 26, 39);		 //** CHANGED TO FOLLOW MARIO **//
 		
 		// Goomba
 		Goomba goomba = new Goomba(100, 100);
@@ -90,10 +85,10 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 		g.drawRect(100, 100, 32, 36);
 		
 		// PowerUp
-		PowerUp big = new PowerUp(200, 100, "Big Mushroom");
-		PowerUp ice = new PowerUp(300, 100, "Ice Flower");
-		PowerUp fire = new PowerUp(400, 100, "Fire Flower");
-		PowerUp oneup = new PowerUp(500, 100, "1-UP");
+		MarioObject big = new PowerUp(200, 100, "Big Mushroom");
+		MarioObject ice = new PowerUp(300, 100, "Ice Flower");
+		MarioObject fire = new PowerUp(400, 100, "Fire Flower");
+		MarioObject oneup = new PowerUp(500, 100, "1-UP");
 		big.paint(g);
 		ice.paint(g);
 		fire.paint(g);
@@ -104,18 +99,18 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 		g.drawRect(500, 100, 36, 36);
 		
 		// Key
-		Key key = new Key(600, 100);
+		MarioObject key = new Key(600, 100);
 		key.paint(g);
 		g.drawRect(600, 100, 36, 48);
 		
 		// Block
-		Block normalBlock = new Block(700, 100, "Normal", false);
+		MarioObject normalBlock = new Block(700, 100, "Normal", false);
 		normalBlock.paint(g);
 		g.drawRect(700, 100, 40, 40);
 		
 		// Pipe
-		Pipe shortPipe = new Pipe(400, 660, false, false);
-		Pipe longPipe = new Pipe(600, 510, true, false);
+		MarioObject shortPipe = new Pipe(400, 530, false, false);
+		MarioObject longPipe = new Pipe(600, 400, true, false);
 		shortPipe.paint(g);
 		longPipe.paint(g);
 		g.drawRect(400, 660, 115, 110);
@@ -130,7 +125,13 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 				flag.setState(2);
 			}
 		}
+		if (mario.getX() <= 10) {	 //** ADDED TO PREVENT GOING OFFSCREEN **//
+			mario.setX(10);
+		}
 		
+		if (mario.getX() >= 1120) {	 //** ADDED TO PREVENT GOING OFFSCREEN **//
+			mario.setX(1120);
+		}
 		// Short Pipe Collision
 		
 		// First, test if Mario is within the X range of the Pipe.
@@ -144,7 +145,7 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 				}
 			}
 			// Otherwise, set Mario's X position so that the Pipe is a barrier.
-			if (platform == 665 && !(mario.getY() + mario.getHeight() < shortPipe.getY())) {
+			if (platform == 575 && !(mario.getY() + mario.getHeight() < shortPipe.getY())) {
 				if (mario.getX() <= shortPipe.getX()) {
 					mario.setX(shortPipe.getX() - mario.getWidth());
 				} else {
@@ -164,7 +165,7 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 					platform = longPipe.getY() - mario.getHeight();
 				}
 			}
-			if (platform == 665 && !(mario.getY() + mario.getHeight() < longPipe.getY())) {
+			if (platform == 575 && !(mario.getY() + mario.getHeight() < longPipe.getY())) {
 				if (mario.getX() <= longPipe.getX()) {
 					mario.setX(longPipe.getX() - mario.getWidth());
 				} else {
@@ -177,7 +178,7 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 		}
 		
 		if (!onShort && !onLong) {
-			platform = 665;
+			platform = 575;
 		}
 		
 		// Goomba collision
@@ -188,8 +189,12 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 		}
 		
 		
-		// Timer
-		g.setFont(new Font("", Font.BOLD, 20));
+		// Top Text Display (Lives, Score, and Timer)
+		frameTracker++;
+		if (frameTracker % 35 == 0) {
+			time--;
+		}
+		g.setFont(new Font("Unknown", Font.BOLD, 20));
 		g.drawString("Lives: " + lives, 10, 30);
 		g.drawString("Score: " + score, 310, 30);
 		if (time <= 0) {
@@ -200,9 +205,6 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 		} else {
 			g.drawString("Time Remaining: " + time / 60 + ":" + time % 60, 610, 30);
 		}
-		
-		
-		
 		
 		
 	} // end of paint method
@@ -259,13 +261,31 @@ public class FrameTester extends JPanel implements ActionListener, MouseListener
 		if (arg0.getKeyCode() == 39) {
 			mario.setImage(false, true);
 			mario.rightPressed(true);
+			if (background.getX() + 1800 >= 1200) {		 //** ADDED IF **//
+				background.slide(false, true);	
+			}
+		}
+		else {											//** ADDED ELSE **//
+			background.slide(false, false);
 		}
 		if (arg0.getKeyCode() == 37) {
 			mario.setImage(true, false);
 			mario.leftPressed(true);
+			if (background.getX() <= -10) {				//** ADDED IF **//
+				background.slide(true, false);	
+			}
 		}
-		if (arg0.getKeyCode() == 38 && !mario.getJumping() && mario.getY() + mario.getHeight() >= platform) {
+		else {											//** ADDED ELSE **//
+			background.slide(false, false);
+		}
+		if (arg0.getKeyCode() == 38 && !mario.getJumping()) {
 			mario.setJumping(true);
+			if (mario.getJumping() == true) {
+				background.slideVertical(true);
+			}
+			else {
+				background.slideVertical(false);
+			}
 			vy = -20;
 		}
 

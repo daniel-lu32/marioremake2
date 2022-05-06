@@ -85,4 +85,12 @@ public class MarioObject {
 		return tempImage;
 	}
 	
+	// subclass methods
+	public void setImage() {
+		
+	}
+	public void setState(int x) {
+		
+	}
+	
 }

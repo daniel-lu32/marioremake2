@@ -93,6 +93,29 @@ public class Character {
 		return false;
 	}
 	
+//	public int objectCollideState(MarioObject other) {
+//		boolean result = false;
+//		int platform = 0;
+//		if (x + width >= other.getX() && x <= other.getX() + other.getWidth()) {
+//			if (y + height < other.getY()) {
+//				result = true;
+//				if (result) {
+//					platform = other.getY() - height;
+//				}
+//			}
+//			if (platform == 665 && !(y + height < other.getY())) {
+//				if (x <= other.getX()) {
+//					setX(other.getX() - width);
+//				} else {
+//					setX(other.getX() + other.getWidth());
+//				}
+//			}
+//		}
+//		if (!(x + width >= other.getX() && x <= other.getX() + other.getWidth())) {
+//			result = false;
+//		}
+//	}
+	
 	// getters
 	public int getX() {
 		return x;
