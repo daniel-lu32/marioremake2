@@ -13,11 +13,13 @@ public class Background{
 	private int x, y;
 	private Image img; 	
 	private AffineTransform tx;
-	private int vx;
+	private int vx, vy;
+	private int yAccel = -1;
 
 	// constructor
 	public Background(int x, int y) {
 		vx = 0;
+		vy = 0;
 		this.x = x;
 		this.y = y;
 		img = getImage("/imgs/background.png"); 
@@ -28,6 +30,10 @@ public class Background{
 	
 	public void setVX (int newVX) {
 		this.vx = newVX;
+	}
+	
+	public void setVY (int newVY) {
+		this.vy = newVY;
 	}
 	
 	public void slide(boolean moveLeft, boolean moveRight) {
@@ -41,6 +47,16 @@ public class Background{
 		}
 		else {
 			vx = 0;
+		}
+	}
+	
+	public void slideVertical(boolean jumping) {
+		if (jumping == true) {
+			vy = 6;
+			this.y += vy;
+		}
+		else {
+			vy = 0;
 		}
 	}
 	
@@ -71,6 +87,10 @@ public class Background{
 		g2.drawImage(img, tx, null);
 	}
 	private void update() {
+		y += vy;
+		if (y + 1200 >= 800) {
+			y += yAccel;
+		}
 		tx.setToTranslation(x, y);
 		tx.scale(3.0, 3.0);
 	}

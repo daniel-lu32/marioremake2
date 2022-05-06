@@ -72,6 +72,10 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 			mario.setJumping(false);
 		}
 		
+		if (background.getY() + 1200 >= 800) {
+			background.setVY(0);
+		}
+		
 		/* Hitboxes */
 		g.setColor(Color.black);
 		
@@ -210,6 +214,12 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 		}
 		if (arg0.getKeyCode() == 38 && !mario.getJumping()) {
 			mario.setJumping(true);
+			if (mario.getJumping() == true) {
+				background.slideVertical(true);
+			}
+			else {
+				background.slideVertical(false);
+			}
 			vy = -20;
 		}
 
