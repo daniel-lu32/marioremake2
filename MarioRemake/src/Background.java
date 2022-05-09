@@ -13,7 +13,7 @@ public class Background{
 	private int x, y;
 	private Image img; 	
 	private AffineTransform tx;
-	private int vx, vy;
+	private double vx, vy;
 	private int yAccel = -1;
 
 	// constructor
@@ -28,11 +28,11 @@ public class Background{
 
 	} 
 	
-	public void setVX (int newVX) {
+	public void setVX (double newVX) {
 		this.vx = newVX;
 	}
 	
-	public void setVY (int newVY) {
+	public void setVY (double newVY) {
 		this.vy = newVY;
 	}
 	
@@ -52,16 +52,19 @@ public class Background{
 	
 	public void slideVertical(boolean jumping) {
 		if (jumping == true) {
-			vy = 6;
+			vy = 2;
 			this.y += vy;
 		}
 		else {
-			vy = 0;
+			if (y + 1200 >= 810) {
+				vy = -2;
+				this.y += vy;
+			}
 		}
 	}
 	
 	// getters
-	public int getVX() {
+	public double getVX() {
 		return vx;
 	}
 	
