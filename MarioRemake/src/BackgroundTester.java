@@ -73,7 +73,14 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 		}
 		
 		//update background
-		if (background.getY() <= -10 && background.getY() + 1200 >= 758) {
+		if (background.getY() < -440) {
+			background.setY(-440);
+		}
+		if (background.getY() + 1200 > 800) {
+				background.setVY(-background.getVY());
+		}
+		
+		if (background.getY() <= -10 && background.getY() + 1200 >= 760) {
 				background.setVY(-vy);
 		}
 		else {
@@ -111,6 +118,16 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 		MarioObject key = new Key(background.getX() + 200, background.getY() + 990);
 		key.paint(g);
 		g.drawRect(600, 100, 36, 48);
+		
+		//Key Display
+		MarioObject keyDisp = new KeyDisplay(450, 20);
+		keyDisp.paint(g);
+		if (mario.getX() + mario.getWidth() >= key.getX() && mario.getX() <= key.getX() + key.getWidth()) {
+			if (mario.getY() + mario.getHeight() >= key.getY() && mario.getY() <= key.getY() + key.getHeight()) {
+				System.out.println("KEY HIT" + ((KeyDisplay)keyDisp).getState());
+				((KeyDisplay) keyDisp).setState();
+			}
+		}
 		
 		// Block
 		MarioObject normalBlock = new Block(700, 100, "Normal", false);
@@ -210,9 +227,9 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 			time = 0;
 		}
 		if (time % 60 == 0 || time < 10) {
-			g.drawString("Time Remaining: " + time / 60 + ":" + "0" + time % 60, 610, 30);
+			g.drawString("Time Remaining: " + time / 60 + ":" + "0" + time % 60, 900, 30);
 		} else {
-			g.drawString("Time Remaining: " + time / 60 + ":" + time % 60, 610, 30);
+			g.drawString("Time Remaining: " + time / 60 + ":" + time % 60, 900, 30);
 		}
 		
 		

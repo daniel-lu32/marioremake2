@@ -68,6 +68,10 @@ public class Background{
 		return vx;
 	}
 	
+	public double getVY() {
+		return vy;
+	}
+	
 	public int getX() {
 		return x;
 	}
