@@ -48,6 +48,10 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 	Character mario = new Character(10, 575);  			 //** EDITED COORDINATES **//
 	MarioObject flag = new Flag (880, 585);
 	MarioObject goomba2 = new Goomba(500, 665);
+	KeyDisplay keyDisp = new KeyDisplay(450, 20);
+	
+	MarioObject key = new Key(background.getX() + 200, background.getY() + 990);
+
 	
 	// main method with code and movement that is called 60 times per second
 	public void paint(Graphics g) {
@@ -76,11 +80,14 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 		if (background.getY() < -440) {
 			background.setY(-440);
 		}
-		if (background.getY() + 1200 > 800) {
+		if (background.getY() + 1200 <= 750) {
+			background.setY(-440);
+		}
+		if (background.getY() + 1200 > 750) {
 				background.setVY(-background.getVY());
 		}
 		
-		if (background.getY() <= -10 && background.getY() + 1200 >= 760) {
+		if (background.getY() <= -10 && background.getY() + 1200 >= 750) {
 				background.setVY(-vy);
 		}
 		else {
@@ -115,17 +122,20 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 		g.drawRect(500, 100, 36, 36);
 		
 		// Key
-		MarioObject key = new Key(background.getX() + 200, background.getY() + 990);
 		key.paint(g);
 		g.drawRect(600, 100, 36, 48);
+		key.setX(background.getX() + 200);
+		key.setY(background.getY() + 990);
 		
-		//Key Display
-		MarioObject keyDisp = new KeyDisplay(450, 20);
+		// Key Display
 		keyDisp.paint(g);
-		if (mario.getX() + mario.getWidth() >= key.getX() && mario.getX() <= key.getX() + key.getWidth()) {
-			if (mario.getY() + mario.getHeight() >= key.getY() && mario.getY() <= key.getY() + key.getHeight()) {
-				System.out.println("KEY HIT" + ((KeyDisplay)keyDisp).getState());
-				((KeyDisplay) keyDisp).setState();
+		if (((Key)key).getAvailable() == true) {
+			if (mario.getX() + mario.getWidth() >= key.getX() && mario.getX() <= key.getX() + key.getWidth()) {
+				if (mario.getY() + mario.getHeight() >= key.getY() && mario.getY() <= key.getY() + key.getHeight()) {
+					System.out.println("KEY HIT" + (keyDisp.getState()));
+					keyDisp.setState(keyDisp.getState() + 1);
+					((Key)key).setAvailable(false);
+				}
 			}
 		}
 		

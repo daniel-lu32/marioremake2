@@ -38,11 +38,11 @@ public class Background{
 	
 	public void slide(boolean moveLeft, boolean moveRight) {
 		if (moveLeft == true) {
-			vx = 3;
+			vx = 4;
 			this.x += vx;
 		}
 		else if (moveRight == true) {
-			vx = -3;
+			vx = -4;
 			this.x += vx;
 		}
 		else {
@@ -56,7 +56,7 @@ public class Background{
 			this.y += vy;
 		}
 		else {
-			if (y + 1200 >= 810) {
+			if (y <= 10 && y + 1200 >= 800) {
 				vy = -2;
 				this.y += vy;
 			}

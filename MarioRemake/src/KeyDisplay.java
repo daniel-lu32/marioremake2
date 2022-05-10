@@ -19,7 +19,7 @@ public class KeyDisplay extends MarioObject {
 		scaleX = 0.3;
 		scaleY = 0.3;
 		state = getState();
-		chooseImage();
+		img = getImage("/imgs/0keys.png");
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y);
 	}
@@ -30,8 +30,11 @@ public class KeyDisplay extends MarioObject {
 	}
 	
 	// setters
-	public void setState() {
-		state += 1;
+	public void setState(int stateParam) {
+		this.state = stateParam;
+		//if (state > 3) {
+		//	state = 3;
+		//}
 		chooseImage();
 	}
 	

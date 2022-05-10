@@ -10,9 +10,11 @@ import java.net.URL;
 public class Key extends MarioObject {
 	
 	// attributes
+	private boolean available;
 	
 	public Key(int x, int y) {
 		super(x, y);
+		available = true;
 		height = 48;
 		width = 36;
 		scaleX = 0.16;
@@ -23,8 +25,14 @@ public class Key extends MarioObject {
 	}
 	
 	// getters
+	public boolean getAvailable() {
+		return available;
+	}
 	
 	// setters
+	public void setAvailable(boolean boolParam) {
+		this.available = boolParam;
+	}
 	
 	// graphics settings
 	public void paint(Graphics g) {
