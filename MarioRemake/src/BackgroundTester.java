@@ -80,15 +80,8 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 		if (background.getY() < -440) {
 			background.setY(-440);
 		}
-		if (background.getY() + 1200 <= 750) {
-			background.setY(-440);
-		}
-		if (background.getY() + 1200 > 750) {
-				background.setVY(-background.getVY());
-		}
-		
-		if (background.getY() <= -10 && background.getY() + 1200 >= 750) {
-				background.setVY(-vy);
+		if (background.getY() + 1200 >= 760) {
+				background.setVY(-vy * 0.4);
 		}
 		else {
 			background.setVY(0);
