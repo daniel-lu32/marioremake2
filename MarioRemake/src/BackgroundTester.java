@@ -51,6 +51,7 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 	KeyDisplay keyDisp = new KeyDisplay(450, 20);
 	
 	MarioObject key = new Key(background.getX() + 200, background.getY() + 990);
+	Door door = new Door(background.getX() + 950, background.getY() + 890);
 
 	
 	// main method with code and movement that is called 60 times per second
@@ -116,7 +117,7 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 		
 		// Key
 		key.paint(g);
-		g.drawRect(600, 100, 36, 48);
+		g.drawRect(key.getX(), key.getY(), key.getX() + key.getWidth(), key.getY() + key.getHeight());
 		key.setX(background.getX() + 200);
 		key.setY(background.getY() + 990);
 		
@@ -131,6 +132,23 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 				}
 			}
 		}
+		
+		// Door
+		door.paint(g);
+		door.setX(background.getX() + 950);
+		door.setY(background.getY() + 902);
+		if (((Door)door).getStateLocked() == true) {
+			if (mario.getX() + mario.getWidth() >= door.getX() && mario.getX() <= door.getX() + door.getWidth()) {
+				if (mario.getY() + mario.getHeight() >= door.getY() && mario.getY() <= door.getY() + door.getHeight()) {
+					System.out.println("Door HIT" + (door.getStateLocked()));
+					if (keyDisp.getState() == 3) {
+						((Door)door).setStateLocked(false);
+						((Door)door).chooseImage();
+					}
+				}
+			}
+		}
+		
 		
 		// Block
 		MarioObject normalBlock = new Block(700, 100, "Normal", false);

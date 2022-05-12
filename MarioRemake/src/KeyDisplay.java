@@ -32,9 +32,9 @@ public class KeyDisplay extends MarioObject {
 	// setters
 	public void setState(int stateParam) {
 		this.state = stateParam;
-		//if (state > 3) {
-		//	state = 3;
-		//}
+		if (state > 3) {
+			state = 3;
+		}
 		chooseImage();
 	}
 	
