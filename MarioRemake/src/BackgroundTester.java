@@ -50,6 +50,7 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 	MarioObject goomba2 = new Goomba(500, 665);
 	KeyDisplay keyDisp = new KeyDisplay(450, 20);
 	Goomba goomba = new Goomba(100, 100);
+	Spikes spikes1 = new Spikes(120, 590);
 	
 	MarioObject key = new Key(0, 600);
 	int keyX = (((Key)key).getRandomX(400, 800));
@@ -69,6 +70,7 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 		goomba.paint(g);
 		key.paint(g);
 		keyDisp.paint(g);
+		spikes1.paint(g);
 		
 		// update mario's position
 		mario.setY(mario.getY() + vy);
@@ -191,6 +193,11 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 				flag.setState(2);
 			}
 		}
+		
+		// Spikes
+		spikes1.setX(background.getX() + 120);
+		spikes1.setY(background.getY() + 1030);
+		
 		if (mario.getX() <= 10) {	 //** ADDED TO PREVENT GOING OFFSCREEN **//
 			mario.setX(10);
 		}
