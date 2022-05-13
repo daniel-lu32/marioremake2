@@ -25,6 +25,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	int vx = 0;
 	public static int vy = 0;
 	int acceleration = 1;
+	public static final int originalPlatform = 665;
 	public static int platform = 665;
 	private boolean onShort = false;
 	private boolean onLong = false;
@@ -37,7 +38,12 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	private int time = 3600;
 	private int frameTracker;
 	int blockmaker = 100;
-	
+
+	boolean goombaCollided = false;
+	boolean bigCollided = false;
+	boolean iceCollided = false;
+	boolean fireCollided = false;
+	boolean oneupCollided = false;
 	// colors and fonts
 	Color red = new Color(210, 20, 4);
 	Color yellow = new Color(252, 226, 5);
@@ -50,13 +56,13 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	
 	// create the background and character
 	Background background = new Background(0, 0);
-	Character mario = new Character(10, 665);
+	Character mario = new Character(10, originalPlatform);
 	MarioObject flag = new Flag (880, 585);
-	MarioObject goomba = new Goomba(500, 665);
-	MarioObject big = new PowerUp(600, 665, "Big Mushroom");
-	MarioObject ice = new PowerUp(700, 665, "Ice Flower");
-	MarioObject fire = new PowerUp(800, 665, "Fire Flower");
-	MarioObject oneup = new PowerUp(900, 665, "1-UP");
+	MarioObject goomba = new Goomba(500, originalPlatform);
+	MarioObject big = new PowerUp(600, originalPlatform, "Big Mushroom");
+	MarioObject ice = new PowerUp(700, originalPlatform, "Ice Flower");
+	MarioObject fire = new PowerUp(800, originalPlatform, "Fire Flower");
+	MarioObject oneup = new PowerUp(900, originalPlatform, "1-UP");
 	
 	// main method with code and movement that is called 60 times per second
 	public void paint(Graphics g) {
@@ -80,6 +86,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		if (mario.getY() >= platform) {
 			mario.setJumping(false);
 		}
+		// moving mario hitbox
+		g.setColor(black);
+		g.drawRect(mario.getX(), mario.getY(), mario.getWidth(), mario.getHeight());
 		
 		// Pipe
 		MarioObject shortPipe = new Pipe(400, 660, false, false);
@@ -100,8 +109,20 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		// Goomba collision
 		goomba.setX(goomba.getX() - 1);
 		goomba.paint(g);
-		if (mario.collide(goomba)) {
-			time = 0;
+		if (mario.collide(goomba) && !goombaCollided) {
+			mario.setState(mario.getState() - 1);
+			goombaCollided = true;
+		}
+		if (goomba.getX() < -50) {
+			goomba.setX(500);
+			goombaCollided = false;
+		}
+		
+		if (mario.getState() < 0) {
+			lives--;
+			mario.setState(0);
+			goombaCollided = false;
+			resetPosition();
 		}
 		
 		// PowerUp
@@ -109,10 +130,40 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		ice.setX(ice.getX() - 1);
 		fire.setX(fire.getX() - 1);
 		oneup.setX(oneup.getX() - 1);
-		big.paint(g);
-		ice.paint(g);
-		fire.paint(g);
-		oneup.paint(g);
+		if (!bigCollided) {
+			big.paint(g);
+		}
+		if (!iceCollided) {
+			ice.paint(g);
+		}
+		if (!fireCollided) {
+			fire.paint(g);
+		}
+		if (!oneupCollided) {
+			oneup.paint(g);
+		}
+		if (mario.collide(big) && !bigCollided) {
+			bigCollided = true;
+			if (!mario.getHasAbility()) {
+				mario.setState(1);
+			}
+		}
+		if (mario.collide(ice) && !iceCollided) {
+			iceCollided = true;
+			mario.setHasAbility(true);
+			mario.setState(2);
+			mario.setAbility("Ice");
+		}
+		if (mario.collide(fire) && !fireCollided) {
+			fireCollided = true;
+			mario.setHasAbility(true);
+			mario.setState(2);
+			mario.setAbility("Fire");
+		}
+		if (mario.collide(oneup) && !oneupCollided) {
+			oneupCollided = true;
+			lives++;
+		}
 		
 		Block block1 = new Block(800, 550, "Normal", false);
 		Block block2 = new Block(840, 550, "Normal", false);
@@ -130,9 +181,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		onBlock3 = mario.aboveObject(block3, onBlock3);
 		onBlock4 = mario.aboveObject(block4, onBlock4);
 		if (!onShort && !onLong && !onBlock1 && !onBlock2 && !onBlock3 && !onBlock4) {
-			platform = 665;
+			platform = originalPlatform;
 		}
-		if (mario.hittingObjectFromBelow(block1, onBlock1) || mario.hittingObjectFromBelow(block2, onBlock2) || mario.hittingObjectFromBelow(block3, onBlock3) || mario.hittingObjectFromBelow(block4, onBlock4)) {
+		if (mario.hittingObjectFromBelow(block1) || mario.hittingObjectFromBelow(block2) || mario.hittingObjectFromBelow(block3) || mario.hittingObjectFromBelow(block4)) {
 			vy = 4;
 		}
 		
@@ -147,7 +198,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		if (time <= 0) {
 			time = 0;
 		}
-		if (time % 60 == 0 || time < 10) {
+		if (time % 60 < 10) {
 			g.drawString("Time Remaining: " + time / 60 + ":" + "0" + time % 60, 610, 30);
 		} else {
 			g.drawString("Time Remaining: " + time / 60 + ":" + time % 60, 610, 30);
@@ -155,6 +206,11 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		
 		
 	} // end of paint method
+	
+	public void resetPosition() {
+		mario.setX(10);
+		mario.setY(originalPlatform);
+	}
 	
 	// creates a FrameTester object, makes class runnable
 	public static void main(String[] arg) {
@@ -237,4 +293,6 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	}
 
 }
+
+
 

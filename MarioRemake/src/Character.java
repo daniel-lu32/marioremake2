@@ -8,12 +8,14 @@ import java.awt.geom.AffineTransform;
 import java.net.URL;
 
 public class Character {
-	private int x, y, height, width, vx;
-	private boolean big, small, hasAbility, jumping, onPlatform;
+	private int x, y, height, width, vx, state;
+	private boolean big, hasAbility, jumping, onPlatform;
 	private String ability;
 	private double scaleX, scaleY;
 	private Image img;
 	private AffineTransform tx;
+	
+	public static boolean updateX;
 	
 	public Character(int x, int y) {
 		this.x = x;
@@ -21,11 +23,12 @@ public class Character {
 		height = 39;
 		width = 26;
 		vx = 0;
+		state = 0;
 		big = false;
-		small = false;
 		hasAbility = false;
 		jumping = false;
 		onPlatform = false;
+		updateX = true;
 		ability = "";
 		scaleX = 0.3;
 		scaleY = 0.3;
@@ -42,27 +45,6 @@ public class Character {
 			img = getImage("/imgs/mariostanding.png");
 		}
 	}
-	
-//	public void upPressed(boolean upPressed) {	
-//		if (upPressed == true) {
-//			vy = -12;
-//			upPressed = false;
-//		}
-//		else {
-//			vy = 3;
-//		}
-//		
-//	}
-//	
-//	public void updatePosition(boolean jump) {
-//		if (jump) {
-//			y -= vy;
-//			vy -= ay;
-//		}
-//	}
-//	public void upReleased() {
-//		vy = 3;
-//	}
 	
 	public void rightPressed(boolean rightPressed) {
 		if (rightPressed == true) {
@@ -93,16 +75,9 @@ public class Character {
 		return false;
 	}
 	
-	public boolean aboveObject(MarioObject other, boolean current) {
-		boolean result = current;
-		if (x + width >= other.getX() && x <= other.getX() + other.getWidth()) {
-			if (y + height <= other.getY()) {
-				result = true;
-				if (result) {
-					Frame.platform = other.getY() - height;
-				}
-			}
-			if (Frame.platform == 665 && !(y + height < other.getY()) && !belowObject(other, current)) {
+	public void moveX(MarioObject other, boolean current) {
+		if (insideObjectX(other)) {
+			if (Frame.platform == Frame.originalPlatform && !(y + height < other.getY()) && !belowObject(other)) {
 				if (x <= other.getX()) {
 					x = other.getX() - width;
 				} else {
@@ -110,16 +85,19 @@ public class Character {
 				}
 			}
 		}
-		if (!(x + width >= other.getX() && x <= other.getX() + other.getWidth())) {
-			result = false;
-		}
-		return result;
 	}
-	public boolean belowObject(MarioObject other, boolean current) {
+	
+	public boolean aboveObject(MarioObject other, boolean current) {
 		boolean result = current;
-		if (x + width >= other.getX() && x <= other.getX() + other.getWidth()) {
-			if (y > other.getY() + other.getHeight()) {
+		if (insideObjectX(other)) {
+			if (y + height <= other.getY()) {
 				result = true;
+				if (result) {
+					Frame.platform = other.getY() - height;
+				}
+			}
+			if (collide(other)) {
+				moveX(other, current);
 			}
 		}
 		if (!(x + width >= other.getX() && x <= other.getX() + other.getWidth())) {
@@ -127,16 +105,47 @@ public class Character {
 		}
 		return result;
 	}
-	public boolean hittingObjectFromBelow(MarioObject other, boolean current) {
+	
+	public boolean belowObject(MarioObject other) {
 		boolean result = false;
-		if (x + width >= other.getX() && x <= other.getX() + other.getWidth()) {
-			if (y + height >= other.getY() && y <= other.getY() + other.getHeight()) {
+		if (insideObjectX(other)) {
+			if (y > other.getY() + other.getHeight()) {
+				result = true;
+			}
+		}
+		if (!insideObjectX(other)) {
+			result = false;
+		}
+		return result;
+	}
+	public boolean hittingObjectFromBelow(MarioObject other) {
+		boolean result = false;
+		if (insideObjectX(other)) {
+			if (y + height >= other.getY() && y <= other.getY() + other.getHeight() + 1) {
 				result = true;
 			}
 		}
 		return result && Frame.vy < 0;
 	}
 	
+	public boolean insideObjectX(MarioObject other) {
+		return x + width >= other.getX() && x <= other.getX() + other.getWidth();
+	}
+	public void updateBig(boolean big) {
+		if (big) {
+			setScaleX(0.36);
+			setScaleY(0.36);
+			setHeight(47);
+			setWidth(31);
+			setBig(true);
+		} else {
+			setScaleX(0.3);
+			setScaleY(0.3);
+			setHeight(39);
+			setWidth(26);
+			setBig(false);
+		}
+	}
 	
 	// getters
 	public int getX() {
@@ -151,11 +160,11 @@ public class Character {
 	public int getWidth() {
 		return width;
 	}
+	public int getState() {
+		return state;
+	}
 	public boolean getBig() {
 		return big;
-	}
-	public boolean getSmall() {
-		return small;
 	}
 	public boolean getHasAbility() {
 		return hasAbility;
@@ -189,11 +198,16 @@ public class Character {
 	public void setWidth(int width) {
 		this.width = width;
 	}
+	public void setState(int state) {
+		this.state = state;
+		if (state > 0) {
+			updateBig(true);
+		} else {
+			updateBig(false);
+		}
+	}
 	public void setBig(boolean big) {
 		this.big = big;
-	}
-	public void setSmall(boolean small) {
-		this.small = small;
 	}
 	public void setHasAbility(boolean hasAbility) {
 		this.hasAbility = hasAbility;
@@ -255,3 +269,6 @@ public class Character {
 	}
 	
 }
+
+
+
