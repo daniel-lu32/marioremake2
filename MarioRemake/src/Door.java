@@ -11,10 +11,12 @@ public class Door extends MarioObject {
 	
 	// attributes
 	private boolean stateLocked;
+	private boolean inRange;
 	
 	public Door(int x, int y) {
 		super(x, y);
 		stateLocked = true;
+		inRange = false;
 		height = 154;
 		width = 81;
 		scaleX = 0.6;
@@ -38,10 +40,18 @@ public class Door extends MarioObject {
 		return stateLocked;
 	}
 	
+	public boolean getInRange() {
+		return inRange;
+	}
+	
 	// setters
 	public void setStateLocked(boolean boolParam) {
 		this.stateLocked = boolParam;
 		chooseImage();
+	}
+	
+	public void setInRange(boolean boolParam) {
+		this.inRange = boolParam;;
 	}
 	
 	// graphics settings

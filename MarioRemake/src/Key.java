@@ -24,6 +24,16 @@ public class Key extends MarioObject {
 		init(x, y);
 	}
 	
+	public int getRandomX(int min, int max) {
+		int x = (int)(Math.random()*(min-max+1)) + min;
+		return x;
+	}
+	
+	public int getRandomY(int min, int max) {
+		int y = (int)(Math.random()*(min-max+1)) + min;
+		return y;
+	}
+	
 	// getters
 	public boolean getAvailable() {
 		return available;

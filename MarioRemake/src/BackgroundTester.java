@@ -49,8 +49,11 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 	MarioObject flag = new Flag (880, 585);
 	MarioObject goomba2 = new Goomba(500, 665);
 	KeyDisplay keyDisp = new KeyDisplay(450, 20);
+	Goomba goomba = new Goomba(100, 100);
 	
-	MarioObject key = new Key(background.getX() + 200, background.getY() + 990);
+	MarioObject key = new Key(0, 600);
+	int keyX = (((Key)key).getRandomX(400, 800));
+	int keyY = (((Key)key).getRandomY(900, 1100));
 	Door door = new Door(background.getX() + 950, background.getY() + 890);
 
 	
@@ -61,8 +64,11 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 		// paint the background
 		background.paint(g);
 		
-		// paint mario
-		mario.paint(g);
+		//paint methods
+		door.paint(g);
+		goomba.paint(g);
+		key.paint(g);
+		keyDisp.paint(g);
 		
 		// update mario's position
 		mario.setY(mario.getY() + vy);
@@ -87,6 +93,9 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 		else {
 			background.setVY(0);
 		}
+		
+		// paint mario
+		mario.paint(g);
 
 		
 		/* Hitboxes */
@@ -97,8 +106,6 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 		g.drawRect(mario.getX(), mario.getY(), 26, 39);		 //** CHANGED TO FOLLOW MARIO **//
 		
 		// Goomba
-		Goomba goomba = new Goomba(100, 100);
-		goomba.paint(g);
 		g.drawRect(100, 100, 32, 36);
 		
 		// PowerUp
@@ -116,28 +123,40 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 		g.drawRect(500, 100, 36, 36);
 		
 		// Key
-		key.paint(g);
-		g.drawRect(key.getX(), key.getY(), key.getX() + key.getWidth(), key.getY() + key.getHeight());
-		key.setX(background.getX() + 200);
-		key.setY(background.getY() + 990);
+		g.drawRect(key.getX(), key.getY(), key.getWidth(), key.getHeight());
+		key.setX(background.getX() + keyX);
+		key.setY(background.getY() + keyY);
 		
 		// Key Display
-		keyDisp.paint(g);
 		if (((Key)key).getAvailable() == true) {
 			if (mario.getX() + mario.getWidth() >= key.getX() && mario.getX() <= key.getX() + key.getWidth()) {
 				if (mario.getY() + mario.getHeight() >= key.getY() && mario.getY() <= key.getY() + key.getHeight()) {
 					System.out.println("KEY HIT" + (keyDisp.getState()));
 					keyDisp.setState(keyDisp.getState() + 1);
-					((Key)key).setAvailable(false);
+					//((Key)key).setAvailable(false);
 				}
 			}
 		}
 		
 		// Door
-		door.paint(g);
 		door.setX(background.getX() + 950);
 		door.setY(background.getY() + 902);
-		if (((Door)door).getStateLocked() == true) {
+		Font keyFont = new Font("keyFont", Font.BOLD, 14);
+		if (mario.getX() + mario.getWidth() >= door.getX() - 30 && mario.getX() <= door.getX() + door.getWidth() + 30) {
+			if (mario.getY() + mario.getHeight() >= door.getY() - 30 && mario.getY() <= door.getY() + door.getHeight() + 30) {
+				System.out.println("in door range");	//remove later
+				if (keyDisp.getState() <= 2) {
+					g.setFont(keyFont);
+					g.drawString(("collect " + (3 - keyDisp.getState()) + " more keys to open"), door.getX() - 55, door.getY() - 30);
+				}
+				if (keyDisp.getState() >= 3) {
+					door.setInRange(true);
+					g.setFont(keyFont);
+					g.drawString(("press enter to open"), door.getX() - 30, door.getY() - 30);
+				}
+			}
+		}
+		/*if (((Door)door).getStateLocked() == true) {
 			if (mario.getX() + mario.getWidth() >= door.getX() && mario.getX() <= door.getX() + door.getWidth()) {
 				if (mario.getY() + mario.getHeight() >= door.getY() && mario.getY() <= door.getY() + door.getHeight()) {
 					System.out.println("Door HIT" + (door.getStateLocked()));
@@ -147,7 +166,7 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 					}
 				}
 			}
-		}
+		}*/
 		
 		
 		// Block
@@ -334,6 +353,13 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 				background.slideVertical(false);
 			}
 			vy = -20;
+		}
+		
+		if (arg0.getKeyCode() == 10) {
+			if (door.getInRange() == true) {
+				door.setStateLocked(false);
+				door.chooseImage();
+			}
 		}
 
 	}
