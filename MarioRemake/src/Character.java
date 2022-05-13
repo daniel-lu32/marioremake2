@@ -29,7 +29,7 @@ public class Character {
 		jumping = false;
 		onPlatform = false;
 		updateX = true;
-		ability = "";
+		ability = "None";
 		scaleX = 0.3;
 		scaleY = 0.3;
 		img = getImage("/imgs/mariostanding.png");
@@ -255,6 +255,9 @@ public class Character {
 		}
 		else {
 			img = getImage("/imgs/mariostanding.png");
+		}
+		if (getAbility().equals("Fire")) {
+			img = getImage("/imgs/firemariostanding.png");
 		}
 	}
 	private Image getImage(String path) {
