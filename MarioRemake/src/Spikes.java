@@ -10,22 +10,29 @@ import java.net.URL;
 public class Spikes extends MarioObject {
 	
 	// attributes
+	private boolean hit;
 	
 	public Spikes(int x, int y) {
 		super(x, y);
-		height = 36;
-		width = 32;
+		height = 32;
+		width = 85;
 		scaleX = 1.4;
 		scaleY = 1.4;
+		hit = false;
 		img = getImage("/imgs/spikes.png");
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y);
 	}
 	
 	// getters
+	public boolean getHit() {
+		return hit;
+	}
 	
 	// setters
-	
+	public void setHit(boolean param) {
+		hit = param;
+	}
 	// graphics settings
 	public void paint(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
