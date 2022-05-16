@@ -168,8 +168,8 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 		g.drawRect(700, 100, 40, 40);
 		
 		// Pipe
-		MarioObject shortPipe = new Pipe(background.getX() + 400, 530, false, false);
-		MarioObject longPipe = new Pipe(background.getX() + 600, 400, true, false);	
+		MarioObject shortPipe = new Pipe(background.getX() + 400, background.getY() + 970, false, false);	//CHANGED Y
+		MarioObject longPipe = new Pipe(background.getX() + 600, background.getY() + 840, true, false);		//CHANGED Y
 		shortPipe.paint(g);
 		longPipe.paint(g);
 		g.drawRect(400, 660, 115, 110);
