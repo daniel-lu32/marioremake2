@@ -201,7 +201,7 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 			mario.setY(580);		//
 			background.setX(0);		//
 			background.setY(-435);	//
-			spikes1.setHit(false);	//
+			spikes1.setHit(false);
 		}
 		
 		if (mario.getX() <= 10) {	
