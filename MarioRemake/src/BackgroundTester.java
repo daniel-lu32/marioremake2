@@ -211,7 +211,7 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 		}
 		
 		if (mario.getX() >= 1120) {	
-			mario.setX(1120);
+			mario.setX(1120); 
 		}
 		
 		// Mystery Block
