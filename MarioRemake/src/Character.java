@@ -39,10 +39,26 @@ public class Character {
 	
 	public void setImage(boolean run) {
 		if (run == true) {
-			img = getImage("/imgs/mariorunninggif.gif");
+			if (getAbility().equals("None")) {
+				img = getImage("/imgs/mariorunningright.gif");
+			}
+			if (getAbility().equals("Ice")) {
+				img = getImage("/imgs/icemariorunningright.gif");
+			}
+			if (getAbility().equals("Fire")) {
+				img = getImage("/imgs/firemariorunningright.gif");
+			}
 		}
 		else {
-			img = getImage("/imgs/mariostanding.png");
+			if (getAbility().equals("None")) {
+				img = getImage("/imgs/mariostanding.png");
+			}
+			if (getAbility().equals("Ice")) {
+				img = getImage("/imgs/icemariostanding.png");
+			}
+			if (getAbility().equals("Fire")) {
+				img = getImage("/imgs/firemariostanding.png");
+			}
 		}
 	}
 	
@@ -236,6 +252,15 @@ public class Character {
 	}
 	private void update() {
 		x += vx;
+		if (getAbility().equals("None") && vx == 0) {
+			img = getImage("/imgs/mariostanding.png");
+		}
+		if (getAbility().equals("Ice") && vx == 0) {
+			img = getImage("/imgs/icemariostanding.png");
+		}
+		if (getAbility().equals("Fire") && vx == 0) {
+			img = getImage("/imgs/firemariostanding.png");
+		}
 		tx.setToTranslation(x, y);
 		tx.scale(scaleX, scaleY);
 	}
@@ -245,19 +270,48 @@ public class Character {
 	}
 	public void setImage(boolean runLeft, boolean runRight) {
 		if (runRight == false && runLeft == false) {
-			img = getImage("/imgs/mariostanding.png");
+			if (getAbility().equals("None")) {
+				img = getImage("/imgs/mariostanding.png");
+			}
+			if (getAbility().equals("Ice")) {
+				img = getImage("/imgs/icemariostanding.png");
+			}
+			if (getAbility().equals("Fire")) {
+				img = getImage("/imgs/firemariostanding.png");
+			}
 		}
 		else if (runRight == true) {
-			img = getImage("/imgs/mariorunninggif.gif");
+			if (getAbility().equals("None")) {
+				img = getImage("/imgs/mariorunningright.gif");
+			}
+			if (getAbility().equals("Ice")) {
+				img = getImage("/imgs/icemariorunningright.gif");
+			}
+			if (getAbility().equals("Fire")) {
+				img = getImage("/imgs/firemariorunningright.gif");
+			}
 		}
 		else if (runLeft == true){
-			img = getImage("/imgs/mariorunleft.gif");
+			if (getAbility().equals("None")) {
+				img = getImage("/imgs/mariorunningleft.gif");
+			}
+			if (getAbility().equals("Ice")) {
+				img = getImage("/imgs/icemariorunningleft.gif");
+			}
+			if (getAbility().equals("Fire")) {
+				img = getImage("/imgs/firemariorunningleft.gif");
+			}
 		}
 		else {
-			img = getImage("/imgs/mariostanding.png");
-		}
-		if (getAbility().equals("Fire")) {
-			img = getImage("/imgs/firemariostanding.png");
+			if (getAbility().equals("None")) {
+				img = getImage("/imgs/mariostanding.png");
+			}
+			if (getAbility().equals("Ice")) {
+				img = getImage("/imgs/icemariostanding.png");
+			}
+			if (getAbility().equals("Fire")) {
+				img = getImage("/imgs/firemariostanding.png");
+			}
 		}
 	}
 	private Image getImage(String path) {

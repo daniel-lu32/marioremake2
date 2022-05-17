@@ -25,8 +25,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	int vx = 0;
 	public static int vy = 0;
 	int acceleration = 1;
-	public static final int originalPlatform = 665;
-	public static int platform = 665;
+	public static final int originalPlatform = 580;
+	public static int platform = 580;
 	private boolean onShort = false;
 	private boolean onLong = false;
 	private boolean onBlock1 = false;
@@ -55,24 +55,34 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	Color cyan = new Color(0, 255, 255);
 	
 	// create the background and character
-	Background background = new Background(0, 0);
-	Character mario = new Character(10, originalPlatform);
+	Background background = new Background(0, -435);	 //** EDITED COORDINATES **//
+	Character mario = new Character(10, originalPlatform);  			 //** EDITED COORDINATES **//
 	MarioObject flag = new Flag (880, 585);
+	KeyDisplay keyDisp = new KeyDisplay(450, 20);		//ADDED//				//was created later in the code, but all objects should be made earlier?//
+	Spikes spikes1 = new Spikes(120, 585);				//ADDED//
 	MarioObject goomba = new Goomba(500, originalPlatform);
 	MarioObject big = new PowerUp(600, originalPlatform, "Big Mushroom");
 	MarioObject ice = new PowerUp(700, originalPlatform, "Ice Flower");
 	MarioObject fire = new PowerUp(800, originalPlatform, "Fire Flower");
 	MarioObject oneup = new PowerUp(900, originalPlatform, "1-UP");
-	
+
+	MarioObject key = new Key(0, 600);					//ADDED//
+	int keyX = (((Key)key).getRandomX(400, 800));		//ADDED//
+	int keyY = (((Key)key).getRandomY(900, 1100));		//ADDED//
+	Door door = new Door(background.getX() + 950, background.getY() + 890);		//ADDED//
 	// main method with code and movement that is called 60 times per second
 	public void paint(Graphics g) {
 		super.paintComponent(g);
 		
 		// paint the background
 		background.paint(g);
-		
-		// paint mario
-		mario.paint(g);
+
+
+		door.paint(g);		//ADDED//
+		goomba.paint(g);
+		key.paint(g);
+		keyDisp.paint(g);	//ADDED
+		spikes1.paint(g);	//ADDED//
 		
 		// update mario's position
 		mario.setY(mario.getY() + vy);
@@ -86,15 +96,70 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		if (mario.getY() >= platform) {
 			mario.setJumping(false);
 		}
+		//update background							//*ADDED
+		if (background.getY() < -440) {				//
+			background.setY(-440);					//
+		}
+		if (background.getY() + 1200 >= 765) {		//
+				background.setVY(-vy * 0.4);		//
+		}											//
+		else {										//
+			background.setVY(0);					//
+		}											//*
+
+		// paint mario
+		mario.paint(g);
+		
+		// Key	-- ADDED A LOT -- COPY OVER
+				g.drawRect(key.getX(), key.getY(), key.getWidth(), key.getHeight());
+				key.setX(background.getX() + keyX);
+				key.setY(background.getY() + keyY);
+				
+				// Key Display --ADDED -- COPY OVER
+				if (((Key)key).getAvailable() == true) {
+					if (mario.getX() + mario.getWidth() >= key.getX() && mario.getX() <= key.getX() + key.getWidth()) {
+						if (mario.getY() + mario.getHeight() >= key.getY() && mario.getY() <= key.getY() + key.getHeight()) {
+							System.out.println("KEY HIT" + (keyDisp.getState()));
+							keyDisp.setState(keyDisp.getState() + 1);
+							((Key)key).setAvailable(false);
+						}
+					}
+				}
+				
+				// Door -- ADDED -- COPY OVER (maybe not yet if we are changing the door though)
+				door.setX(background.getX() + 950);
+				door.setY(background.getY() + 902);
+				Font keyFont = new Font("keyFont", Font.BOLD, 14);
+				if (mario.getX() + mario.getWidth() >= door.getX() - 30 && mario.getX() <= door.getX() + door.getWidth() + 30) {
+					if (mario.getY() + mario.getHeight() >= door.getY() - 30 && mario.getY() <= door.getY() + door.getHeight() + 30) {
+						System.out.println("in door range");	//remove later
+						if (keyDisp.getState() <= 2) {
+							g.setFont(keyFont);
+							g.drawString(("collect " + (3 - keyDisp.getState()) + " more keys to open"), door.getX() - 55, door.getY() - 30);
+						}
+						if (keyDisp.getState() >= 3) {
+							door.setInRange(true);
+							g.setFont(keyFont);
+							g.drawString(("press enter to open"), door.getX() - 30, door.getY() - 30);
+						}
+					}
+				}
+		
 		// moving mario hitbox
 		g.setColor(black);
 		g.drawRect(mario.getX(), mario.getY(), mario.getWidth(), mario.getHeight());
 		
 		// Pipe
-		MarioObject shortPipe = new Pipe(400, 660, false, false);
-		MarioObject longPipe = new Pipe(600, 510, true, false);
+		MarioObject shortPipe = new Pipe(background.getX() + 400, background.getY() + 965, false, false);
+		MarioObject longPipe = new Pipe(background.getX() + 600, background.getY() + 835, true, false);	
+		shortPipe.setX(background.getX() + 400);
+		shortPipe.setY(background.getY() + 965);
+		longPipe.setX(background.getX() + 600);
+		longPipe.setY(background.getY() + 835);
 		shortPipe.paint(g);
 		longPipe.paint(g);
+		g.drawRect(400, 660, 115, 110);
+		g.drawRect(600, 510, 115, 260);
 		
 		// Flag
 		flag.paint(g);
@@ -106,11 +171,41 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			}
 		}
 		
+		// Spikes -- ADDED -- COPY OVER
+				spikes1.setX(background.getX() + 120);
+				spikes1.setY(background.getY() + 1025);
+				if (mario.getX() + mario.getWidth() >= spikes1.getX() && mario.getX() <= spikes1.getX() + spikes1.getWidth()) {
+					if (mario.getY() + mario.getHeight() >= spikes1.getY() && mario.getY() <= spikes1.getY() + spikes1.getHeight()) {
+						System.out.println("spikes hit");
+						spikes1.setHit(true);
+					}
+				}
+				if (spikes1.getHit() == true) {
+					lives--;
+					mario.setX(10);;
+					mario.setY(originalPlatform);
+					background.setX(0);
+					background.setY(-435);
+//					//mario character change image to flashing one with a timer
+//					mario.setX(mario.getX() - (spikes1.getWidth() + 40));
+//					mario.setY(mario.getY() - (spikes1.getHeight() + 20));
+					spikes1.setHit(false);
+				}
+				// spikes up to here
+				if (mario.getX() <= 10) {	
+					mario.setX(10);
+				}
+				
+				if (mario.getX() >= 1120) {	
+					mario.setX(1120);
+				}
 		// Goomba collision
 		goomba.setX(goomba.getX() - 1);
 		goomba.paint(g);
 		if (mario.collide(goomba) && !goombaCollided) {
 			mario.setState(mario.getState() - 1);
+			mario.setHasAbility(false);
+			mario.setAbility("None");
 			goombaCollided = true;
 		}
 		if (goomba.getX() < -50) {
@@ -121,6 +216,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		if (mario.getState() < 0) {
 			lives--;
 			mario.setState(0);
+			mario.setHasAbility(false);
+			mario.setAbility("None");
 			goombaCollided = false;
 			resetPosition();
 		}
@@ -198,10 +295,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		if (time <= 0) {
 			time = 0;
 		}
-		if (time % 60 < 10) {
-			g.drawString("Time Remaining: " + time / 60 + ":" + "0" + time % 60, 610, 30);
+		if (time % 60 == 0 || time < 10) {
+			g.drawString("Time Remaining: " + time / 60 + ":" + "0" + time % 60, 900, 30);		//CHANGED VALUES TO FIT KEYDISP
 		} else {
-			g.drawString("Time Remaining: " + time / 60 + ":" + time % 60, 610, 30);
+			g.drawString("Time Remaining: " + time / 60 + ":" + time % 60, 900, 30);			//VALUES
 		}
 		
 		
@@ -264,14 +361,39 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		if (arg0.getKeyCode() == 39) {
 			mario.setImage(false, true);
 			mario.rightPressed(true);
+			if (background.getX() + 1800 >= 1200) {		 
+				background.slide(false, true);	
+			}
+		}
+		else {											
+			background.slide(false, false);
 		}
 		if (arg0.getKeyCode() == 37) {
 			mario.setImage(true, false);
 			mario.leftPressed(true);
+			if (background.getX() <= -10) {				
+				background.slide(true, false);	
+			}
 		}
-		if (arg0.getKeyCode() == 38 && !mario.getJumping() && mario.getY() + mario.getHeight() >= platform) {
+		else {											
+			background.slide(false, false);
+		}
+		if (arg0.getKeyCode() == 38 && !mario.getJumping()) {
 			mario.setJumping(true);
+			if (mario.getJumping() == true) {
+				background.slideVertical(true);
+			}
+			else {
+				background.slideVertical(false);
+			}
 			vy = -20;
+		}
+		
+		if (arg0.getKeyCode() == 10) {		//ADDED STATEMENT
+			if (door.getInRange() == true) {
+				door.setStateLocked(false);
+				door.chooseImage();
+			}
 		}
 
 	}
