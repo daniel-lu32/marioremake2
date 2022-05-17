@@ -182,9 +182,13 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 				}
 				if (spikes1.getHit() == true) {
 					lives--;
-					//mario character change image to flashing one with a timer
-					mario.setX(mario.getX() - (spikes1.getWidth() + 40));
-					mario.setY(mario.getY() - (spikes1.getHeight() + 20));
+					mario.setX(10);;
+					mario.setY(originalPlatform);
+					background.setX(0);
+					background.setY(-435);
+//					//mario character change image to flashing one with a timer
+//					mario.setX(mario.getX() - (spikes1.getWidth() + 40));
+//					mario.setY(mario.getY() - (spikes1.getHeight() + 20));
 					spikes1.setHit(false);
 				}
 				// spikes up to here
@@ -200,6 +204,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		goomba.paint(g);
 		if (mario.collide(goomba) && !goombaCollided) {
 			mario.setState(mario.getState() - 1);
+			mario.setHasAbility(false);
+			mario.setAbility("None");
 			goombaCollided = true;
 		}
 		if (goomba.getX() < -50) {
@@ -210,6 +216,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		if (mario.getState() < 0) {
 			lives--;
 			mario.setState(0);
+			mario.setHasAbility(false);
+			mario.setAbility("None");
 			goombaCollided = false;
 			resetPosition();
 		}
