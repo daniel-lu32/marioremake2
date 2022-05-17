@@ -15,8 +15,6 @@ public class Character {
 	private Image img;
 	private AffineTransform tx;
 	
-	public static boolean updateX;
-	
 	public Character(int x, int y) {
 		this.x = x;
 		this.y = y;
@@ -28,7 +26,6 @@ public class Character {
 		hasAbility = false;
 		jumping = false;
 		onPlatform = false;
-		updateX = true;
 		ability = "None";
 		scaleX = 0.3;
 		scaleY = 0.3;
@@ -66,8 +63,7 @@ public class Character {
 		if (rightPressed == true) {
 			vx = 5;
 			rightPressed = false;
-		}
-		else {
+		} else {
 			vx = 0;
 		}
 	}
@@ -76,8 +72,7 @@ public class Character {
 		if (leftPressed == true) {
 			vx = -5;
 			leftPressed = false;
-		}
-		else {
+		} else {
 			vx = 0;
 		}
 	}
@@ -147,6 +142,7 @@ public class Character {
 	public boolean insideObjectX(MarioObject other) {
 		return x + width >= other.getX() && x <= other.getX() + other.getWidth();
 	}
+	
 	public void updateBig(boolean big) {
 		if (big) {
 			setScaleX(0.36);

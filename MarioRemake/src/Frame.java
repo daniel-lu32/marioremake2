@@ -21,74 +21,68 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	 * 
 	 */
 	
-	// variables and trackers
-	int vx = 0;
+	// Static Variables
 	public static int vy = 0;
-	int acceleration = 1;
+	public static int acceleration = 1;
 	public static final int originalPlatform = 580;
 	public static int platform = 580;
+	
+	// Tracker Variables
+	private int lives = 7;
+	private int score = 0;
+	private int time = 1800;
+	private int frameTracker = 0;
+	
+	// Collision Tracker Variables
 	private boolean onShort = false;
 	private boolean onLong = false;
 	private boolean onBlock1 = false;
 	private boolean onBlock2 = false;
 	private boolean onBlock3 = false;
 	private boolean onBlock4 = false;
-	private int lives = 7;
-	private int score = 0;
-	private int time = 3600;
-	private int frameTracker;
-	int blockmaker = 100;
-
 	boolean goombaCollided = false;
 	boolean bigCollided = false;
 	boolean iceCollided = false;
 	boolean fireCollided = false;
 	boolean oneupCollided = false;
-	// colors and fonts
-	Color red = new Color(210, 20, 4);
-	Color yellow = new Color(252, 226, 5);
-	Color green = new Color(3, 172, 19);
-	Color brown = new Color(92, 51, 23);
-	Color black = new Color(0, 0, 0);
-	Color purple = new Color(106, 13, 173);
-	Color white = new Color(255, 255, 255);
-	Color cyan = new Color(0, 255, 255);
 	
-	// create the background and character
-	Background background = new Background(0, -435);	 //** EDITED COORDINATES **//
-	Character mario = new Character(10, originalPlatform);  			 //** EDITED COORDINATES **//
-	MarioObject flag = new Flag (880, 585);
-	KeyDisplay keyDisp = new KeyDisplay(450, 20);		//ADDED//				//was created later in the code, but all objects should be made earlier?//
-	Spikes spikes1 = new Spikes(120, 585);				//ADDED//
+	// Objects
+	Background background = new Background(0, -435);
+	Character mario = new Character(10, originalPlatform);
+	
+	MarioObject flag = new Flag (880, originalPlatform);
+	KeyDisplay keyDisp = new KeyDisplay(450, 20);
+	Spikes spikes1 = new Spikes(120, originalPlatform);
+	
 	MarioObject goomba = new Goomba(500, originalPlatform);
 	MarioObject big = new PowerUp(600, originalPlatform, "Big Mushroom");
 	MarioObject ice = new PowerUp(700, originalPlatform, "Ice Flower");
 	MarioObject fire = new PowerUp(800, originalPlatform, "Fire Flower");
 	MarioObject oneup = new PowerUp(900, originalPlatform, "1-UP");
 
-	MarioObject key = new Key(0, 600);					//ADDED//
-	int keyX = (((Key)key).getRandomX(400, 800));		//ADDED//
-	int keyY = (((Key)key).getRandomY(900, 1100));		//ADDED//
-	Door door = new Door(background.getX() + 950, background.getY() + 890);		//ADDED//
+	MarioObject key = new Key(0, 600);
+	int keyX = (((Key)key).getRandomX(400, 800));
+	int keyY = (((Key)key).getRandomY(900, 1100));
+	Door door = new Door(background.getX() + 950, background.getY() + 890);
+	
 	// main method with code and movement that is called 60 times per second
 	public void paint(Graphics g) {
 		super.paintComponent(g);
 		
-		// paint the background
+		// Paint the Background
 		background.paint(g);
 
-
-		door.paint(g);		//ADDED//
-		goomba.paint(g);
+		// Paint Other Objects
+		door.paint(g);
 		key.paint(g);
-		keyDisp.paint(g);	//ADDED
-		spikes1.paint(g);	//ADDED//
+		keyDisp.paint(g);
+		spikes1.paint(g);
 		
-		// update mario's position
+		// Update Mario's Y Position
 		mario.setY(mario.getY() + vy);
 		vy += acceleration;
 		
-		// establishes a floor 
+		// Establish a Floor 
 		if (mario.getY() >= platform && !(mario.getJumping())) {
 			mario.setY(platform);
 			vy = 0;
@@ -96,58 +90,54 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		if (mario.getY() >= platform) {
 			mario.setJumping(false);
 		}
-		//update background							//*ADDED
-		if (background.getY() < -440) {				//
-			background.setY(-440);					//
+		
+		// Update the Background
+		if (background.getY() < -440) {
+			background.setY(-440);
 		}
-		if (background.getY() + 1200 >= 765) {		//
-				background.setVY(-vy * 0.4);		//
-		}											//
-		else {										//
-			background.setVY(0);					//
-		}											//*
+		if (background.getY() + 1200 >= 765) {
+				background.setVY(-vy * 0.4);
+		} else {
+			background.setVY(0);
+		}
 
-		// paint mario
+		// Paint Mario
 		mario.paint(g);
 		
-		// Key	-- ADDED A LOT -- COPY OVER
-				g.drawRect(key.getX(), key.getY(), key.getWidth(), key.getHeight());
-				key.setX(background.getX() + keyX);
-				key.setY(background.getY() + keyY);
+		// Key Mechanics
+		g.drawRect(key.getX(), key.getY(), key.getWidth(), key.getHeight());
+		key.setX(background.getX() + keyX);
+		key.setY(background.getY() + keyY);
 				
-				// Key Display --ADDED -- COPY OVER
-				if (((Key)key).getAvailable() == true) {
-					if (mario.getX() + mario.getWidth() >= key.getX() && mario.getX() <= key.getX() + key.getWidth()) {
-						if (mario.getY() + mario.getHeight() >= key.getY() && mario.getY() <= key.getY() + key.getHeight()) {
-							System.out.println("KEY HIT" + (keyDisp.getState()));
-							keyDisp.setState(keyDisp.getState() + 1);
-							((Key)key).setAvailable(false);
-						}
-					}
+		// Key Display Mechanics
+		if (((Key)key).getAvailable() == true) {
+			if (mario.getX() + mario.getWidth() >= key.getX() && mario.getX() <= key.getX() + key.getWidth()) {
+				if (mario.getY() + mario.getHeight() >= key.getY() && mario.getY() <= key.getY() + key.getHeight()) {
+					System.out.println("KEY HIT" + (keyDisp.getState()));
+					keyDisp.setState(keyDisp.getState() + 1);
+					((Key)key).setAvailable(false);
 				}
+			}
+		}
 				
-				// Door -- ADDED -- COPY OVER (maybe not yet if we are changing the door though)
-				door.setX(background.getX() + 950);
-				door.setY(background.getY() + 902);
-				Font keyFont = new Font("keyFont", Font.BOLD, 14);
-				if (mario.getX() + mario.getWidth() >= door.getX() - 30 && mario.getX() <= door.getX() + door.getWidth() + 30) {
-					if (mario.getY() + mario.getHeight() >= door.getY() - 30 && mario.getY() <= door.getY() + door.getHeight() + 30) {
-						System.out.println("in door range");	//remove later
-						if (keyDisp.getState() <= 2) {
-							g.setFont(keyFont);
-							g.drawString(("collect " + (3 - keyDisp.getState()) + " more keys to open"), door.getX() - 55, door.getY() - 30);
-						}
-						if (keyDisp.getState() >= 3) {
-							door.setInRange(true);
-							g.setFont(keyFont);
-							g.drawString(("press enter to open"), door.getX() - 30, door.getY() - 30);
-						}
-					}
+		// Door Mechanics
+		door.setX(background.getX() + 950);
+		door.setY(background.getY() + 902);
+		Font keyFont = new Font("keyFont", Font.BOLD, 14);
+		if (mario.getX() + mario.getWidth() >= door.getX() - 30 && mario.getX() <= door.getX() + door.getWidth() + 30) {
+			if (mario.getY() + mario.getHeight() >= door.getY() - 30 && mario.getY() <= door.getY() + door.getHeight() + 30) {
+				System.out.println("in door range");	//remove later
+				if (keyDisp.getState() <= 2) {
+					g.setFont(keyFont);
+					g.drawString(("collect " + (3 - keyDisp.getState()) + " more keys to open"), door.getX() - 55, door.getY() - 30);
 				}
-		
-		// moving mario hitbox
-		g.setColor(black);
-		g.drawRect(mario.getX(), mario.getY(), mario.getWidth(), mario.getHeight());
+				if (keyDisp.getState() >= 3) {
+					door.setInRange(true);
+					g.setFont(keyFont);
+					g.drawString(("press enter to open"), door.getX() - 30, door.getY() - 30);
+				}
+			}
+		}
 		
 		// Pipe
 		MarioObject shortPipe = new Pipe(background.getX() + 400, background.getY() + 965, false, false);
@@ -171,30 +161,29 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			}
 		}
 		
-		// Spikes -- ADDED -- COPY OVER
-				spikes1.setX(background.getX() + 120);
-				spikes1.setY(background.getY() + 1025);
-				if (mario.getX() + mario.getWidth() >= spikes1.getX() && mario.getX() <= spikes1.getX() + spikes1.getWidth()) {
-					if (mario.getY() + mario.getHeight() >= spikes1.getY() && mario.getY() <= spikes1.getY() + spikes1.getHeight()) {
-						System.out.println("spikes hit");
-						spikes1.setHit(true);
-					}
-				}
-				if (spikes1.getHit() == true) {
-					mario.setState(mario.getState()-1);
-//					//mario character change image to flashing one with a timer
-//					mario.setX(mario.getX() - (spikes1.getWidth() + 40));
-//					mario.setY(mario.getY() - (spikes1.getHeight() + 20));
-				}
-				// spikes up to here
-				if (mario.getX() <= 10) {	
-					mario.setX(10);
-				}
+		// Spikes
+		spikes1.setX(background.getX() + 120);
+		spikes1.setY(background.getY() + 1025);
+		if (mario.getX() + mario.getWidth() >= spikes1.getX() && mario.getX() <= spikes1.getX() + spikes1.getWidth()) {
+			if (mario.getY() + mario.getHeight() >= spikes1.getY() && mario.getY() <= spikes1.getY() + spikes1.getHeight()) {
+				System.out.println("spikes hit");
+				spikes1.setHit(true);
+			}
+		}
+		if (spikes1.getHit() == true) {
+			mario.setState(mario.getState()-1);
+		}
+		
+		// Prevent Mario from Going Off-Screen
+		if (mario.getX() <= 10) {	
+			mario.setX(10);
+		}
 				
-				if (mario.getX() >= 1120) {	
-					mario.setX(1120);
-				}
-		// Goomba collision
+		if (mario.getX() >= 1120) {	
+			mario.setX(1120);
+		}
+		
+		// Goomba Mechanics
 		goomba.setX(goomba.getX() - 1);
 		goomba.paint(g);
 		if (mario.collide(goomba) && !goombaCollided) {
@@ -223,6 +212,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		ice.setX(ice.getX() - 1);
 		fire.setX(fire.getX() - 1);
 		oneup.setX(oneup.getX() - 1);
+		
+		// Paint the Power Ups only if they have not been collected yet
 		if (!bigCollided) {
 			big.paint(g);
 		}
@@ -234,7 +225,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		}
 		if (!oneupCollided) {
 			oneup.paint(g);
-		}
+		} 
+		
 		if (mario.collide(big) && !bigCollided) {
 			bigCollided = true;
 			if (!mario.getHasAbility()) {
@@ -291,7 +283,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		if (time <= 0) {
 			time = 0;
 		}
-		if (time % 60 == 0 || time < 10) {
+		if (time <= 60) {
+			g.setColor(Color.RED);
+		}
+		if (time % 60 == 0 || time % 60 < 10) {
 			g.drawString("Time Remaining: " + time / 60 + ":" + "0" + time % 60, 900, 30);		//CHANGED VALUES TO FIT KEYDISP
 		} else {
 			g.drawString("Time Remaining: " + time / 60 + ":" + time % 60, 900, 30);			//VALUES
@@ -307,12 +302,12 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		background.setY(-435);
 	}
 	
-	// creates a FrameTester object, makes class runnable
+	// Frame Class Runner
 	public static void main(String[] arg) {
 		Frame f = new Frame();
 	}
 	
-	// Frame constructor
+	// Frame Constructor
 	public Frame() {
 		JFrame f = new JFrame("Mario Remake");
 		f.setSize(new Dimension(1200, 800));
