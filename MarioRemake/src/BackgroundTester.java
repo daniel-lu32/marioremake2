@@ -56,6 +56,7 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 	int keyX = (((Key)key).getRandomX(400, 800));		
 	int keyY = (((Key)key).getRandomY(900, 1100));		
 	Door door = new Door(background.getX() + 950, background.getY() + 890);
+	Block mystBlock = new Block(background.getX() + 300, background.getY() + 860, "Mystery", true);
 
 	
 	// main method with code and movement that is called 60 times per second
@@ -71,6 +72,7 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 		key.paint(g);
 		keyDisp.paint(g);	
 		spikes1.paint(g);	
+		mystBlock.paint(g);
 		
 		// update mario's position
 		mario.setY(mario.getY() + vy);
@@ -211,6 +213,18 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 		if (mario.getX() >= 1120) {	
 			mario.setX(1120);
 		}
+		
+		// Mystery Block
+		mystBlock.setX(background.getX() + 300);
+		mystBlock.setY(background.getY() + 860);
+		
+		if (mario.getX() + mario.getWidth() >= mystBlock.getX() && mario.getX() <= mystBlock.getX() + mystBlock.getWidth()) {
+			if (mario.getY() + mario.getHeight() >= mystBlock.getY() && mario.getY() <= spikes1.getY() + spikes1.getHeight()) {
+				System.out.println("spikes hit");
+				spikes1.setHit(true);
+			}
+		}
+		
 		// Short Pipe Collision
 		
 		// First, test if Mario is within the X range of the Pipe.

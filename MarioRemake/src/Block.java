@@ -12,20 +12,38 @@ public class Block extends MarioObject {
 	// attributes
 	private String brickType;
 	private boolean hasCoin;
+	private int coinValue;
 	
 	public Block(int x, int y, String brickType, boolean hasCoin) {
 		super(x, y);
-		height = 40;
-		width = 40;
-		this.brickType = brickType;
-		this.hasCoin = hasCoin;
 		if (brickType.equals("Normal")) {
+			height = 40;
+			width = 40;
+			this.brickType = brickType;
+			this.hasCoin = hasCoin;
 			scaleX = 1.7;
 			scaleY = 1.7;
 			img = getImage("/imgs/brick.png");
 		}
+		if (brickType.equals("Mystery")) {
+			height = 100;
+			width = 40;
+			scaleX = 1.67;
+			scaleY = 1.67;
+			hasCoin = true;
+			int rnd = (int)(Math.random()*5) + 1;
+			coinValue = rnd*100;
+			img = getImage("/imgs/mysteryLongFINAL.gif");
+		}
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y);
+	}
+	
+	public void mystHit() {
+		if (hasCoin == true) {
+			img = getImage("/imgs/mysteryBlockHitFINAL.gif");
+		}
+		hasCoin = false;
 	}
 	
 	// getters
@@ -34,6 +52,10 @@ public class Block extends MarioObject {
 	}
 	public boolean getHasCoin() {
 		return hasCoin;
+	}
+	
+	public int getCoinValue() {
+		return coinValue;
 	}
 	
 	// setters
