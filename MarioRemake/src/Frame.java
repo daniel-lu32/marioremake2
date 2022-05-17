@@ -225,7 +225,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		}
 		if (!oneupCollided) {
 			oneup.paint(g);
-		}
+		} 
 		
 		if (mario.collide(big) && !bigCollided) {
 			bigCollided = true;
