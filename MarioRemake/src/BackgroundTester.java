@@ -25,7 +25,7 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 	int vx = 0;
 	int vy = 0;
 	int acceleration = 1;
-	int platform = 580; //changed value
+	int platform = 580;
 	boolean onShort = false;
 	boolean onLong = false;
 	private int lives = 7;
@@ -44,36 +44,33 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 	Color cyan = new Color(0, 255, 255);
 	
 	// create the background and character
-	Background background = new Background(0, -435);	 //** EDITED COORDINATES **//
-	Character mario = new Character(10, 580);  			 //** EDITED COORDINATES **//
+	Background background = new Background(0, -435);	 
+	Character mario = new Character(10, 580);  			 
 	MarioObject flag = new Flag (880, 585);
 	MarioObject goomba2 = new Goomba(500, 665);
-	KeyDisplay keyDisp = new KeyDisplay(450, 20);		//ADDED//
-	Goomba goomba = new Goomba(100, 100);				//was created later in the code, but all objects should be made earlier?//
-	Spikes spikes1 = new Spikes(120, 585);				//ADDED//
+	KeyDisplay keyDisp = new KeyDisplay(450, 20);		
+	Goomba goomba = new Goomba(100, 100);				
+	Spikes spikes1 = new Spikes(120, 585);				
 	
-	MarioObject key = new Key(0, 600);					//ADDED//
-	int keyX = (((Key)key).getRandomX(400, 800));		//ADDED//
-	int keyY = (((Key)key).getRandomY(900, 1100));		//ADDED//
-	Door door = new Door(background.getX() + 950, background.getY() + 890);		//ADDED//
+	MarioObject key = new Key(0, 600);					
+	int keyX = (((Key)key).getRandomX(400, 800));		
+	int keyY = (((Key)key).getRandomY(900, 1100));		
+	Door door = new Door(background.getX() + 950, background.getY() + 890);
 
 	
 	// main method with code and movement that is called 60 times per second
 	public void paint(Graphics g) {
 		super.paintComponent(g);
 		
-		//*CHANGED ORDER OF PAINT SO MARIO COMES LAST*//
-		//maybe we can just edit the order on frameTester instead of copying over//
-		
 		// paint the background
 		background.paint(g);
 		
 		//paint methods
-		door.paint(g);		//ADDED//
+		door.paint(g);	
 		goomba.paint(g);
 		key.paint(g);
-		keyDisp.paint(g);	//ADDED
-		spikes1.paint(g);	//ADDED//
+		keyDisp.paint(g);	
+		spikes1.paint(g);	
 		
 		// update mario's position
 		mario.setY(mario.getY() + vy);
@@ -88,16 +85,16 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 			mario.setJumping(false);
 		}
 		
-		//update background							//*ADDED
-		if (background.getY() < -440) {				//
-			background.setY(-440);					//
+		//update background							
+		if (background.getY() < -440) {			
+			background.setY(-440);	
 		}
-		if (background.getY() + 1200 >= 765) {		//
-				background.setVY(-vy * 0.4);		//
-		}											//
-		else {										//
-			background.setVY(0);					//
-		}											//*
+		if (background.getY() + 1200 >= 765) {	
+				background.setVY(-vy * 0.4);	
+		}			
+		else {				
+			background.setVY(0);
+		}				
 		
 		// paint mario
 		mario.paint(g);
@@ -127,12 +124,12 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 		g.drawRect(400, 100, 34, 36);
 		g.drawRect(500, 100, 36, 36);
 		
-		// Key	-- ADDED A LOT -- COPY OVER
+		// Key
 		g.drawRect(key.getX(), key.getY(), key.getWidth(), key.getHeight());
 		key.setX(background.getX() + keyX);
 		key.setY(background.getY() + keyY);
 		
-		// Key Display --ADDED -- COPY OVER
+		// Key Display
 		if (((Key)key).getAvailable() == true) {
 			if (mario.getX() + mario.getWidth() >= key.getX() && mario.getX() <= key.getX() + key.getWidth()) {
 				if (mario.getY() + mario.getHeight() >= key.getY() && mario.getY() <= key.getY() + key.getHeight()) {
@@ -143,7 +140,7 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 			}
 		}
 		
-		// Door -- ADDED -- COPY OVER (maybe not yet if we are changing the door though)
+		// Door
 		door.setX(background.getX() + 950);
 		door.setY(background.getY() + 902);
 		Font keyFont = new Font("keyFont", Font.BOLD, 14);
@@ -189,7 +186,7 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 			}
 		}
 		
-		// Spikes -- ADDED -- COPY OVER
+		// Spikes
 		spikes1.setX(background.getX() + 120);
 		spikes1.setY(background.getY() + 1025);
 		if (mario.getX() + mario.getWidth() >= spikes1.getX() && mario.getX() <= spikes1.getX() + spikes1.getWidth()) {
@@ -200,12 +197,12 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 		}
 		if (spikes1.getHit() == true) {
 			lives--;
-			//mario character change image to flashing one with a timer
-			mario.setX(mario.getX() - (spikes1.getWidth() + 40));
-			mario.setY(mario.getY() - (spikes1.getHeight() + 20));
-			spikes1.setHit(false);
+			mario.setX(10);			//ADDED
+			mario.setY(580);		//
+			background.setX(0);		//
+			background.setY(-435);	//
+			spikes1.setHit(false);	//
 		}
-		// spikes up to here
 		
 		if (mario.getX() <= 10) {	
 			mario.setX(10);
@@ -227,7 +224,7 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 				}
 			}
 			// Otherwise, set Mario's X position so that the Pipe is a barrier.
-			if (platform == 580 && !(mario.getY() + mario.getHeight() < shortPipe.getY())) {		//CHANGED VALUE//
+			if (platform == 580 && !(mario.getY() + mario.getHeight() < shortPipe.getY())) {
 				if (mario.getX() <= shortPipe.getX()) {
 					mario.setX(shortPipe.getX() - mario.getWidth());
 				} else {
@@ -247,7 +244,7 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 					platform = longPipe.getY() - mario.getHeight();
 				}
 			}
-			if (platform == 580 && !(mario.getY() + mario.getHeight() < longPipe.getY())) {		//CHANGED VALUE//
+			if (platform == 580 && !(mario.getY() + mario.getHeight() < longPipe.getY())) {	
 				if (mario.getX() <= longPipe.getX()) {
 					mario.setX(longPipe.getX() - mario.getWidth());
 				} else {
@@ -260,7 +257,7 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 		}
 		
 		if (!onShort && !onLong) {
-			platform = 580;			//CHANGED VALUE//
+			platform = 580;		
 		}
 		
 		// Goomba collision
@@ -283,9 +280,9 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 			time = 0;
 		}
 		if (time % 60 == 0 || time < 10) {
-			g.drawString("Time Remaining: " + time / 60 + ":" + "0" + time % 60, 900, 30);		//CHANGED VALUES TO FIT KEYDISP
+			g.drawString("Time Remaining: " + time / 60 + ":" + "0" + time % 60, 900, 30);		
 		} else {
-			g.drawString("Time Remaining: " + time / 60 + ":" + time % 60, 900, 30);			//VALUES
+			g.drawString("Time Remaining: " + time / 60 + ":" + time % 60, 900, 30);
 		}
 		
 		
@@ -371,7 +368,7 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 			vy = -20;
 		}
 		
-		if (arg0.getKeyCode() == 10) {		//ADDED STATEMENT
+		if (arg0.getKeyCode() == 10) {	
 			if (door.getInRange() == true) {
 				door.setStateLocked(false);
 				door.chooseImage();
