@@ -7,41 +7,22 @@ import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.net.URL;
 
-public class Goomba extends MarioObject {
+public class Coin extends MarioObject {
 	
 	// attributes
-	private int vx;
 	
-	public Goomba(int x, int y) {
+	public Coin(int x, int y) {
 		super(x, y);
-		height = 36;
-		width = 32;
-		vx = -1;
-		scaleX = 0.072;
-		scaleY = 0.072;
-		img = getImage("/imgs/goombagif.gif");
+		img = getImage("/imgs/coinicon.png");
+		scaleX = 0.2;
+		scaleY = 0.2;
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y);
 	}
 	
-	public boolean collide(MarioObject other) {
-		if (this.getX() + this.getWidth() >= other.getX() && this.getX() <= other.getX() + other.getWidth()) {
-			if (this.getY() + this.getWidth() >= other.getY() && this.getY() <= other.getY() + other.getHeight()) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
 	// getters
-	public int getVX() {
-		return vx;
-	}
 	
 	// setters
-	public void setVX(int vx) {
-		this.vx = vx;
-	}
 	
 	// graphics settings
 	public void paint(Graphics g) {
@@ -60,7 +41,7 @@ public class Goomba extends MarioObject {
 	private Image getImage(String path) {
 		Image tempImage = null;
 		try {
-			URL imageURL = Goomba.class.getResource(path);
+			URL imageURL = Coin.class.getResource(path);
 			tempImage = Toolkit.getDefaultToolkit().getImage(imageURL);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -69,3 +50,5 @@ public class Goomba extends MarioObject {
 	}
 	
 }
+
+

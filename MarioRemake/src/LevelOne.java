@@ -14,10 +14,10 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import java.awt.Font;
 
-public class Frame extends JPanel implements ActionListener, MouseListener, KeyListener {
+public class LevelOne extends JPanel implements ActionListener, MouseListener, KeyListener {
 	
 	/**
-	 * Game header
+	 * JUST A PLACEHOLDER FOR NOW, THIS CLASS DOES NOT WORK AS INTENDED
 	 * 
 	 */
 	
@@ -29,12 +29,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	
 	// Tracker Variables
 	private int lives = 7;
-	private int coins = 0;
 	private int score = 0;
-	private int highScore = 0;
 	private int time = 1800;
 	private int frameTracker = 0;
-	private boolean lost = false;
 	
 	// Collision Tracker Variables
 	private boolean onShort = false;
@@ -57,18 +54,16 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	KeyDisplay keyDisp = new KeyDisplay(450, 20);
 	Spikes spikes1 = new Spikes(120, originalPlatform);
 	
-	Goomba goomba = new Goomba(550, originalPlatform);
-	PowerUp big = new PowerUp(600, originalPlatform, "Big Mushroom");
-	PowerUp ice = new PowerUp(700, originalPlatform, "Ice Flower");
-	PowerUp fire = new PowerUp(800, originalPlatform, "Fire Flower");
-	PowerUp oneup = new PowerUp(900, originalPlatform, "1-UP");
+	MarioObject goomba = new Goomba(500, originalPlatform);
+	MarioObject big = new PowerUp(600, originalPlatform, "Big Mushroom");
+	MarioObject ice = new PowerUp(700, originalPlatform, "Ice Flower");
+	MarioObject fire = new PowerUp(800, originalPlatform, "Fire Flower");
+	MarioObject oneup = new PowerUp(900, originalPlatform, "1-UP");
 
 	MarioObject key = new Key(0, 600);
 	int keyX = (((Key)key).getRandomX(400, 800));
 	int keyY = (((Key)key).getRandomY(900, 1100));
 	Door door = new Door(background.getX() + 950, background.getY() + 890);
-	PowerUp livesicon = new PowerUp(8, 10, "1-UP");
-	Coin coinicon = new Coin(5, 50);
 	
 	// main method with code and movement that is called 60 times per second
 	public void paint(Graphics g) {
@@ -76,6 +71,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		
 		// Paint the Background
 		background.paint(g);
+
 		// Paint Other Objects
 		door.paint(g);
 		key.paint(g);
@@ -188,12 +184,8 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		}
 		
 		// Goomba Mechanics
-		goomba.setX(goomba.getX() + goomba.getVX());
+		goomba.setX(goomba.getX() - 1);
 		goomba.paint(g);
-		if (goomba.collide(shortPipe) || goomba.collide(longPipe)) {
-			goomba.setVX(goomba.getVX() * -1);
-		}
-		
 		if (mario.collide(goomba) && !goombaCollided) {
 			mario.setState(mario.getState() - 1);
 			mario.setHasAbility(false);
@@ -216,10 +208,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		}
 		
 		// PowerUp
-		big.setX(big.getX() + big.getVX());
-		ice.setX(ice.getX() + big.getVX());
-		fire.setX(fire.getX() + big.getVX());
-		oneup.setX(oneup.getX() + big.getVX());
+		big.setX(big.getX() - 1);
+		ice.setX(ice.getX() - 1);
+		fire.setX(fire.getX() - 1);
+		oneup.setX(oneup.getX() - 1);
 		
 		// Paint the Power Ups only if they have not been collected yet
 		if (!bigCollided) {
@@ -280,44 +272,14 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			vy = 4;
 		}
 		
-		// Top Text Display (Lives, Score, Coins, and Timer)
-		g.setFont(new Font("Unknown", Font.BOLD, 20));
-		
-		// Check if the game should be ended
-		endGame();
-		
-		// Update the Timer
+		// Top Text Display (Lives, Score, and Timer)
 		frameTracker++;
 		if (frameTracker % 35 == 0) {
 			time--;
 		}
-		// Paint the Lives and Coin Icons
-		livesicon.paint(g);
-		coinicon.paint(g);
-		
-		// Paint the Number of Lives Remaining
-		g.drawString("" + lives, 60, 35);
-		if (lives <= 0) {
-			lost = true;
-		}
-		
-		// Paint the Number of Coins Obtained
-		if (coins < 10) {
-			g.drawString("0" + coins, 60, 85);
-		} else {
-			g.drawString("" + coins, 60, 85);
-		}
-		if (coins > 99) {
-			lives++;
-			coins = 0;
-		}
-		// Paint the Score and High Score
-		g.drawString("Score: " + score, 200, 30);
-		g.drawString("High Score: " + score, 200, 80);
-		if (score > highScore) {
-			highScore = score;
-		}
-		
+		g.setFont(new Font("Unknown", Font.BOLD, 20));
+		g.drawString("Lives: " + lives, 10, 30);
+		g.drawString("Score: " + score, 310, 30);
 		if (time <= 0) {
 			time = 0;
 		}
@@ -325,13 +287,11 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			g.setColor(Color.RED);
 		}
 		if (time % 60 == 0 || time % 60 < 10) {
-			g.drawString("" + time / 60 + ":" + "0" + time % 60, 1100, 30);		//CHANGED VALUES TO FIT KEYDISP
+			g.drawString("Time Remaining: " + time / 60 + ":" + "0" + time % 60, 900, 30);		//CHANGED VALUES TO FIT KEYDISP
 		} else {
-			g.drawString("" + time / 60 + ":" + time % 60, 1100, 30);			//VALUES
+			g.drawString("Time Remaining: " + time / 60 + ":" + time % 60, 900, 30);			//VALUES
 		}
-		if (lost) {
-			g.drawString("Game Over. Press R to Restart!", 400, 200);
-		}
+		
 		
 	} // end of paint method
 	
@@ -342,54 +302,14 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		background.setY(-435);
 	}
 	
-	public void reset() {
-		lives = 7;
-		coins = 0;
-		score = 0;
-		time = 1800;
-		frameTracker = 0;
-		platform = originalPlatform;
-		lost = false;
-	}
-	
-	public void endGame() {
-		if (lost) {
-			onShort = false;
-			onLong = false;
-			onBlock1 = false;
-			onBlock2 = false;
-			onBlock3 = false;
-			onBlock4 = false;
-			goombaCollided = false;
-			bigCollided = false;
-			iceCollided = false;
-			fireCollided = false;
-			oneupCollided = false;
-			background = new Background(0, -435);
-			mario = new Character(10, originalPlatform);
-			flag = new Flag (880, originalPlatform);
-			keyDisp = new KeyDisplay(450, 20);
-			spikes1 = new Spikes(120, originalPlatform);
-			goomba = new Goomba(550, originalPlatform);
-			big = new PowerUp(600, originalPlatform, "Big Mushroom");
-			ice = new PowerUp(700, originalPlatform, "Ice Flower");
-			fire = new PowerUp(800, originalPlatform, "Fire Flower");
-			oneup = new PowerUp(900, originalPlatform, "1-UP");
-			key = new Key(0, 600);
-			keyX = (((Key)key).getRandomX(400, 800));
-			keyY = (((Key)key).getRandomY(900, 1100));
-			door = new Door(background.getX() + 950, background.getY() + 890);
-		}
-	}
-	
 	// Frame Class Runner
 	public static void main(String[] arg) {
-		Frame f = new Frame();
+		LevelOne f = new LevelOne();
 	}
 	
 	// Frame Constructor
-	public Frame() {
-		JFrame f = new JFrame("Mario Remake");
+	public LevelOne() {
+		JFrame f = new JFrame("Level One");
 		f.setSize(new Dimension(1200, 800));
 		f.setBackground(Color.blue);
 		f.add(this);
@@ -431,7 +351,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 		System.out.println(arg0.getKeyCode());
-		if (arg0.getKeyCode() == 39 && !lost) {
+		if (arg0.getKeyCode() == 39) {
 			mario.setImage(false, true);
 			mario.rightPressed(true);
 			if (background.getX() + 1800 >= 1200) {		 
@@ -441,7 +361,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		else {											
 			background.slide(false, false);
 		}
-		if (arg0.getKeyCode() == 37 && !lost) {
+		if (arg0.getKeyCode() == 37) {
 			mario.setImage(true, false);
 			mario.leftPressed(true);
 			if (background.getX() <= -10) {				
@@ -451,7 +371,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		else {											
 			background.slide(false, false);
 		}
-		if (arg0.getKeyCode() == 38 && !mario.getJumping() && !lost) {
+		if (arg0.getKeyCode() == 38 && !mario.getJumping()) {
 			mario.setJumping(true);
 			if (mario.getJumping() == true) {
 				background.slideVertical(true);
@@ -462,25 +382,22 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			vy = -20;
 		}
 		
-		if (arg0.getKeyCode() == 10) {
+		if (arg0.getKeyCode() == 10) {		//ADDED STATEMENT
 			if (door.getInRange() == true) {
 				door.setStateLocked(false);
 				door.chooseImage();
 			}
-		}
-		if (arg0.getKeyCode() == 82 && lost) {
-			reset();
 		}
 
 	}
 
 	@Override
 	public void keyReleased(KeyEvent arg0) {
-		if (arg0.getKeyCode() == 39 && !lost) {
+		if (arg0.getKeyCode() == 39) {
 			mario.setImage(false, false);
 			mario.rightPressed(false);
 		}
-		if (arg0.getKeyCode() == 37 && !lost) {
+		if (arg0.getKeyCode() == 37) {
 			mario.setImage(false, false);
 			mario.leftPressed(false);
 		}

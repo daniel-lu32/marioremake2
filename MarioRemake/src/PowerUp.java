@@ -11,10 +11,12 @@ public class PowerUp extends MarioObject {
 	
 	// attributes
 	private String type;
+	private int vx;
 	
 	public PowerUp(int x, int y, String type) {
 		super(x, y);
 		height = 36;
+		vx = -1;
 		this.type = type;
 		if (type.equals("Big Mushroom")) {
 			img = getImage("/imgs/redmushroom2.png");
@@ -45,10 +47,16 @@ public class PowerUp extends MarioObject {
 	public String getType() {
 		return type;
 	}
+	public int getVX() {
+		return vx;
+	}
 	
 	// setters
 	public void setType(String type) {
 		this.type = type;
+	}
+	public void setVX(int vx) {
+		this.vx = vx;
 	}
 	
 	// graphics settings
