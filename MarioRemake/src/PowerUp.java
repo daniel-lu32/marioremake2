@@ -10,14 +10,16 @@ import java.net.URL;
 public class PowerUp extends MarioObject {
 	
 	// attributes
-	private String type;
 	private int vx;
+	private String type;
+	private boolean hit;
 	
 	public PowerUp(int x, int y, String type) {
 		super(x, y);
 		height = 36;
 		vx = -1;
 		this.type = type;
+		hit = false;
 		if (type.equals("Big Mushroom")) {
 			img = getImage("/imgs/redmushroom2.png");
 			width = 36;
@@ -44,19 +46,25 @@ public class PowerUp extends MarioObject {
 	}
 	
 	// getters
-	public String getType() {
-		return type;
-	}
 	public int getVX() {
 		return vx;
 	}
+	public String getType() {
+		return type;
+	}
+	public boolean getHit() {
+		return hit;
+	}
 	
 	// setters
+	public void setVX(int vx) {
+		this.vx = vx;
+	}
 	public void setType(String type) {
 		this.type = type;
 	}
-	public void setVX(int vx) {
-		this.vx = vx;
+	public void setHit(boolean hit) {
+		this.hit = hit;
 	}
 	
 	// graphics settings

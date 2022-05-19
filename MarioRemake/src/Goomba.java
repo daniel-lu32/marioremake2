@@ -11,15 +11,17 @@ public class Goomba extends MarioObject {
 	
 	// attributes
 	private int vx;
+	private boolean hit;
 	
 	public Goomba(int x, int y) {
 		super(x, y);
 		height = 36;
 		width = 32;
 		vx = -1;
+		hit = false;
 		scaleX = 0.072;
 		scaleY = 0.072;
-		img = getImage("/imgs/goombagif.gif");
+		img = getImage("/imgs/goombagif2.gif");
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y);
 	}
@@ -37,10 +39,16 @@ public class Goomba extends MarioObject {
 	public int getVX() {
 		return vx;
 	}
+	public boolean getHit() {
+		return hit;
+	}
 	
 	// setters
 	public void setVX(int vx) {
 		this.vx = vx;
+	}
+	public void setHit(boolean hit) {
+		this.hit = hit;
 	}
 	
 	// graphics settings

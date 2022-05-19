@@ -43,11 +43,6 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	private boolean onBlock2 = false;
 	private boolean onBlock3 = false;
 	private boolean onBlock4 = false;
-	boolean goombaCollided = false;
-	boolean bigCollided = false;
-	boolean iceCollided = false;
-	boolean fireCollided = false;
-	boolean oneupCollided = false;
 	
 	// Objects
 	Background background = new Background(0, -435);
@@ -57,7 +52,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	KeyDisplay keyDisp = new KeyDisplay(450, 20);
 	Spikes spikes1 = new Spikes(120, originalPlatform);
 	
-	Goomba goomba = new Goomba(550, originalPlatform);
+	Goomba goomba = new Goomba(background.getX() + 550, originalPlatform);
 	PowerUp big = new PowerUp(600, originalPlatform, "Big Mushroom");
 	PowerUp ice = new PowerUp(700, originalPlatform, "Ice Flower");
 	PowerUp fire = new PowerUp(800, originalPlatform, "Fire Flower");
@@ -69,7 +64,11 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	Door door = new Door(background.getX() + 950, background.getY() + 890);
 	PowerUp livesicon = new PowerUp(8, 10, "1-UP");
 	Coin coinicon = new Coin(5, 50);
-	
+
+	Block block1 = new Block(background.getX() + 800, background.getY() + 435 + 480, "Normal", false);
+	Block block2 = new Block(background.getX() + 840, 480, "Normal", false);
+	Block block3 = new Block(background.getX() + 880, background.getY() + 435 + 480, "Normal", false);
+	Block block4 = new Block(background.getX() + 920, 480, "Normal", false);
 	// main method with code and movement that is called 60 times per second
 	public void paint(Graphics g) {
 		super.paintComponent(g);
@@ -95,15 +94,15 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			mario.setJumping(false);
 		}
 		
-		// Update the Background
-		if (background.getY() < -440) {
-			background.setY(-440);
-		}
-		if (background.getY() + 1200 >= 765) {
-				background.setVY(-vy * 0.4);
-		} else {
-			background.setVY(0);
-		}
+//		// Update the Background
+//		if (background.getY() < -440) {
+//			background.setY(-440);
+//		}
+//		if (background.getY() + 1200 >= 765) {
+//				background.setVY(-vy * 0.4);
+//		} else {
+//			background.setVY(0);
+//		}
 
 		// Paint Mario
 		mario.paint(g);
@@ -144,12 +143,12 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		}
 		
 		// Pipe
-		MarioObject shortPipe = new Pipe(background.getX() + 400, background.getY() + 965, false, false);
-		MarioObject longPipe = new Pipe(background.getX() + 600, background.getY() + 835, true, false);	
+		MarioObject shortPipe = new Pipe(background.getX() + 400, background.getY() + 1005, false, false);
+		MarioObject longPipe = new Pipe(background.getX() + 600, background.getY() + 865, true, false);	
 		shortPipe.setX(background.getX() + 400);
-		shortPipe.setY(background.getY() + 965);
+		shortPipe.setY(background.getY() + 1005);
 		longPipe.setX(background.getX() + 600);
-		longPipe.setY(background.getY() + 835);
+		longPipe.setY(background.getY() + 865);
 		shortPipe.paint(g);
 		longPipe.paint(g);
 		g.drawRect(400, 660, 115, 110);
@@ -168,14 +167,20 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		// Spikes
 		spikes1.setX(background.getX() + 120);
 		spikes1.setY(background.getY() + 1025);
-		if (mario.getX() + mario.getWidth() >= spikes1.getX() && mario.getX() <= spikes1.getX() + spikes1.getWidth()) {
-			if (mario.getY() + mario.getHeight() >= spikes1.getY() && mario.getY() <= spikes1.getY() + spikes1.getHeight()) {
-				System.out.println("spikes hit");
-				spikes1.setHit(true);
-			}
-		}
-		if (spikes1.getHit() == true) {
-			mario.setState(mario.getState()-1);
+//		if (mario.getX() + mario.getWidth() >= spikes1.getX() && mario.getX() <= spikes1.getX() + spikes1.getWidth()) {
+//			if (mario.getY() + mario.getHeight() >= spikes1.getY() && mario.getY() <= spikes1.getY() + spikes1.getHeight()) {
+//				spikes1.setHit(true);
+//			}
+//		}
+//		if (spikes1.getHit() == true) {
+//			mario.setState(mario.getState()-1);
+//		}
+		if (mario.collide(spikes1) && !spikes1.getHit()) {
+			mario.setState(mario.getState() - 1);
+			mario.setHasAbility(false);
+			mario.setAbility("None");
+			System.out.println("spikes hit");
+			spikes1.setHit(true);
 		}
 		
 		// Prevent Mario from Going Off-Screen
@@ -190,19 +195,29 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		// Goomba Mechanics
 		goomba.setX(goomba.getX() + goomba.getVX());
 		goomba.paint(g);
-		if (goomba.collide(shortPipe) || goomba.collide(longPipe)) {
+		if (goomba.collide(shortPipe)) {
 			goomba.setVX(goomba.getVX() * -1);
+			if (goomba.getX() <= shortPipe.getX()) {
+				goomba.setX(shortPipe.getX() - goomba.getWidth());
+			} else {
+				goomba.setX(shortPipe.getX() + shortPipe.getWidth());
+			}
 		}
 		
-		if (mario.collide(goomba) && !goombaCollided) {
+		if (goomba.collide(longPipe)) {
+			goomba.setVX(goomba.getVX() * -1);
+			if (goomba.getX() <= longPipe.getX()) {
+				goomba.setX(longPipe.getX() - goomba.getWidth());
+			} else {
+				goomba.setX(longPipe.getX() + longPipe.getWidth());
+			}
+		}
+		
+		if (mario.collide(goomba) && !goomba.getHit()) {
 			mario.setState(mario.getState() - 1);
 			mario.setHasAbility(false);
 			mario.setAbility("None");
-			goombaCollided = true;
-		}
-		if (goomba.getX() < -50) {
-			goomba.setX(500);
-			goombaCollided = false;
+			goomba.setHit(true);
 		}
 		
 		if (mario.getState() < 0) {
@@ -210,7 +225,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			mario.setState(0);
 			mario.setHasAbility(false);
 			mario.setAbility("None");
-			goombaCollided = false;
+			goomba.setHit(false);
 			resetPosition();
 			spikes1.setHit(false);
 		}
@@ -222,46 +237,46 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		oneup.setX(oneup.getX() + big.getVX());
 		
 		// Paint the Power Ups only if they have not been collected yet
-		if (!bigCollided) {
+		if (!big.getHit()) {
 			big.paint(g);
 		}
-		if (!iceCollided) {
+		if (!ice.getHit()) {
 			ice.paint(g);
 		}
-		if (!fireCollided) {
+		if (!fire.getHit()) {
 			fire.paint(g);
 		}
-		if (!oneupCollided) {
+		if (!oneup.getHit()) {
 			oneup.paint(g);
 		} 
 		
-		if (mario.collide(big) && !bigCollided) {
-			bigCollided = true;
+		if (mario.collide(big) && !big.getHit()) {
+			big.setHit(true);
 			if (!mario.getHasAbility()) {
 				mario.setState(1);
 			}
 		}
-		if (mario.collide(ice) && !iceCollided) {
-			iceCollided = true;
+		if (mario.collide(ice) && !ice.getHit()) {
+			ice.setHit(true);
 			mario.setHasAbility(true);
 			mario.setState(2);
 			mario.setAbility("Ice");
 		}
-		if (mario.collide(fire) && !fireCollided) {
-			fireCollided = true;
+		if (mario.collide(fire) && !fire.getHit()) {
+			fire.setHit(true);
 			mario.setHasAbility(true);
 			mario.setState(2);
 			mario.setAbility("Fire");
 		}
-		if (mario.collide(oneup) && !oneupCollided) {
-			oneupCollided = true;
+		if (mario.collide(oneup) && !oneup.getHit()) {
+			oneup.setHit(true);
 			lives++;
 		}
 		
-		Block block1 = new Block(800, 550, "Normal", false);
-		Block block2 = new Block(840, 550, "Normal", false);
-		Block block3 = new Block(880, 550, "Normal", false);
-		Block block4 = new Block(920, 550, "Normal", false);
+		block1.setX(background.getX() + 800);
+		block2.setX(background.getX() + 840);
+		block3.setX(background.getX() + 880);
+		block4.setX(background.getX() + 920);
 		block1.paint(g);
 		block2.paint(g);
 		block3.paint(g);
@@ -290,6 +305,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		frameTracker++;
 		if (frameTracker % 35 == 0) {
 			time--;
+			if (frameTracker % 350 == 0) {
+				goomba.setHit(false);
+				spikes1.setHit(false);
+			}
 		}
 		// Paint the Lives and Coin Icons
 		livesicon.paint(g);
@@ -351,7 +370,6 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		platform = originalPlatform;
 		lost = false;
 	}
-	
 	public void endGame() {
 		if (lost) {
 			onShort = false;
@@ -360,11 +378,12 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			onBlock2 = false;
 			onBlock3 = false;
 			onBlock4 = false;
-			goombaCollided = false;
-			bigCollided = false;
-			iceCollided = false;
-			fireCollided = false;
-			oneupCollided = false;
+			goomba.setHit(false);
+			spikes1.setHit(false);
+			big.setHit(false);
+			ice.setHit(false);
+			fire.setHit(false);
+			oneup.setHit(false);
 			background = new Background(0, -435);
 			mario = new Character(10, originalPlatform);
 			flag = new Flag (880, originalPlatform);
@@ -451,14 +470,14 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		else {											
 			background.slide(false, false);
 		}
-		if (arg0.getKeyCode() == 38 && !mario.getJumping() && !lost) {
+		if (arg0.getKeyCode() == 38 && !mario.getJumping() && !lost && mario.getY() + mario.getHeight() >= platform) {
 			mario.setJumping(true);
-			if (mario.getJumping() == true) {
-				background.slideVertical(true);
-			}
-			else {
-				background.slideVertical(false);
-			}
+//			if (mario.getJumping() == true) {
+//				background.slideVertical(true);
+//			}
+//			else {
+//				background.slideVertical(false);
+//			}
 			vy = -20;
 		}
 		

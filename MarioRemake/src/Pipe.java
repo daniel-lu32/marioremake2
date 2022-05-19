@@ -16,10 +16,10 @@ public class Pipe extends MarioObject {
 		super(x, y);
 		if (isLong) {
 			height = 260;
-			img = getImage("/imgs/longpipe.png");
+			img = getImage("/imgs/longpipe2.png");
 		} else {
 			height = 110;
-			img = getImage("/imgs/pipe.png");
+			img = getImage("/imgs/longpipe2.png");
 		}
 		width = 115;
 		this.enterable = enterable;
