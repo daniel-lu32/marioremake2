@@ -13,42 +13,64 @@ public class Block extends MarioObject {
 	private String brickType;
 	private boolean hasCoin;
 	private int coinValue;
+	private boolean available;
 	
 	public Block(int x, int y, String brickType, boolean hasCoin) {
 		super(x, y);
-		if (brickType.equals("Normal")) {
-			height = 40;
-			width = 40;
-			this.brickType = brickType;
-			this.hasCoin = hasCoin;
-			scaleX = 1.7;
-			scaleY = 1.7;
-			img = getImage("/imgs/brick.png");
-		}
 		if (brickType.equals("Mystery")) {
-			height = 100;
+			this.brickType = "Mystery";
+			this.hasCoin = true;
+			available = true;
+			height = 40;
 			width = 40;
 			scaleX = 1.67;
 			scaleY = 1.67;
-			hasCoin = true;
 			int rnd = (int)(Math.random()*5) + 1;
 			coinValue = rnd*100;
-			img = getImage("/imgs/mysteryLongFINAL.gif");
+			img = getImage("/imgs/mysteryBlockFINAL.gif");
+		}
+		else {
+			height = 40;
+			width = 40;
+			available = false;
+			this.brickType = "Normal";
+			this.hasCoin = false;
+			scaleX = 1.7;
+			scaleY = 1.7;
+			img = getImage("/imgs/brick.png");
 		}
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y);
 	}
 	
-	public void mystHit() {
-		if (hasCoin == true) {
+	public void chooseImage() {
+		if (brickType.equals("Mystery") && hasCoin == true && available == true) {
+			img = getImage("/imgs/mysteryBlockFINAL.gif");
+		}
+		if (brickType.equals("Mystery") && hasCoin == false && available == true) {
+			this.setY(this.y - 60);
+			this.setHeight(100);
+			hasCoin = false;
+			available = false;
 			img = getImage("/imgs/mysteryBlockHitFINAL.gif");
 		}
+		if (brickType.equals("Normal")) {
+			img = getImage("/imgs/brick.png");
+			this.setHeight(40);
+		}
+	}
+	
+	public void mystHit() {
 		hasCoin = false;
+		chooseImage();
 	}
 	
 	// getters
 	public String getBrickType() {
 		return brickType;
+	}
+	public boolean getAvailable() {
+		return available;
 	}
 	public boolean getHasCoin() {
 		return hasCoin;
@@ -73,6 +95,7 @@ public class Block extends MarioObject {
 		g2.drawImage(img, tx, null);
 	}
 	private void update() {
+		//chooseImage();
 		tx.setToTranslation(x, y);
 		tx.scale(scaleX, scaleY);
 	}

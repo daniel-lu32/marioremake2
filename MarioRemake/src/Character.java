@@ -88,7 +88,7 @@ public class Character {
 	
 	public void moveX(MarioObject other, boolean current) {
 		if (insideObjectX(other)) {
-			if (Frame.platform == Frame.originalPlatform && !(y + height < other.getY()) && !belowObject(other)) {
+			if (BackgroundTester.platform == BackgroundTester.originalPlatform && !(y + height < other.getY()) && !belowObject(other)) {
 				if (x <= other.getX()) {
 					x = other.getX() - width;
 				} else {
@@ -104,7 +104,7 @@ public class Character {
 			if (y + height <= other.getY()) {
 				result = true;
 				if (result) {
-					Frame.platform = other.getY() - height;
+					BackgroundTester.platform = other.getY() - height;
 				}
 			}
 			if (collide(other)) {
@@ -136,7 +136,7 @@ public class Character {
 				result = true;
 			}
 		}
-		return result && Frame.vy < 0;
+		return result && BackgroundTester.vy < 0;
 	}
 	
 	public boolean insideObjectX(MarioObject other) {
