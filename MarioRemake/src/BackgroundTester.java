@@ -63,17 +63,9 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 	
 	Block mystBlock1 = new Block(background.getX() + 300, background.getY() + 860, "Mystery", true);
 
-	MarioObject key1 = new Key(0, 600);
-	int key1X = (((Key)key1).getRandomX(400, 800));
-	int key1Y = (((Key)key1).getRandomY(900, 1100));
-	
-	MarioObject key2 = new Key(40, 600);					//ADDED keys 2 and 3
-	int key2X = (((Key)key2).getRandomX(400, 800));
-	int key2Y = (((Key)key2).getRandomY(900, 1100));
-	
-	MarioObject key3 = new Key(100, 500);
-	int key3X = (((Key)key3).getRandomX(400, 800));
-	int key3Y = (((Key)key3).getRandomY(900, 1100));
+	MarioObject key1 = new Key(0, 0);
+	MarioObject key2 = new Key(0, 0);					//ADDED keys 2 and 3
+	MarioObject key3 = new Key(0, 0);
 	
 	Door door = new Door(background.getX() + 950, background.getY() + 890);
 	
@@ -125,8 +117,8 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 		//Key1
 		g.drawRect(key1.getX(), key1.getY(), key1.getWidth(), key1.getHeight());
 		if (((Key)key1).getAvailable() == true) {
-			key1.setX(background.getX() + key1X);
-			key1.setY(background.getY() + key1Y);
+			key1.setX(background.getX() + 100);
+			key1.setY(background.getY() + 840);
 		}
 		else {
 			((Key)key1).setX(-500);
@@ -134,8 +126,8 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 		//Key2
 		g.drawRect(key2.getX(), key2.getY(), key2.getWidth(), key2.getHeight());
 		if (((Key)key2).getAvailable() == true) {
-			key2.setX(background.getX() + key2X);
-			key2.setY(background.getY() + key2Y);
+			key2.setX(background.getX() + 680);
+			key2.setY(background.getY() + 640);
 		}
 		else {
 			((Key)key2).setX(-500);
@@ -144,8 +136,8 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 		//Key3
 		g.drawRect(key3.getX(), key3.getY(), key3.getWidth(), key3.getHeight());
 		if (((Key)key3).getAvailable() == true) {
-			key3.setX(background.getX() + key3X);
-			key3.setY(background.getY() + key3Y);
+			key3.setX(background.getX() + 1600);
+			key3.setY(background.getY() + 740);
 		}
 		else {
 			((Key)key3).setX(-500);
