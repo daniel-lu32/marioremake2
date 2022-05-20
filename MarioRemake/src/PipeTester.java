@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import java.awt.Font;
 
-public class BackgroundTester extends JPanel implements ActionListener, MouseListener, KeyListener {
+public class PipeTester extends JPanel implements ActionListener, MouseListener, KeyListener {
 	
 	/**
 	 * Game header
@@ -64,7 +64,7 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 	Block mystBlock1 = new Block(background.getX() + 300, background.getY() + 860, "Mystery", true);
 
 	MarioObject key1 = new Key(0, 0);
-	MarioObject key2 = new Key(0, 0);					//ADDED keys 2 and 3
+	MarioObject key2 = new Key(0, 0);			
 	MarioObject key3 = new Key(0, 0);
 	
 	Door door = new Door(background.getX() + 980, background.getY() + 890);
@@ -79,11 +79,11 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 		// Paint Other Objects
 		door.paint(g);
 		key1.paint(g);
-		key2.paint(g);	//ADDED
-		key3.paint(g);	//ADDED
+		key2.paint(g);	
+		key3.paint(g);
 		keyDisp.paint(g);
 		spikes1.paint(g);
-		mystBlock1.paint(g); //ADDED
+		mystBlock1.paint(g);
 		
 		// Update Mario's Y Position
 		mario.setY(mario.getY() + vy);
@@ -113,7 +113,7 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 		// Paint Mario
 		mario.paint(g);
 		
-		// Key Mechanics -- ADDED 2 NEW KEYS, COPY OVER
+		// Key Mechanics
 		//Key1
 		g.drawRect(key1.getX(), key1.getY(), key1.getWidth(), key1.getHeight());
 		if (((Key)key1).getAvailable() == true) {
@@ -144,7 +144,7 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 		}
 
 		
-		// Key Display Mechanics -- ADDED 2 NEW KEYS, COPY OVER
+		// Key Display Mechanics
 		//Key1
 		if (((Key)key1).getAvailable() == true) {
 			if (mario.getX() + mario.getWidth() >= key1.getX() && mario.getX() <= key1.getX() + key1.getWidth()) {
@@ -197,15 +197,27 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 		
 		// Pipe
 		MarioObject shortPipe = new Pipe(background.getX() + 400, background.getY() + 965, false, false);
-		MarioObject longPipe = new Pipe(background.getX() + 600, background.getY() + 835, true, false);	
+		MarioObject longPipe = new Pipe(background.getX() + 600, background.getY() + 835, true, false);
+		
+		boolean shortPipeInRange = false;	//ADDED
+		boolean longPipeInRange = false;	//ADDED
+		
 		shortPipe.setX(background.getX() + 400);
 		shortPipe.setY(background.getY() + 965);
 		longPipe.setX(background.getX() + 600);
 		longPipe.setY(background.getY() + 835);
 		shortPipe.paint(g);
 		longPipe.paint(g);
-		g.drawRect(400, 660, 115, 110);
-		g.drawRect(600, 510, 115, 260);
+		g.drawRect(shortPipe.getX(), shortPipe.getY(), shortPipe.getWidth(), shortPipe.getHeight());
+		g.drawRect(longPipe.getX(), longPipe.getY(), longPipe.getWidth(), longPipe.getHeight());
+		
+		if (mario.getX() + mario.getWidth() >= shortPipe.getX() + 30 && mario.getX() <= shortPipe.getX() + shortPipe.getWidth() - 30) {
+			if (mario.getY() + mario.getHeight() >= shortPipe.getY() - 60 && mario.getY() <= shortPipe.getY()) {
+				shortPipeInRange = true;
+				g.setFont(keyFont);
+				g.drawString("press down to enter", shortPipe.getX() - 10, shortPipe.getY() - 50);
+			}	
+		}
 		
 		// Flag
 		flag.paint(g);
@@ -315,12 +327,12 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 		block3.paint(g);
 		block4.paint(g);
 		
-		mystBlock1.setX(background.getX() + 300);			//ADDED
-		if (mystBlock1.getHasCoin() == true) {				//
-			mystBlock1.setY(background.getY() + 860);		//
-		}													//
-		else {												//
-			mystBlock1.setY(background.getY() + 800);		//
+		mystBlock1.setX(background.getX() + 300);			
+		if (mystBlock1.getHasCoin() == true) {			
+			mystBlock1.setY(background.getY() + 860);	
+		}												
+		else {											
+			mystBlock1.setY(background.getY() + 800);		
 		}
 
 		onShort = mario.aboveObject(shortPipe, onShort);
@@ -329,12 +341,12 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 		onBlock2 = mario.aboveObject(block2, onBlock2);
 		onBlock3 = mario.aboveObject(block3, onBlock3);
 		onBlock4 = mario.aboveObject(block4, onBlock4);
-		onMystBlock1 = mario.aboveMystBlock(mystBlock1, onMystBlock1);	//CHANGED
+		onMystBlock1 = mario.aboveMystBlock(mystBlock1, onMystBlock1);
 		
-		if (!onShort && !onLong && !onBlock1 && !onBlock2 && !onBlock3 && !onBlock4 && !onMystBlock1) {		//CHANGED
+		if (!onShort && !onLong && !onBlock1 && !onBlock2 && !onBlock3 && !onBlock4 && !onMystBlock1) {		
 			platform = originalPlatform;
 		}
-		if (mario.hittingObjectFromBelow(block1) || mario.hittingObjectFromBelow(block2) || mario.hittingObjectFromBelow(block3) || mario.hittingObjectFromBelow(block4) || mario.hittingMystBlockFromBelow(mystBlock1)) { //CHANGED
+		if (mario.hittingObjectFromBelow(block1) || mario.hittingObjectFromBelow(block2) || mario.hittingObjectFromBelow(block3) || mario.hittingObjectFromBelow(block4) || mario.hittingMystBlockFromBelow(mystBlock1)) { 
 			vy = 4;
 		}
 		
@@ -362,9 +374,9 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 			g.setColor(Color.RED);
 		}
 		if (time % 60 == 0 || time % 60 < 10) {
-			g.drawString("Time Remaining: " + time / 60 + ":" + "0" + time % 60, 900, 30);		//CHANGED VALUES TO FIT KEYDISP
+			g.drawString("Time Remaining: " + time / 60 + ":" + "0" + time % 60, 900, 30);		
 		} else {
-			g.drawString("Time Remaining: " + time / 60 + ":" + time % 60, 900, 30);			//VALUES
+			g.drawString("Time Remaining: " + time / 60 + ":" + time % 60, 900, 30);		
 		}
 		
 		
@@ -379,11 +391,11 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 	
 	// Frame Class Runner
 	public static void main(String[] arg) {
-		BackgroundTester f = new BackgroundTester();
+		PipeTester f = new PipeTester();
 	}
 	
 	// Frame Constructor
-	public BackgroundTester() {
+	public PipeTester() {
 		JFrame f = new JFrame("Mario Remake");
 		f.setSize(new Dimension(1200, 800));
 		f.setBackground(Color.blue);
