@@ -38,6 +38,11 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	
 	private int spawnX = 10;
 	
+	private boolean summonBig = false;
+	private boolean summonIce = false;
+	private boolean summonFire = false;
+	private boolean summonOneup = false;
+	
 	// Collision Tracker Variables
 	private boolean onShort = false;
 	private boolean onLong = false;
@@ -59,6 +64,11 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	PowerUp ice = new PowerUp(600, originalPlatform, "Ice Flower");
 	PowerUp fire = new PowerUp(700, originalPlatform, "Fire Flower");
 	PowerUp oneup = new PowerUp(800, originalPlatform, "1-UP");
+	
+	PowerUp bigFromBlock = new PowerUp(0, originalPlatform, "Big Mushroom");
+	PowerUp iceFromBlock = new PowerUp(0, originalPlatform, "Ice Flower");
+	PowerUp fireFromBlock = new PowerUp(0, originalPlatform, "Fire Flower");
+	PowerUp oneupFromBlock = new PowerUp(0, originalPlatform, "1-UP");
 
 	Key key = new Key(0, 600);
 	int keyX = (((Key)key).getRandomX(400, 800));
@@ -108,6 +118,27 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			if (!x3[i].getCollided()) {
 				x3[i].paint(g);
 			}
+		}
+
+		bigFromBlock.setX(block1.getX());
+		bigFromBlock.setY(block1.getY() - bigFromBlock.getHeight());
+		iceFromBlock.setX(block2.getX());
+		iceFromBlock.setY(block2.getY() - iceFromBlock.getHeight());
+		fireFromBlock.setX(block3.getX());
+		fireFromBlock.setY(block3.getY() - fireFromBlock.getHeight());
+		oneupFromBlock.setX(block4.getX());
+		oneupFromBlock.setY(block4.getY() - oneupFromBlock.getHeight());
+		if (summonBig) {
+			bigFromBlock.paint(g);
+		}
+		if (summonIce) {
+			iceFromBlock.paint(g);
+		}
+		if (summonFire) {
+			fireFromBlock.paint(g);
+		}
+		if (summonOneup) {
+			oneupFromBlock.paint(g);
 		}
 		
 		// Update Mario's Y Position
@@ -324,8 +355,21 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		if (!onShort && !onLong && !onBlock1 && !onBlock2 && !onBlock3 && !onBlock4) {
 			platform = originalPlatform;
 		}
-		if (mario.hittingObjectFromBelow(block1) || mario.hittingObjectFromBelow(block2) || mario.hittingObjectFromBelow(block3) || mario.hittingObjectFromBelow(block4)) {
+		if (mario.hittingObjectFromBelow(block1)) {
 			vy = 4;
+			summonBig = true;
+		}
+		if (mario.hittingObjectFromBelow(block2)) {
+			vy = 4;
+			summonIce = true;
+		}
+		if (mario.hittingObjectFromBelow(block3)) {
+			vy = 4;
+			summonFire = true;
+		}
+		if (mario.hittingObjectFromBelow(block4)) {
+			vy = 4;
+			summonOneup = true;
 		}
 		
 		// Top Text Display (Lives, Score, Coins, and Timer)
