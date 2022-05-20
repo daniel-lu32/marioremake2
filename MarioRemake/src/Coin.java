@@ -10,10 +10,14 @@ import java.net.URL;
 public class Coin extends MarioObject {
 	
 	// attributes
+	private boolean collided;
 	
 	public Coin(int x, int y) {
 		super(x, y);
-		img = getImage("/imgs/coinicon.png");
+		width = 27;
+		height = 30; // temp values
+		img = getImage("/imgs/coinicon2.png");
+		collided = false;
 		scaleX = 0.2;
 		scaleY = 0.2;
 		tx = AffineTransform.getTranslateInstance(x, y);
@@ -21,8 +25,13 @@ public class Coin extends MarioObject {
 	}
 	
 	// getters
-	
+	public boolean getCollided() {
+		return collided;
+	}
 	// setters
+	public void setCollided(boolean collided) {
+		this.collided = collided;
+	}
 	
 	// graphics settings
 	public void paint(Graphics g) {
