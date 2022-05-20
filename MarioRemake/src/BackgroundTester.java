@@ -107,14 +107,16 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 		}
 		
 		// Update the Background
-		if (background.getY() < -440) {
+		/*if (background.getY() < -440) {
 			background.setY(-440);
 		}
 		if (background.getY() + 1200 >= 765) {
 				background.setVY(-vy * 0.4);
 		} else {
 			background.setVY(0);
-		}
+		}*/
+		background.setVY(0);
+		background.setY(-435);
 
 		// Paint Mario
 		mario.paint(g);
@@ -335,8 +337,8 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 		onBlock2 = mario.aboveObject(block2, onBlock2);
 		onBlock3 = mario.aboveObject(block3, onBlock3);
 		onBlock4 = mario.aboveObject(block4, onBlock4);
+		onMystBlock1 = mario.aboveMystBlock(mystBlock1, onMystBlock1);	//CHANGED
 		
-		onMystBlock1 = mario.aboveObject(mystBlock1, onMystBlock1);		//CHANGED
 		if (!onShort && !onLong && !onBlock1 && !onBlock2 && !onBlock3 && !onBlock4 && !onMystBlock1) {		//CHANGED
 			platform = originalPlatform;
 		}

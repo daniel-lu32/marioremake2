@@ -86,6 +86,17 @@ public class Character {
 		return false;
 	}
 	
+	public boolean collideMystBlock(Block other) {
+		if (other.getBrickType().equals("Mystery")) {
+			if (this.getX() + this.getWidth() >= other.getX() && this.getX() <= other.getX() + other.getWidth()) {
+				if (this.getY() + this.getHeight() >= other.getY() + 60 && this.getY() <= other.getY() + other.getHeight()) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 	public void moveX(MarioObject other, boolean current) {
 		if (insideObjectX(other)) {
 			if (BackgroundTester.platform == BackgroundTester.originalPlatform && !(y + height < other.getY()) && !belowObject(other)) {
@@ -108,6 +119,25 @@ public class Character {
 				}
 			}
 			if (collide(other)) {
+				moveX(other, current);
+			}
+		}
+		if (!(x + width >= other.getX() && x <= other.getX() + other.getWidth())) {
+			result = false;
+		}
+		return result;
+	}
+	
+	public boolean aboveMystBlock(Block other, boolean current) {
+		boolean result = current;
+		if (other.getBrickType().equals("Mystery") && insideObjectX(other)) {
+			if (y + height <= other.getY() + 60) {
+				result = true;
+				if (result) {
+					BackgroundTester.platform = other.getY() + 60 - height;
+				}
+			}
+			if (collideMystBlock(other)) {
 				moveX(other, current);
 			}
 		}
