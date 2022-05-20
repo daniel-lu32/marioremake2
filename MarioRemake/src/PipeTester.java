@@ -219,7 +219,7 @@ public class PipeTester extends JPanel implements ActionListener, MouseListener,
 			}	
 		}
 		
-		// Flag
+		// Flag 
 		flag.paint(g);
 		flag.setImage();
 		g.drawRect(flag.getX(), flag.getY(), 55, 120);	
