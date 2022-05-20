@@ -131,7 +131,7 @@ public class Character {
 	public boolean aboveMystBlock(Block other, boolean current) {
 		boolean result = current;
 		if (other.getBrickType().equals("Mystery") && insideObjectX(other)) {
-			if (y + height <= other.getY() + 60) {
+			if (y + height <= other.getY() + 59) {
 				result = true;
 				if (result) {
 					BackgroundTester.platform = other.getY() + 60 - height;
@@ -163,6 +163,16 @@ public class Character {
 		boolean result = false;
 		if (insideObjectX(other)) {
 			if (y + height >= other.getY() && y <= other.getY() + other.getHeight() + 1) {
+				result = true;
+			}
+		}
+		return result && BackgroundTester.vy < 0;
+	}
+	
+	public boolean hittingMystBlockFromBelow(Block other) {
+		boolean result = false;
+		if (other.getBrickType().equals("Mystery") && insideObjectX(other)) {
+			if (y + height >= other.getY() + 60 && y <= other.getY() + other.getHeight() + 1) {
 				result = true;
 			}
 		}

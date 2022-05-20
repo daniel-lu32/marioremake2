@@ -342,7 +342,7 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 		if (!onShort && !onLong && !onBlock1 && !onBlock2 && !onBlock3 && !onBlock4 && !onMystBlock1) {		//CHANGED
 			platform = originalPlatform;
 		}
-		if (mario.hittingObjectFromBelow(block1) || mario.hittingObjectFromBelow(block2) || mario.hittingObjectFromBelow(block3) || mario.hittingObjectFromBelow(block4) || mario.hittingObjectFromBelow(mystBlock1)) { //CHANGED
+		if (mario.hittingObjectFromBelow(block1) || mario.hittingObjectFromBelow(block2) || mario.hittingObjectFromBelow(block3) || mario.hittingObjectFromBelow(block4) || mario.hittingMystBlockFromBelow(mystBlock1)) { //CHANGED
 			vy = 4;
 		}
 		
