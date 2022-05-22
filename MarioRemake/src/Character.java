@@ -99,7 +99,7 @@ public class Character {
 	
 	public void moveX(MarioObject other, boolean current) {
 		if (insideObjectX(other)) {
-			if (PipeTester.platform == PipeTester.originalPlatform && !(y + height < other.getY()) && !belowObject(other)) {
+			if (BackgroundTester.platform == BackgroundTester.originalPlatform && !(y + height < other.getY()) && !belowObject(other)) {
 				if (x <= other.getX()) {
 					x = other.getX() - width;
 				} else {
@@ -115,7 +115,7 @@ public class Character {
 			if (y + height <= other.getY()) {
 				result = true;
 				if (result) {
-					PipeTester.platform = other.getY() - height;
+					BackgroundTester.platform = other.getY() - height;
 				}
 			}
 			if (collide(other)) {
@@ -128,13 +128,25 @@ public class Character {
 		return result;
 	}
 	
-	public boolean aboveMystBlock(Block other, boolean current) {
+	public boolean aboveMystBlock(Block other, boolean current, boolean available) {
 		boolean result = current;
-		if (other.getBrickType().equals("Mystery") && insideObjectX(other)) {
+		if (other.getBrickType().equals("Mystery") && available == false && insideObjectX(other)) {
 			if (y + height <= other.getY() + 59) {
 				result = true;
 				if (result) {
-					PipeTester.platform = other.getY() + 60 - height;
+					BackgroundTester.platform = other.getY() + 60 - height;
+				}
+			}
+			if (collideMystBlock(other)) {
+				moveX(other, current);
+			}
+		}
+		
+		if (other.getBrickType().equals("Mystery") && available == true && insideObjectX(other)) {
+			if (y + height <= other.getY()) {
+				result = true;
+				if (result) {
+					BackgroundTester.platform = other.getY() - height;
 				}
 			}
 			if (collideMystBlock(other)) {
@@ -166,7 +178,7 @@ public class Character {
 				result = true;
 			}
 		}
-		return result && PipeTester.vy < 0;
+		return result && BackgroundTester.vy < 0;
 	}
 	
 	public boolean hittingMystBlockFromBelow(Block other) {
@@ -176,7 +188,7 @@ public class Character {
 				result = true;
 			}
 		}
-		return result && PipeTester.vy < 0;
+		return result && BackgroundTester.vy < 0;
 	}
 	
 	public boolean insideObjectX(MarioObject other) {

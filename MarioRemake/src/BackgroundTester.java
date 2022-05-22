@@ -329,7 +329,7 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 		onBlock2 = mario.aboveObject(block2, onBlock2);
 		onBlock3 = mario.aboveObject(block3, onBlock3);
 		onBlock4 = mario.aboveObject(block4, onBlock4);
-		onMystBlock1 = mario.aboveMystBlock(mystBlock1, onMystBlock1);	//CHANGED
+		onMystBlock1 = mario.aboveMystBlock(mystBlock1, onMystBlock1, mystBlock1.getAvailable());	//CHANGED
 		
 		if (!onShort && !onLong && !onBlock1 && !onBlock2 && !onBlock3 && !onBlock4 && !onMystBlock1) {		//CHANGED
 			platform = originalPlatform;

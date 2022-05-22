@@ -47,6 +47,9 @@ public class PipeTester extends JPanel implements ActionListener, MouseListener,
 	boolean fireCollided = false;
 	boolean oneupCollided = false;
 	
+	boolean shortPipeInRange = false;	//ADDED
+	boolean longPipeInRange = false;	//ADDED
+	
 	// Objects
 	Background background = new Background(0, -435);
 	Character mario = new Character(10, originalPlatform);
@@ -199,9 +202,6 @@ public class PipeTester extends JPanel implements ActionListener, MouseListener,
 		MarioObject shortPipe = new Pipe(background.getX() + 400, background.getY() + 965, false, false);
 		MarioObject longPipe = new Pipe(background.getX() + 600, background.getY() + 835, true, false);
 		
-		boolean shortPipeInRange = false;	//ADDED
-		boolean longPipeInRange = false;	//ADDED
-		
 		shortPipe.setX(background.getX() + 400);
 		shortPipe.setY(background.getY() + 965);
 		longPipe.setX(background.getX() + 600);
@@ -217,6 +217,9 @@ public class PipeTester extends JPanel implements ActionListener, MouseListener,
 				g.setFont(keyFont);
 				g.drawString("press down to enter", shortPipe.getX() - 10, shortPipe.getY() - 50);
 			}	
+		}
+		else {
+			shortPipeInRange = false;
 		}
 		
 		// Flag 
@@ -341,7 +344,7 @@ public class PipeTester extends JPanel implements ActionListener, MouseListener,
 		onBlock2 = mario.aboveObject(block2, onBlock2);
 		onBlock3 = mario.aboveObject(block3, onBlock3);
 		onBlock4 = mario.aboveObject(block4, onBlock4);
-		onMystBlock1 = mario.aboveMystBlock(mystBlock1, onMystBlock1);
+		onMystBlock1 = mario.aboveMystBlock(mystBlock1, onMystBlock1, false);
 		
 		if (!onShort && !onLong && !onBlock1 && !onBlock2 && !onBlock3 && !onBlock4 && !onMystBlock1) {		
 			platform = originalPlatform;
@@ -475,6 +478,16 @@ public class PipeTester extends JPanel implements ActionListener, MouseListener,
 				door.chooseImage();
 			}
 		}
+		
+		int currentPlatform = platform;
+		if (arg0.getKeyCode() == 40) {
+			if (shortPipeInRange == true) {
+				platform = 580;
+				onShort = false;
+				mario.setY(mario.getY() - 10);
+			}
+		}
+		platform = currentPlatform;
 
 	}
 
