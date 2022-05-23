@@ -132,7 +132,7 @@ public class CharacterTemp {
 			if (y + height <= other.getY() + 59) {
 				result = true;
 				if (result) {
-					PipeTester.platform = other.getY() + 60 - height;
+					Frame.platform = other.getY() + 60 - height;
 				}
 			}
 			if (collideMystBlock(other)) {
@@ -144,7 +144,7 @@ public class CharacterTemp {
 			if (y + height <= other.getY()) {
 				result = true;
 				if (result) {
-					PipeTester.platform = other.getY() - height;
+					Frame.platform = other.getY() - height;
 				}
 			}
 			if (collideMystBlock(other)) {
@@ -184,7 +184,7 @@ public class CharacterTemp {
 				result = true;
 			}
 		}
-		return result && PipeTester.vy < 0;
+		return result && Frame.vy < 0;
 	}
 	
 	public boolean insideObjectX(MarioObject other) {
