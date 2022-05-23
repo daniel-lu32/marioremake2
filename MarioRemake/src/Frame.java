@@ -50,6 +50,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	private boolean onBlock2 = false;
 	private boolean onBlock3 = false;
 	private boolean onBlock4 = false;
+	private boolean onMystBlock1 = false;
 	
 	// Objects
 	Background background = new Background(0, -435);
@@ -69,10 +70,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	PowerUp iceFromBlock = new PowerUp(0, originalPlatform, "Ice Flower");
 	PowerUp fireFromBlock = new PowerUp(0, originalPlatform, "Fire Flower");
 	PowerUp oneupFromBlock = new PowerUp(0, originalPlatform, "1-UP");
-
-	Key key = new Key(0, 600);
-	int keyX = (((Key)key).getRandomX(400, 800));
-	int keyY = (((Key)key).getRandomY(900, 1100));
+	MarioObject key1 = new Key(0, 0);
+	MarioObject key2 = new Key(0, 0);					//ADDED keys 2 and 3
+	MarioObject key3 = new Key(0, 0);
 	Door door = new Door(background.getX() + 950, background.getY() + 890);
 	PowerUp livesicon = new PowerUp(8, 10, "1-UP");
 	Coin coinicon = new Coin(10, 55);
@@ -83,8 +83,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	Block block2 = new Block(background.getX() + 740, background.getY() + 435 + 480, "Normal", false);
 	Block block3 = new Block(background.getX() + 780, background.getY() + 435 + 480, "Normal", false);
 	Block block4 = new Block(background.getX() + 820, background.getY() + 435 + 480, "Normal", false);
+	Block mystBlock1 = new Block(background.getX() + 300, background.getY() + 860, "Mystery", true);
 	
-	public Coin[] massProduce() {
+	public Coin[] massProduceCoins() {
 		Coin[] x1 = new Coin[10];
 		int x2 = 800;
 		for (int i = 0; i < 10; i++) {
@@ -96,6 +97,16 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		}
 		return x1;
 	}
+	public Block[] massProduceBlocks() {
+		Block[] x1 = new Block[10];
+		int x2 = 900;
+		for (int i = 0; i < 10; i++) {
+			Block block = new Block(background.getX() + x2, 480, "Normal", false);
+			x1[i] = block;
+			x2 += block.getWidth();
+		}
+		return x1;
+	}
 	// main method with code and movement that is called 60 times per second
 	public void paint(Graphics g) {
 		super.paintComponent(g);
@@ -104,12 +115,15 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		background.paint(g);
 		// Paint Other Objects
 		door.paint(g);
-		key.paint(g);
+		key1.paint(g);
+		key2.paint(g);	//ADDED
+		key3.paint(g);	//ADDED
 		keyDisp.paint(g);
 		spikes1.paint(g);
+		mystBlock1.paint(g); //ADDED
 		
 		// mass produce?
-		Coin[] x3 = massProduce();
+		Coin[] x3 = massProduceCoins();
 		for (int i = 0; i < x3.length; i++) {
 			if (mario.collide(x3[i])) {
 				x3[i].setCollided(true);
@@ -118,6 +132,10 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			if (!x3[i].getCollided()) {
 				x3[i].paint(g);
 			}
+		}
+		Block[] x4 = massProduceBlocks();
+		for (int i = 0; i < x4.length; i++) {
+			x4[i].paint(g);
 		}
 
 		bigFromBlock.setX(block1.getX());
@@ -163,25 +181,74 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 //		} else {
 //			background.setVY(0);
 //		}
+		background.setVY(0);
+		background.setY(-435);
 
 		// Paint Mario
 		mario.paint(g);
 		
-		// Key Mechanics
-		g.drawRect(key.getX(), key.getY(), key.getWidth(), key.getHeight());
-		key.setX(background.getX() + keyX);
-		key.setY(background.getY() + keyY);
-				
-		// Key Display Mechanics
-		if (((Key)key).getAvailable() == true) {
-			if (mario.getX() + mario.getWidth() >= key.getX() && mario.getX() <= key.getX() + key.getWidth()) {
-				if (mario.getY() + mario.getHeight() >= key.getY() && mario.getY() <= key.getY() + key.getHeight()) {
-					System.out.println("KEY HIT" + (keyDisp.getState()));
-					keyDisp.setState(keyDisp.getState() + 1);
-					((Key)key).setAvailable(false);
+		// Key Mechanics -- ADDED 2 NEW KEYS, COPY OVER
+				//Key1
+				g.drawRect(key1.getX(), key1.getY(), key1.getWidth(), key1.getHeight());
+				if (((Key)key1).getAvailable() == true) {
+					key1.setX(background.getX() + 100);
+					key1.setY(background.getY() + 840);
 				}
-			}
-		}
+				else {
+					((Key)key1).setX(-500);
+				}
+				//Key2
+				g.drawRect(key2.getX(), key2.getY(), key2.getWidth(), key2.getHeight());
+				if (((Key)key2).getAvailable() == true) {
+					key2.setX(background.getX() + 680);
+					key2.setY(background.getY() + 640);
+				}
+				else {
+					((Key)key2).setX(-500);
+				}
+
+				//Key3
+				g.drawRect(key3.getX(), key3.getY(), key3.getWidth(), key3.getHeight());
+				if (((Key)key3).getAvailable() == true) {
+					key3.setX(background.getX() + 1600);
+					key3.setY(background.getY() + 740);
+				}
+				else {
+					((Key)key3).setX(-500);
+				}
+
+				
+				// Key Display Mechanics -- ADDED 2 NEW KEYS, COPY OVER
+				//Key1
+				if (((Key)key1).getAvailable() == true) {
+					if (mario.getX() + mario.getWidth() >= key1.getX() && mario.getX() <= key1.getX() + key1.getWidth()) {
+						if (mario.getY() + mario.getHeight() >= key1.getY() && mario.getY() <= key1.getY() + key1.getHeight()) {
+							System.out.println("KEY HIT" + (keyDisp.getState()));
+							keyDisp.setState(keyDisp.getState() + 1);
+							((Key)key1).setAvailable(false);
+						}
+					}
+				}
+				//Key2
+				if (((Key)key2).getAvailable() == true) {
+					if (mario.getX() + mario.getWidth() >= key2.getX() && mario.getX() <= key2.getX() + key2.getWidth()) {
+						if (mario.getY() + mario.getHeight() >= key2.getY() && mario.getY() <= key2.getY() + key2.getHeight()) {
+							System.out.println("KEY HIT" + (keyDisp.getState()));
+							keyDisp.setState(keyDisp.getState() + 1);
+							((Key)key2).setAvailable(false);
+						}
+					}
+				}
+				//Key3
+				if (((Key)key3).getAvailable() == true) {
+					if (mario.getX() + mario.getWidth() >= key3.getX() && mario.getX() <= key3.getX() + key3.getWidth()) {
+						if (mario.getY() + mario.getHeight() >= key3.getY() && mario.getY() <= key3.getY() + key3.getHeight()) {
+							System.out.println("KEY HIT" + (keyDisp.getState()));
+							keyDisp.setState(keyDisp.getState() + 1);
+							((Key)key3).setAvailable(false);
+						}
+					}
+				}
 				
 		// Door Mechanics
 		door.setX(background.getX() + 950);
@@ -346,15 +413,26 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		block3.paint(g);
 		block4.paint(g);
 		
+		mystBlock1.setX(background.getX() + 300);			//ADDED
+		if (mystBlock1.getHasCoin() == true) {				//
+			mystBlock1.setY(background.getY() + 860);		//
+		}													//
+		else {												//
+			mystBlock1.setY(background.getY() + 800);		//
+		}
+		
 		onShort = mario.aboveObject(shortPipe, onShort);
 		onLong = mario.aboveObject(longPipe, onLong);
 		onBlock1 = mario.aboveObject(block1, onBlock1);
 		onBlock2 = mario.aboveObject(block2, onBlock2);
 		onBlock3 = mario.aboveObject(block3, onBlock3);
 		onBlock4 = mario.aboveObject(block4, onBlock4);
-		if (!onShort && !onLong && !onBlock1 && !onBlock2 && !onBlock3 && !onBlock4) {
+		onMystBlock1 = mario.aboveMystBlock(mystBlock1, onMystBlock1, mystBlock1.getAvailable());	//CHANGED
+
+		if (!onShort && !onLong && !onBlock1 && !onBlock2 && !onBlock3 && !onBlock4 && !onMystBlock1) {		//CHANGED
 			platform = originalPlatform;
 		}
+		
 		if (mario.hittingObjectFromBelow(block1)) {
 			vy = 4;
 			summonBig = true;
@@ -371,7 +449,17 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			vy = 4;
 			summonOneup = true;
 		}
-		
+		if (mario.hittingMystBlockFromBelow(mystBlock1)) { //CHANGED
+			vy = 4;
+		}
+		if (mystBlock1.getAvailable() == true) {
+			if (mario.getX() + mario.getWidth() >= mystBlock1.getX() && mario.getX() <= mystBlock1.getX() + mystBlock1.getWidth()) {
+				if (mario.getY() <= mystBlock1.getY() + 40 + 10 && mario.getY() >= mystBlock1.getY() + 40 - 10) {
+					System.out.println("block hit");
+					mystBlock1.mystHit();
+				}
+			}
+		}
 		// Top Text Display (Lives, Score, Coins, and Timer)
 		g.setFont(new Font("Unknown", Font.BOLD, 20));
 		
@@ -470,9 +558,6 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			ice = new PowerUp(700, originalPlatform, "Ice Flower");
 			fire = new PowerUp(800, originalPlatform, "Fire Flower");
 			oneup = new PowerUp(900, originalPlatform, "1-UP");
-			key = new Key(0, 600);
-			keyX = (((Key)key).getRandomX(400, 800));
-			keyY = (((Key)key).getRandomY(900, 1100));
 			door = new Door(background.getX() + 950, background.getY() + 890);
 		}
 	}

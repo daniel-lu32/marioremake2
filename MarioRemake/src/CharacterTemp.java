@@ -116,7 +116,46 @@ public class CharacterTemp {
 		}
 		return result;
 	}
-	
+	public boolean collideMystBlock(Block other) {
+		if (other.getBrickType().equals("Mystery")) {
+			if (this.getX() + this.getWidth() >= other.getX() && this.getX() <= other.getX() + other.getWidth()) {
+				if (this.getY() + this.getHeight() >= other.getY() + 60 && this.getY() <= other.getY() + other.getHeight()) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	public boolean aboveMystBlock(Block other, boolean current, boolean available) {
+		boolean result = current;
+		if (other.getBrickType().equals("Mystery") && available == false && insideObjectX(other)) {
+			if (y + height <= other.getY() + 59) {
+				result = true;
+				if (result) {
+					PipeTester.platform = other.getY() + 60 - height;
+				}
+			}
+			if (collideMystBlock(other)) {
+				moveX(other, current);
+			}
+		}
+		
+		if (other.getBrickType().equals("Mystery") && available == true && insideObjectX(other)) {
+			if (y + height <= other.getY()) {
+				result = true;
+				if (result) {
+					PipeTester.platform = other.getY() - height;
+				}
+			}
+			if (collideMystBlock(other)) {
+				moveX(other, current);
+			}
+		}
+		if (!(x + width >= other.getX() && x <= other.getX() + other.getWidth())) {
+			result = false;
+		}
+		return result;
+	}
 	public boolean belowObject(MarioObject other) {
 		boolean result = false;
 		if (insideObjectX(other)) {
@@ -137,6 +176,15 @@ public class CharacterTemp {
 			}
 		}
 		return result && Frame.vy < 0;
+	}
+	public boolean hittingMystBlockFromBelow(Block other) {
+		boolean result = false;
+		if (other.getBrickType().equals("Mystery") && insideObjectX(other)) {
+			if (y + height >= other.getY() + 60 && y <= other.getY() + other.getHeight() + 1) {
+				result = true;
+			}
+		}
+		return result && PipeTester.vy < 0;
 	}
 	
 	public boolean insideObjectX(MarioObject other) {
