@@ -65,6 +65,9 @@ public class PipeTester extends JPanel implements ActionListener, MouseListener,
 	MarioObject oneup = new PowerUp(900, originalPlatform, "1-UP");
 	
 	Block mystBlock1 = new Block(background.getX() + 300, background.getY() + 860, "Mystery", true);
+	MarioObject shortPipe = new Pipe(background.getX() + 400, background.getY() + 965, false, false);
+	MarioObject longPipe = new Pipe(background.getX() + 600, background.getY() + 835, true, false);
+	
 
 	MarioObject key1 = new Key(0, 0);
 	MarioObject key2 = new Key(0, 0);			
@@ -112,6 +115,13 @@ public class PipeTester extends JPanel implements ActionListener, MouseListener,
 		}*/
 		background.setVY(0);
 		background.setY(-435);
+		
+		if (background.getX() > 0) {
+			background.setX(0);
+		}
+		if (background.getX() + background.getWidth() < 1200) {
+			background.setX(1200 - background.getWidth());
+		}
 
 		// Paint Mario
 		mario.paint(g);
@@ -199,9 +209,6 @@ public class PipeTester extends JPanel implements ActionListener, MouseListener,
 		}
 		
 		// Pipe
-		MarioObject shortPipe = new Pipe(background.getX() + 400, background.getY() + 965, false, false);
-		MarioObject longPipe = new Pipe(background.getX() + 600, background.getY() + 835, true, false);
-		
 		shortPipe.setX(background.getX() + 400);
 		shortPipe.setY(background.getY() + 965);
 		longPipe.setX(background.getX() + 600);
@@ -220,6 +227,17 @@ public class PipeTester extends JPanel implements ActionListener, MouseListener,
 		}
 		else {
 			shortPipeInRange = false;
+		}
+		
+		if (mario.getX() + mario.getWidth() >= longPipe.getX() + 30 && mario.getX() <= longPipe.getX() + longPipe.getWidth() - 30) {
+			if (mario.getY() + mario.getHeight() >= longPipe.getY() - 60 && mario.getY() <= longPipe.getY()) {
+				longPipeInRange = true;
+				g.setFont(keyFont);
+				g.drawString("press down to enter", longPipe.getX() - 10, longPipe.getY() - 50);
+			}	
+		}
+		else {
+			longPipeInRange = false;
 		}
 		
 		// Flag 
@@ -479,15 +497,33 @@ public class PipeTester extends JPanel implements ActionListener, MouseListener,
 			}
 		}
 		
-		int currentPlatform = platform;
-		if (arg0.getKeyCode() == 40) {
+		if (arg0.getKeyCode() == 40) { 	//CHANGED/ADDED
 			if (shortPipeInRange == true) {
-				platform = 580;
-				onShort = false;
-				mario.setY(mario.getY() - 10);
+				background.setX(background.getX() - Math.abs(longPipe.getX() - shortPipe.getX()));
+				if (background.outOfBounds() == true) {
+					background.setX(background.getX() + Math.abs(longPipe.getX() - shortPipe.getX()));
+					mario.setX(longPipe.getX() + 20);
+				}
+				else {
+					mario.setX(mario.getX());
+				}
+				mario.setY(longPipe.getY() - mario.getHeight() - 1);
 			}
 		}
-		platform = currentPlatform;
+		
+		if (arg0.getKeyCode() == 40) {	//CHANGED/ADDED
+			if (longPipeInRange == true) {
+				background.setX(background.getX() + Math.abs(longPipe.getX() - shortPipe.getX()));
+				if (background.outOfBounds() == true) {
+					background.setX(background.getX() - Math.abs(longPipe.getX() - shortPipe.getX()));
+					mario.setX(shortPipe.getX() + 20);
+				}
+				else {
+					mario.setX(mario.getX());
+				}
+				mario.setY(shortPipe.getY() - mario.getHeight() - 1);
+			}
+		}
 
 	}
 

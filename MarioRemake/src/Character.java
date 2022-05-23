@@ -99,7 +99,7 @@ public class Character {
 	
 	public void moveX(MarioObject other, boolean current) {
 		if (insideObjectX(other)) {
-			if (BackgroundTester.platform == BackgroundTester.originalPlatform && !(y + height < other.getY()) && !belowObject(other)) {
+			if (PipeTester.platform == PipeTester.originalPlatform && !(y + height < other.getY()) && !belowObject(other)) {
 				if (x <= other.getX()) {
 					x = other.getX() - width;
 				} else {
@@ -115,7 +115,7 @@ public class Character {
 			if (y + height <= other.getY()) {
 				result = true;
 				if (result) {
-					BackgroundTester.platform = other.getY() - height;
+					PipeTester.platform = other.getY() - height;
 				}
 			}
 			if (collide(other)) {
@@ -134,7 +134,7 @@ public class Character {
 			if (y + height <= other.getY() + 59) {
 				result = true;
 				if (result) {
-					BackgroundTester.platform = other.getY() + 60 - height;
+					PipeTester.platform = other.getY() + 60 - height;
 				}
 			}
 			if (collideMystBlock(other)) {
@@ -146,7 +146,7 @@ public class Character {
 			if (y + height <= other.getY()) {
 				result = true;
 				if (result) {
-					BackgroundTester.platform = other.getY() - height;
+					PipeTester.platform = other.getY() - height;
 				}
 			}
 			if (collideMystBlock(other)) {
@@ -178,7 +178,7 @@ public class Character {
 				result = true;
 			}
 		}
-		return result && BackgroundTester.vy < 0;
+		return result && PipeTester.vy < 0;
 	}
 	
 	public boolean hittingMystBlockFromBelow(Block other) {
@@ -188,7 +188,7 @@ public class Character {
 				result = true;
 			}
 		}
-		return result && BackgroundTester.vy < 0;
+		return result && PipeTester.vy < 0;
 	}
 	
 	public boolean insideObjectX(MarioObject other) {

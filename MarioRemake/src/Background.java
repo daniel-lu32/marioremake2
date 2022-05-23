@@ -15,11 +15,13 @@ public class Background{
 	private AffineTransform tx;
 	private double vx, vy;
 	private int yAccel = -1;
+	private int width;
 
 	// constructor
 	public Background(int x, int y) {
 		vx = 0;
 		vy = 0;
+		width = 1800;
 		this.x = x;
 		this.y = y;
 		img = getImage("/imgs/background.png"); 
@@ -27,6 +29,15 @@ public class Background{
 		init(x, y); 				
 
 	} 
+	
+	public boolean outOfBounds() {
+		if (this.getX() > 0 || this.getX() + this.getWidth() < 1200) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 	
 	public void setVX (double newVX) {
 		this.vx = newVX;
@@ -77,6 +88,10 @@ public class Background{
 	}
 	public int getY() {
 		return y;
+	}
+	
+	public int getWidth() {
+		return width;
 	}
 	
 	// setters
