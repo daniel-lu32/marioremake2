@@ -76,6 +76,17 @@ public class CharacterTemp {
 			vx = 0;
 		}
 	}
+
+	public boolean collideMystBlock(Block other) {
+		if (other.getBrickType().equals("Mystery")) {
+			if (this.getX() + this.getWidth() >= other.getX() && this.getX() <= other.getX() + other.getWidth()) {
+				if (this.getY() + this.getHeight() >= other.getY() + 60 && this.getY() <= other.getY() + other.getHeight()) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 	
 	public boolean collide(MarioObject other) {
 		if (this.getX() + this.getWidth() >= other.getX() && this.getX() <= other.getX() + other.getWidth()) {
@@ -115,16 +126,6 @@ public class CharacterTemp {
 			result = false;
 		}
 		return result;
-	}
-	public boolean collideMystBlock(Block other) {
-		if (other.getBrickType().equals("Mystery")) {
-			if (this.getX() + this.getWidth() >= other.getX() && this.getX() <= other.getX() + other.getWidth()) {
-				if (this.getY() + this.getHeight() >= other.getY() + 60 && this.getY() <= other.getY() + other.getHeight()) {
-					return true;
-				}
-			}
-		}
-		return false;
 	}
 	public boolean aboveMystBlock(Block other, boolean current, boolean available) {
 		boolean result = current;

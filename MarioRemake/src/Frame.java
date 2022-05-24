@@ -270,9 +270,9 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 		}
 		
 		// Pipe
-		shortPipe.setX(background.getX() + 300);
+		shortPipe.setX(background.getX() + 350);
 		shortPipe.setY(background.getY() + 1005);
-		longPipe.setX(background.getX() + 500);
+		longPipe.setX(background.getX() + 550);
 		longPipe.setY(background.getY() + 865);
 		shortPipe.paint(g);
 		longPipe.paint(g);
@@ -671,6 +671,3 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	}
 
 }
-
-
-

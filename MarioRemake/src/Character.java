@@ -362,7 +362,7 @@ public class Character {
 			}
 		}
 	}
-	private Image getImage(String path) {
+	public Image getImage(String path) {
 		Image tempImage = null;
 		try {
 			URL imageURL = Character.class.getResource(path);
