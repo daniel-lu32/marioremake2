@@ -12,25 +12,26 @@ public class Projectile extends MarioObject {
 	// attributes
 	private int vx;
 	private String type;
-	private boolean hit;
+	private boolean hit, onScreen;
 	
 	public Projectile(int x, int y, String type) {
 		super(x, y);
-		vx = 1;
+		vx = 0;
 		this.type = type;
 		hit = false;
+		onScreen = false;
 		if (type.equals("Fireball")) {
-			height = 0;
-			width = 0;
+			height = 18;
+			width = 32;
 			img = getImage("/imgs/fireball.png");
 			scaleX = 0.15;
 			scaleY = 0.15;
-		} else if (type.equals("Snowball")) {
-			height = 0;
-			width = 0;
-			img = getImage("/imgs/snowball.png");
-			scaleX = 0.1;
-			scaleY = 0.1;
+		} else if (type.equals("Iceball")) {
+			height = 25;
+			width = 25;
+			img = getImage("/imgs/iceball.png");
+			scaleX = 0.15;
+			scaleY = 0.15;
 		}
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y);
@@ -46,6 +47,9 @@ public class Projectile extends MarioObject {
 	public boolean getHit() {
 		return hit;
 	}
+	public boolean getOnScreen() {
+		return onScreen;
+	}
 	
 	// setters
 	public void setVX(int vx) {
@@ -56,6 +60,9 @@ public class Projectile extends MarioObject {
 	}
 	public void setHit(boolean hit) {
 		this.hit = hit;
+	}
+	public void setOnScreen(boolean onScreen) {
+		this.onScreen = onScreen;
 	}
 	
 	// graphics settings

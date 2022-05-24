@@ -7,7 +7,7 @@ import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.net.URL;
 
-public class CharacterTemp {
+public class Character2 {
 	private int x, y, height, width, vx, state;
 	private boolean big, hasAbility, jumping, onPlatform;
 	private String ability;
@@ -15,7 +15,7 @@ public class CharacterTemp {
 	private Image img;
 	private AffineTransform tx;
 	
-	public CharacterTemp(int x, int y) {
+	public Character2(int x, int y) {
 		this.x = x;
 		this.y = y;
 		height = 39;
@@ -99,7 +99,7 @@ public class CharacterTemp {
 	
 	public void moveX(MarioObject other, boolean current) {
 		if (insideObjectX(other)) {
-			if (Frame.platform == Frame.originalPlatform && !(y + height < other.getY()) && !belowObject(other)) {
+			if (GameRunner.platform == GameRunner.originalPlatform && !(y + height < other.getY()) && !belowObject(other)) {
 				if (x <= other.getX()) {
 					x = other.getX() - width;
 				} else {
@@ -115,7 +115,7 @@ public class CharacterTemp {
 			if (y + height <= other.getY()) {
 				result = true;
 				if (result) {
-					Frame.platform = other.getY() - height;
+					GameRunner.platform = other.getY() - height;
 				}
 			}
 			if (collide(other)) {
@@ -133,7 +133,7 @@ public class CharacterTemp {
 			if (y + height <= other.getY() + 59) {
 				result = true;
 				if (result) {
-					Frame.platform = other.getY() + 60 - height;
+					GameRunner.platform = other.getY() + 60 - height;
 				}
 			}
 			if (collideMystBlock(other)) {
@@ -145,7 +145,7 @@ public class CharacterTemp {
 			if (y + height <= other.getY()) {
 				result = true;
 				if (result) {
-					Frame.platform = other.getY() - height;
+					GameRunner.platform = other.getY() - height;
 				}
 			}
 			if (collideMystBlock(other)) {
@@ -176,7 +176,7 @@ public class CharacterTemp {
 				result = true;
 			}
 		}
-		return result && Frame.vy < 0;
+		return result && GameRunner.vy < 0;
 	}
 	public boolean hittingMystBlockFromBelow(Block other) {
 		boolean result = false;
@@ -185,7 +185,7 @@ public class CharacterTemp {
 				result = true;
 			}
 		}
-		return result && Frame.vy < 0;
+		return result && GameRunner.vy < 0;
 	}
 	
 	public boolean insideObjectX(MarioObject other) {
@@ -362,7 +362,7 @@ public class CharacterTemp {
 	private Image getImage(String path) {
 		Image tempImage = null;
 		try {
-			URL imageURL = CharacterTemp.class.getResource(path);
+			URL imageURL = Character2.class.getResource(path);
 			tempImage = Toolkit.getDefaultToolkit().getImage(imageURL);
 		} catch (Exception e) {
 			e.printStackTrace();
