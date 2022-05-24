@@ -497,7 +497,7 @@ public class PipeTester extends JPanel implements ActionListener, MouseListener,
 			}
 		}
 		
-		if (arg0.getKeyCode() == 40) { 	//CHANGED/ADDED
+		/*if (arg0.getKeyCode() == 40) { 	//CHANGED/ADDED
 			if (shortPipeInRange == true) {
 				background.setX(background.getX() - Math.abs(longPipe.getX() - shortPipe.getX()));
 				if (background.outOfBounds() == true) {
@@ -523,7 +523,7 @@ public class PipeTester extends JPanel implements ActionListener, MouseListener,
 				}
 				mario.setY(shortPipe.getY() - mario.getHeight() - 1);
 			}
-		}
+		}*/
 
 	}
 
