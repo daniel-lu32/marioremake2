@@ -39,18 +39,27 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 	private int spawnX = 10;
 	private int spawnY = originalPlatform;
 	
-	private boolean summonBig = false;
 	private boolean summonIce = false;
 	private boolean summonFire = false;
 	private boolean summonOneup = false;
 	
 	// Collision Tracker Variables
-	private boolean onShort = false;
-	private boolean onLong = false;
+	private boolean onShort1 = false;
+	private boolean onShort2 = false;
+	// private boolean onLong = false;
 	private boolean onBlock1 = false;
 	private boolean onBlock2 = false;
 	private boolean onBlock3 = false;
 	private boolean onBlock4 = false;
+	private boolean onBlock5 = false;
+	private boolean onBlock6 = false;
+	private boolean onBlock7 = false;
+	private boolean onBlock8 = false;
+	private boolean onBlock9 = false;
+	private boolean onBlock10 = false;
+	private boolean onBlock11 = false;
+	private boolean onBlock12 = false;
+	
 	private boolean onMystBlock1 = false;
 	
 	// Fonts
@@ -61,37 +70,50 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 	Background background = new Background(0, -435);
 	Character2 mario = new Character2(spawnX, originalPlatform);
 	
-	Flag flag = new Flag (background.getX() + 600, 300);
+	Flag flag = new Flag (background.getX() + 780, 440);
 	KeyDisplay keyDisp = new KeyDisplay(450, 20);
-	Spikes spikes1 = new Spikes(120, originalPlatform);
 	
-	Goomba goomba = new Goomba(background.getX() + 450, originalPlatform);
-	PowerUp big = new PowerUp(500, originalPlatform, "Big Mushroom");
-	PowerUp ice = new PowerUp(600, originalPlatform, "Ice Flower");
-	PowerUp fire = new PowerUp(700, originalPlatform, "Fire Flower");
-	PowerUp oneup = new PowerUp(800, originalPlatform, "1-UP");
+	Goomba goomba1 = new Goomba(background.getX() + 450, originalPlatform);
 	
-	PowerUp bigFromBlock = new PowerUp(0, originalPlatform, "Big Mushroom");
-	PowerUp iceFromBlock = new PowerUp(0, originalPlatform, "Ice Flower");
-	PowerUp fireFromBlock = new PowerUp(0, originalPlatform, "Fire Flower");
-	PowerUp oneupFromBlock = new PowerUp(0, originalPlatform, "1-UP");
+	
+	
+	Spikes spikes1 = new Spikes(120, originalPlatform + 10);
+	Spikes spikes2 = new Spikes(800, originalPlatform + 10);
+	Spikes spikes3 = new Spikes(885, originalPlatform + 10);
+	
+	
+	
 	Key key1 = new Key(0, 0);
 	Key key2 = new Key(0, 0);
 	Key key3 = new Key(0, 0);
-	Peach door = new Peach(background.getX() + 950, -435 + 890);
+	Peach peach = new Peach(background.getX() + 1350, 200);
+	
 	PowerUp livesicon = new PowerUp(8, 10, "1-UP");
 	Coin coinicon = new Coin(10, 55);
 
-	Pipe shortPipe = new Pipe(background.getX() + 400, 570, false, false);
-	Pipe longPipe = new Pipe(background.getX() + 600, 430, true, false);	
+	Pipe shortPipe1 = new Pipe(background.getX() + 250, 570, false, false);
+	Pipe shortPipe2 = new Pipe(background.getX() + 550, 570, true, false);
+	//Pipe longPipe = new Pipe(background.getX() + 450, 430, true, false);	
 	Block block1 = new Block(background.getX() + 700, 480, "Normal", false);
 	Block block2 = new Block(background.getX() + 740, 480, "Normal", false);
 	Block block3 = new Block(background.getX() + 780, 480, "Normal", false);
 	Block block4 = new Block(background.getX() + 820, 480, "Normal", false);
-	Block mystBlock1 = new Block(background.getX() + 860, 480, "Mystery", true);
+	Block block5 = new Block(background.getX() + 1000, 480, "Normal", false);
+	Block block6 = new Block(background.getX() + 1080, 440, "Normal", false);
+	Block block7 = new Block(background.getX() + 1160, 400, "Normal", false);
+	Block block8 = new Block(background.getX() + 1240, 360, "Normal", false);
+	Block block9 = new Block(background.getX() + 1280, 360, "Normal", false);
+	Block block10 = new Block(background.getX() + 1320, 360, "Normal", false);
+	Block block11 = new Block(background.getX() + 1360, 360, "Normal", false);
+	Block block12 = new Block(background.getX() + 1400, 360, "Normal", false);
+	Block mystBlock1 = new Block(background.getX() + 900, 481, "Mystery", true);
 	
-	Projectile iceball = new Projectile(mario.getX() + 20, originalPlatform, "Iceball");   // DANIEL ADDED
-	Projectile fireball = new Projectile(mario.getX() + 20, originalPlatform, "Fireball"); // DANIEL ADDED
+	Projectile iceball = new Projectile(mario.getX() + 20, originalPlatform, "Iceball");
+	Projectile fireball = new Projectile(mario.getX() + 20, originalPlatform, "Fireball");
+	PowerUp big = new PowerUp(500, originalPlatform, "Big Mushroom");
+	PowerUp ice = new PowerUp(600, originalPlatform, "Ice Flower");
+	PowerUp fire = new PowerUp(700, originalPlatform, "Fire Flower");
+	PowerUp oneup = new PowerUp(800, originalPlatform, "1-UP");
 	
 	
 	// main method with code and movement that is called 60 times per second
@@ -107,7 +129,7 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		key3.paint(g);
 		keyDisp.paint(g);
 		flag.paint(g);
-		door.paint(g);
+		peach.paint(g);
 
 		// Paint Mario
 		mario.paint(g);
@@ -142,8 +164,8 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		}
 		// Key3
 		if (key3.getAvailable() == true) {
-			key3.setX(background.getX() + 1600);
-			key3.setY(435);
+			key3.setX(background.getX() + 1700);
+			key3.setY(200);
 		} else {
 			key3.setX(-500);
 		}
@@ -174,41 +196,38 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 			}
 		}
 				
-		// Door Mechanics
-		door.setX(background.getX() + 950);
-		door.setY(467);
-		if (mario.getX() + mario.getWidth() >= door.getX() - 30 && mario.getX() <= door.getX() + door.getWidth() + 30) {
-			if (mario.getY() + mario.getHeight() >= door.getY() - 30 && mario.getY() <= door.getY() + door.getHeight() + 30) {
+		// Peach Mechanics
+		peach.setX(background.getX() + 1350);
+		if (mario.getX() + mario.getWidth() >= peach.getX() - 30 && mario.getX() <= peach.getX() + peach.getWidth() + 30) {
+			if (mario.getY() + mario.getHeight() >= peach.getY() - 30 && mario.getY() <= peach.getY() + peach.getHeight() + 30) {
 				if (keyDisp.getState() <= 2) {
 					g.setFont(keyFont);
 					if (keyDisp.getState() == 2) {
-						g.drawString(("Collect " + (3 - keyDisp.getState()) + " more key to open!"), door.getX() - 55, door.getY() - 30);
+						g.drawString(("Collect " + (3 - keyDisp.getState()) + " more key to open!"), peach.getX() - 55, peach.getY() - 30);
 					} else {
-						g.drawString(("Collect " + (3 - keyDisp.getState()) + " more keys to open!"), door.getX() - 55, door.getY() - 30);
+						g.drawString(("Collect " + (3 - keyDisp.getState()) + " more keys to open!"), peach.getX() - 55, peach.getY() - 30);
 					}
 				}
 				if (keyDisp.getState() >= 3) {
-					door.setInRange(true);
+					peach.setInRange(true);
 					g.setFont(keyFont);
-					g.drawString(("Press enter to open!"), door.getX() - 30, door.getY() - 30);
+					g.drawString(("Press enter to open!"), peach.getX() - 30, peach.getY() - 30);
 				}
 			}
 		}
 		
 		// Pipe
-		shortPipe.setX(background.getX() + 350);
-		shortPipe.setY(570);
-		longPipe.setX(background.getX() + 550);
-		longPipe.setY(430);
-		shortPipe.paint(g);
-		longPipe.paint(g);
-		g.drawRect(400, 660, 115, 110);
-		g.drawRect(600, 510, 115, 260);
-		
+		shortPipe1.setX(background.getX() + 250);
+		shortPipe1.paint(g);
+		shortPipe2.setX(background.getX() + 550);
+		shortPipe2.paint(g);
+//		longPipe.setX(background.getX() + 450);
+//		longPipe.paint(g);
+//		
 		// Flag
 		flag.setImage();
-		flag.setX(background.getX() + 600);
-		flag.setY(300 - flag.getHeight() + mario.getHeight());
+		flag.setX(background.getX() + 780);
+		flag.setY(440 - flag.getHeight() + mario.getHeight());
 		if (mario.collide(flag)) {
 			flag.setState(2);
 			spawnX = background.getX() + flag.getX() + 10;
@@ -217,15 +236,33 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		
 		// Spikes
 		spikes1.setX(background.getX() + 120);
-		spikes1.setY(590);
+		spikes2.setX(background.getX() + 800);
+		spikes3.setX(background.getX() + 885);
+		spikes1.paint(g);
+		spikes2.paint(g);
+		spikes3.paint(g);
 		
 		if (mario.collide(spikes1) && !spikes1.getHit()) {
 			mario.setState(mario.getState() - 1);
 			mario.setHasAbility(false);
 			mario.setAbility("None");
-			System.out.println("spikes hit");
 			spikes1.setHit(true);
 		}
+		if (mario.collide(spikes2) && !spikes2.getHit()) {
+			mario.setState(mario.getState() - 1);
+			mario.setHasAbility(false);
+			mario.setAbility("None");
+			spikes2.setHit(true);
+		}
+		if (mario.collide(spikes3) && !spikes3.getHit()) {
+			mario.setState(mario.getState() - 1);
+			mario.setHasAbility(false);
+			mario.setAbility("None");
+			spikes3.setHit(true);
+		}
+		
+		
+		
 		if (fireball.getOnScreen()) {
 			fireball.paint(g);
 			fireball.setX(fireball.getX() + fireball.getVX());
@@ -247,28 +284,29 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 			iceball.setOnScreen(false);
 		}
 
-		// EDIT LATER
-		bigFromBlock.setX(block1.getX());
-		bigFromBlock.setY(block1.getY() - bigFromBlock.getHeight());
-		iceFromBlock.setX(block2.getX());
-		iceFromBlock.setY(block2.getY() - iceFromBlock.getHeight());
-		fireFromBlock.setX(block3.getX());
-		fireFromBlock.setY(block3.getY() - fireFromBlock.getHeight());
-		oneupFromBlock.setX(block4.getX());
-		oneupFromBlock.setY(block4.getY() - oneupFromBlock.getHeight());
-		if (summonBig) {
-			bigFromBlock.paint(g);
-		}
-		if (summonIce) {
-			iceFromBlock.paint(g);
-		}
-		if (summonFire) {
-			fireFromBlock.paint(g);
-		}
-		if (summonOneup) {
-			oneupFromBlock.paint(g);
-		}
-		// EDIT LATER
+//		// EDIT LATER
+//		bigFromBlock.setX(block1.getX());
+//		bigFromBlock.setY(block1.getY() - bigFromBlock.getHeight());
+//		iceFromBlock.setX(block2.getX());
+//		iceFromBlock.setY(block2.getY() - iceFromBlock.getHeight());
+//		fireFromBlock.setX(block3.getX());
+//		fireFromBlock.setY(block3.getY() - fireFromBlock.getHeight());
+//		oneupFromBlock.setX(block4.getX());
+//		oneupFromBlock.setY(block4.getY() - oneupFromBlock.getHeight());
+//		if (summonBig) {
+//			bigFromBlock.paint(g);
+//		}
+//		if (summonIce) {
+//			iceFromBlock.paint(g);
+//		}
+//		if (summonFire) {
+//			fireFromBlock.paint(g);
+//		}
+//		if (summonOneup) {
+//			oneupFromBlock.paint(g);
+//		}
+//		// EDIT LATER
+		
 		// Prevent Mario from Going Off-Screen
 		if (mario.getX() <= 10) {	
 			mario.setX(10);
@@ -279,31 +317,39 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		}
 		
 		// Goomba Mechanics
-		goomba.setX(goomba.getX() + goomba.getVX());
-		goomba.paint(g);
-		if (goomba.collide(shortPipe)) {
-			goomba.setVX(goomba.getVX() * -1);
-			if (goomba.getX() <= shortPipe.getX()) {
-				goomba.setX(shortPipe.getX() - goomba.getWidth());
+		goomba1.setX(goomba1.getX() + goomba1.getVX());
+		goomba1.paint(g);
+		if (goomba1.collide(shortPipe1)) {
+			goomba1.setVX(goomba1.getVX() * -1);
+			if (goomba1.getX() <= shortPipe1.getX()) {
+				goomba1.setX(shortPipe1.getX() - goomba1.getWidth());
 			} else {
-				goomba.setX(shortPipe.getX() + shortPipe.getWidth());
+				goomba1.setX(shortPipe1.getX() + shortPipe1.getWidth());
 			}
 		}
 		
-		if (goomba.collide(longPipe)) {
-			goomba.setVX(goomba.getVX() * -1);
-			if (goomba.getX() <= longPipe.getX()) {
-				goomba.setX(longPipe.getX() - goomba.getWidth());
+//		if (goomba.collide(longPipe)) {
+//			goomba.setVX(goomba.getVX() * -1);
+//			if (goomba.getX() <= longPipe.getX()) {
+//				goomba.setX(longPipe.getX() - goomba.getWidth());
+//			} else {
+//				goomba.setX(longPipe.getX() + longPipe.getWidth());
+//			}
+//		}
+		
+		if (goomba1.collide(shortPipe2)) {
+			goomba1.setVX(goomba1.getVX() * -1);
+			if (goomba1.getX() <= shortPipe2.getX()) {
+				goomba1.setX(shortPipe2.getX() - goomba1.getWidth());
 			} else {
-				goomba.setX(longPipe.getX() + longPipe.getWidth());
+				goomba1.setX(shortPipe2.getX() + shortPipe2.getWidth());
 			}
 		}
-		
-		if (mario.collide(goomba) && !goomba.getHit()) {
+		if (mario.collide(goomba1) && !goomba1.getHit()) {
 			mario.setState(mario.getState() - 1);
 			mario.setHasAbility(false);
 			mario.setAbility("None");
-			goomba.setHit(true);
+			goomba1.setHit(true);
 		}
 		
 		if (mario.getState() < 0) {
@@ -311,9 +357,11 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 			mario.setState(0);
 			mario.setHasAbility(false);
 			mario.setAbility("None");
-			goomba.setHit(false);
-			resetPosition();
+			goomba1.setHit(false);
 			spikes1.setHit(false);
+			spikes2.setHit(false);
+			spikes3.setHit(false);
+			resetPosition();
 		}
 		
 		// PowerUp
@@ -342,6 +390,7 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 				mario.setState(1);
 			}
 		}
+		
 		if (mario.collide(ice) && !ice.getHit()) {
 			ice.setHit(true);
 			mario.setHasAbility(true);
@@ -360,53 +409,75 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		}
 
 		
-		spikes1.paint(g);
 		mystBlock1.paint(g);
+		
+		// 4 Blocks
 		block1.setX(background.getX() + 700);
 		block2.setX(background.getX() + 740);
 		block3.setX(background.getX() + 780);
 		block4.setX(background.getX() + 820);
+		block5.setX(background.getX() + 1000);
+		block6.setX(background.getX() + 1080);
+		block7.setX(background.getX() + 1160);
+		block8.setX(background.getX() + 1240);
+		block9.setX(background.getX() + 1280);
+		block10.setX(background.getX() + 1320);
+		block11.setX(background.getX() + 1360);
+		block12.setX(background.getX() + 1400);
+
 		block1.paint(g);
 		block2.paint(g);
 		block3.paint(g);
 		block4.paint(g);
+		block5.paint(g);
+		block6.paint(g);
+		block7.paint(g);
+		block8.paint(g);
+		block9.paint(g);
+		block10.paint(g);
+		block11.paint(g);
+		block12.paint(g);
 		
-		mystBlock1.setX(background.getX() + 860);			//ADDED
-		if (mystBlock1.getHasCoin() == true) {				//
-			mystBlock1.setY(481);		//
-		}													//
-		else {												//
-			mystBlock1.setY(421);		//
+		mystBlock1.setX(background.getX() + 900);
+		if (mystBlock1.getHasCoin()) {
+			mystBlock1.setY(481);
+		} else {
+			mystBlock1.setY(421);
 		}
 		
-		onShort = mario.aboveObject(shortPipe, onShort);
-		onLong = mario.aboveObject(longPipe, onLong);
+		onShort1 = mario.aboveObject(shortPipe1, onShort1);
+		onShort2 = mario.aboveObject(shortPipe2, onShort2);
+//		onLong = mario.aboveObject(longPipe, onLong);
 		onBlock1 = mario.aboveObject(block1, onBlock1);
 		onBlock2 = mario.aboveObject(block2, onBlock2);
 		onBlock3 = mario.aboveObject(block3, onBlock3);
 		onBlock4 = mario.aboveObject(block4, onBlock4);
+		onBlock5 = mario.aboveObject(block5, onBlock5);
+		onBlock6 = mario.aboveObject(block6, onBlock6);
+		onBlock7 = mario.aboveObject(block7, onBlock7);
+		onBlock8 = mario.aboveObject(block8, onBlock8);
+		onBlock9 = mario.aboveObject(block9, onBlock9);
+		onBlock10 = mario.aboveObject(block10, onBlock10);
+		onBlock11 = mario.aboveObject(block11, onBlock11);
+		onBlock12 = mario.aboveObject(block12, onBlock12);
 		onMystBlock1 = mario.aboveMystBlock(mystBlock1, onMystBlock1, mystBlock1.getAvailable());	//CHANGED
 
-		if (!onShort && !onLong && !onBlock1 && !onBlock2 && !onBlock3 && !onBlock4 && !onMystBlock1) {		//CHANGED
+		if (/*!onLong && */!onShort1 && !onShort2 && !onBlock1 && !onBlock2 && !onBlock3 && !onBlock4 && !onMystBlock1 && !onBlock5 && !onBlock6 && !onBlock7 && !onBlock8 && !onBlock9 && !onBlock10 && !onBlock11 && !onBlock12) {		//CHANGED
 			platform = originalPlatform;
 		}
 		
 		if (mario.hittingObjectFromBelow(block1)) {
 			vy = 4;
-			summonBig = true;
+			summonIce = true;
 		}
 		if (mario.hittingObjectFromBelow(block2)) {
 			vy = 4;
-			summonIce = true;
-		}
-		if (mario.hittingObjectFromBelow(block3)) {
-			vy = 4;
 			summonFire = true;
 		}
-		if (mario.hittingObjectFromBelow(block4)) {
+		if (mario.hittingObjectFromBelow(block3) || mario.hittingObjectFromBelow(block4) || mario.hittingObjectFromBelow(block5) || mario.hittingObjectFromBelow(block6) || mario.hittingObjectFromBelow(block7) || mario.hittingObjectFromBelow(block8) || mario.hittingObjectFromBelow(block9) || mario.hittingObjectFromBelow(block10) || mario.hittingObjectFromBelow(block11) || mario.hittingObjectFromBelow(block12)) {
 			vy = 4;
-			summonOneup = true;
 		}
+		
 		if (mario.hittingMystBlockFromBelow(mystBlock1)) { //CHANGED
 			vy = 4;
 		}
@@ -429,8 +500,10 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		if (frameTracker % 35 == 0) {
 			time--;
 			if (frameTracker % 350 == 0) {
-				goomba.setHit(false);
+				goomba1.setHit(false);
 				spikes1.setHit(false);
+				spikes2.setHit(false);
+				spikes3.setHit(false);
 			}
 		}
 		// Paint the Lives and Coin Icons
@@ -462,6 +535,7 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		
 		if (time <= 0) {
 			time = 0;
+			lives = 0;
 		}
 		if (time <= 60) {
 			g.setColor(Color.RED);
@@ -501,36 +575,36 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		lives = 7;
 		coins = 0;
 		score = 0;
-		time = 1800;
+		time = 300;
 		frameTracker = 0;
 		platform = originalPlatform;
 		lost = false;
 	}
 	public void endGame() {
 		if (lost) {
-			onShort = false;
-			onLong = false;
+			spawnX = 10;
+			spawnY = originalPlatform;
+			
+			background = new Background(0, -435);
+			mario = new Character2(spawnX, spawnY);
+			
+			
+			onShort1 = false;
+			onShort2 = false;
+			// onLong = false;
 			onBlock1 = false;
 			onBlock2 = false;
 			onBlock3 = false;
 			onBlock4 = false;
-			goomba.setHit(false);
-			spikes1.setHit(false);
-			big.setHit(false);
-			ice.setHit(false);
-			fire.setHit(false);
-			oneup.setHit(false);
-			background = new Background(0, -435);
-			mario = new Character2(spawnX, originalPlatform);
 			flag = new Flag (880, originalPlatform);
 			keyDisp = new KeyDisplay(450, 20);
 			spikes1 = new Spikes(120, originalPlatform);
-			goomba = new Goomba(550, originalPlatform);
+			goomba1 = new Goomba(550, originalPlatform);
 			big = new PowerUp(600, originalPlatform, "Big Mushroom");
 			ice = new PowerUp(700, originalPlatform, "Ice Flower");
 			fire = new PowerUp(800, originalPlatform, "Fire Flower");
 			oneup = new PowerUp(900, originalPlatform, "1-UP");
-			door = new Peach(background.getX() + 950, 455);
+			peach = new Peach(background.getX() + 1350, 200);
 		}
 	}
 	
@@ -615,9 +689,9 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		}
 		
 		if (arg0.getKeyCode() == 10) {
-			if (door.getInRange() == true) {
-				door.setStateLocked(false);
-				door.chooseImage();
+			if (peach.getInRange() == true) {
+				peach.setStateLocked(false);
+				peach.chooseImage();
 			}
 		}
 		if (arg0.getKeyCode() == 82 && lost) {
