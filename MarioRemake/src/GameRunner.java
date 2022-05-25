@@ -78,7 +78,7 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 	Key key1 = new Key(0, 0);
 	Key key2 = new Key(0, 0);
 	Key key3 = new Key(0, 0);
-	Door door = new Door(background.getX() + 950, -435 + 890);
+	Peach door = new Peach(background.getX() + 950, -435 + 890);
 	PowerUp livesicon = new PowerUp(8, 10, "1-UP");
 	Coin coinicon = new Coin(10, 55);
 
@@ -530,7 +530,7 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 			ice = new PowerUp(700, originalPlatform, "Ice Flower");
 			fire = new PowerUp(800, originalPlatform, "Fire Flower");
 			oneup = new PowerUp(900, originalPlatform, "1-UP");
-			door = new Door(background.getX() + 950, 455);
+			door = new Peach(background.getX() + 950, 455);
 		}
 	}
 	

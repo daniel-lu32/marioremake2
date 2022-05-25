@@ -63,7 +63,7 @@ public class LevelOne extends JPanel implements ActionListener, MouseListener, K
 	MarioObject key = new Key(0, 600);
 	int keyX = (((Key)key).getRandomX(400, 800));
 	int keyY = (((Key)key).getRandomY(900, 1100));
-	Door door = new Door(background.getX() + 950, background.getY() + 890);
+	Peach door = new Peach(background.getX() + 950, background.getY() + 890);
 	
 	// main method with code and movement that is called 60 times per second
 	public void paint(Graphics g) {

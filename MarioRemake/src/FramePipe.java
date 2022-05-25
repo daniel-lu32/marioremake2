@@ -76,7 +76,7 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 	MarioObject key1 = new Key(0, 0);
 	MarioObject key2 = new Key(0, 0);				
 	MarioObject key3 = new Key(0, 0);
-	Door door = new Door(background.getX() + 950, background.getY() + 890);
+	Peach peach = new Peach(background.getX() + 950, background.getY() + 940);
 	PowerUp livesicon = new PowerUp(8, 10, "1-UP");
 	Coin coinicon = new Coin(10, 55);
 
@@ -117,7 +117,7 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 		// Paint the Background
 		background.paint(g);
 		// Paint Other Objects
-		door.paint(g);
+		peach.paint(g);
 		key1.paint(g);
 		key2.paint(g);	
 		key3.paint(g);	
@@ -253,21 +253,21 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 					}
 				}
 				
-		// Door Mechanics
-		door.setX(background.getX() + 950);
-		door.setY(background.getY() + 902);
+		// Peach Mechanics
+		peach.setX(background.getX() + 950);
+		peach.setY(background.getY() + 968);
 		Font keyFont = new Font("keyFont", Font.BOLD, 14);
-		if (mario.getX() + mario.getWidth() >= door.getX() - 30 && mario.getX() <= door.getX() + door.getWidth() + 30) {
-			if (mario.getY() + mario.getHeight() >= door.getY() - 30 && mario.getY() <= door.getY() + door.getHeight() + 30) {
-				System.out.println("in door range");	//remove later
+		if (mario.getX() + mario.getWidth() >= peach.getX() - 30 && mario.getX() <= peach.getX() + peach.getWidth() + 30) {
+			if (mario.getY() + mario.getHeight() >= peach.getY() - 30 && mario.getY() <= peach.getY() + peach.getHeight() + 30) {
+				System.out.println("in peach range");	//remove later
 				if (keyDisp.getState() <= 2) {
 					g.setFont(keyFont);
-					g.drawString(("collect " + (3 - keyDisp.getState()) + " more keys to open"), door.getX() - 55, door.getY() - 30);
+					g.drawString(("collect " + (3 - keyDisp.getState()) + " more keys to open"), peach.getX() - 55, peach.getY() - 30);
 				}
 				if (keyDisp.getState() >= 3) {
-					door.setInRange(true);
+					peach.setInRange(true);
 					g.setFont(keyFont);
-					g.drawString(("press enter to open"), door.getX() - 30, door.getY() - 30);
+					g.drawString(("press enter to open"), peach.getX() - 30, peach.getY() - 30);
 				}
 			}
 		}
@@ -574,7 +574,7 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 			ice = new PowerUp(700, originalPlatform, "Ice Flower");
 			fire = new PowerUp(800, originalPlatform, "Fire Flower");
 			oneup = new PowerUp(900, originalPlatform, "1-UP");
-			door = new Door(background.getX() + 950, background.getY() + 890);
+			peach = new Peach(background.getX() + 950, background.getY() + 890);
 		}
 
 	}
@@ -660,51 +660,48 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 		}
 		
 		if (arg0.getKeyCode() == 10) {
-			if (door.getInRange() == true) {
-				door.setStateLocked(false);
-				door.chooseImage();
+			if (peach.getInRange() == true) {
+				peach.setStateLocked(false);
+				peach.chooseImage();
 			}
 		}
 		if (arg0.getKeyCode() == 82 && lost) {
 			reset();
 		}
 		
-		if (arg0.getKeyCode() == 40) { 	//CHANGED/ADDED
-			if (shortPipeInRange == true) {
-				background.setX(background.getX() - Math.abs(longPipe.getX() - shortPipe.getX()));
-				if (background.outOfBoundsLeft() == true || background.outOfBoundsRight() == true) {
-					if (background.outOfBoundsLeft() == true) {
-						background.setX(0);
-					}
-					if (background.outOfBoundsRight() == true) {
-						background.setX(1200 - background.getWidth());
-					}
-					//ADD IF STATEMENT HERE FOR DIFFERENT LEVELS, CHANGING THE X VALUE TO BE SET TO
-					if (longPipe.getX() + 20 >= 1200) {
-						mario.setX(1050);
-					}
-					else {
-						mario.setX(longPipe.getX() + 20);
-					}
+		if (arg0.getKeyCode() == 40 && shortPipeInRange == true) {
+			background.setX(background.getX() - Math.abs(longPipe.getX() - shortPipe.getX()));
+			if (background.outOfBoundsLeft() == true || background.outOfBoundsRight() == true) {
+				if (background.outOfBoundsLeft() == true) {
+					background.setX(0);
+				}
+				if (background.outOfBoundsRight() == true) {
+					background.setX(1200 - background.getWidth());
+				}
+				//ADD IF STATEMENT HERE FOR DIFFERENT LEVELS, CHANGING THE X VALUE TO BE SET TO
+				if (longPipe.getX() + 20 >= 1200) {
+					mario.setX(1050);
 				}
 				else {
-					mario.setX(mario.getX());
+					mario.setX(longPipe.getX() + 20);
 				}
-				mario.setY(longPipe.getY() - mario.getHeight() - 1);
 			}
-			
+			else {
+				mario.setX(mario.getX());
+			}
+			mario.setY(longPipe.getY() - mario.getHeight() - 1);
+			shortPipeInRange = false;
 		}
 		
-		if (arg0.getKeyCode() == 40) {	//CHANGED/ADDED
-			if (longPipeInRange == true) {
-				mario.setY(shortPipe.getY() - mario.getHeight() - 1);
+		else if (arg0.getKeyCode() == 40 && longPipeInRange == true) {
+				System.out.println("Got to 1");
 				background.setX(background.getX() + Math.abs(longPipe.getX() - shortPipe.getX()));
 				if (background.outOfBoundsLeft() == true || background.outOfBoundsRight() == true) {
 					if (background.outOfBoundsLeft() == true) {
 						background.setX(0);
 					}
 					if (background.outOfBoundsRight() == true) {
-						background.setX(1200 - background.getWidth());
+						background.setX(1600 - background.getWidth());
 					}
 					//ADD IF STATEMENT HERE FOR DIFFERENT LEVELS, CHANGING THE X VALUE TO BE SET TO
 					if (shortPipe.getX() + 20 <= 0) {
@@ -717,8 +714,9 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 				else {
 					mario.setX(mario.getX());
 				}
-				mario.setY(shortPipe.getY() - mario.getHeight() - 1);
-			}
+				System.out.println("Got to 2");
+				mario.setY(1200);
+				longPipeInRange = false;
 		}
 
 	}

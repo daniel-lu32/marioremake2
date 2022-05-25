@@ -73,7 +73,7 @@ public class PipeTester extends JPanel implements ActionListener, MouseListener,
 	MarioObject key2 = new Key(0, 0);			
 	MarioObject key3 = new Key(0, 0);
 	
-	Door door = new Door(background.getX() + 980, background.getY() + 890);
+	Peach door = new Peach(background.getX() + 980, background.getY() + 890);
 	
 	// main method with code and movement that is called 60 times per second
 	public void paint(Graphics g) {
@@ -497,7 +497,7 @@ public class PipeTester extends JPanel implements ActionListener, MouseListener,
 			}
 		}
 		
-		/*if (arg0.getKeyCode() == 40) { 	//CHANGED/ADDED
+		if (arg0.getKeyCode() == 40) { 	//CHANGED/ADDED
 			if (shortPipeInRange == true) {
 				background.setX(background.getX() - Math.abs(longPipe.getX() - shortPipe.getX()));
 				if (background.outOfBounds() == true) {
@@ -523,7 +523,7 @@ public class PipeTester extends JPanel implements ActionListener, MouseListener,
 				}
 				mario.setY(shortPipe.getY() - mario.getHeight() - 1);
 			}
-		}*/
+		}
 
 	}
 

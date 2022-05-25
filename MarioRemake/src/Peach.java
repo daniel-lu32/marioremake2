@@ -7,31 +7,31 @@ import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.net.URL;
 
-public class Door extends MarioObject {
+public class Peach extends MarioObject {
 	
 	// attributes
 	private boolean stateLocked;
 	private boolean inRange;
 	
-	public Door(int x, int y) {
+	public Peach(int x, int y) {
 		super(x, y);
 		stateLocked = true;
 		inRange = false;
-		height = 154;
-		width = 81;
-		scaleX = 0.6;
-		scaleY = 0.6;
-		img = getImage("/imgs/doorLocked.png");
+		height = 100;
+		width = 78;
+		scaleX = 0.3;
+		scaleY = 0.3;
+		img = getImage("/imgs/peachLocked.png");
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y);
 	}
 	
 	public void chooseImage() {
 		if (this.stateLocked == true) {
-			img = getImage("/imgs/doorLocked.png");
+			img = getImage("/imgs/peachLocked.png");
 		}
 		else {
-			img = getImage("/imgs/doorUnlocked.png");
+			img = getImage("/imgs/peachUnlocked.png");
 		}
 	}
 	

@@ -73,7 +73,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 	MarioObject key1 = new Key(0, 0);
 	MarioObject key2 = new Key(0, 0);					//ADDED keys 2 and 3
 	MarioObject key3 = new Key(0, 0);
-	Door door = new Door(background.getX() + 950, background.getY() + 890);
+	Peach door = new Peach(background.getX() + 950, background.getY() + 890);
 	PowerUp livesicon = new PowerUp(8, 10, "1-UP");
 	Coin coinicon = new Coin(10, 55);
 
@@ -597,7 +597,7 @@ public class Frame extends JPanel implements ActionListener, MouseListener, KeyL
 			ice = new PowerUp(700, originalPlatform, "Ice Flower");
 			fire = new PowerUp(800, originalPlatform, "Fire Flower");
 			oneup = new PowerUp(900, originalPlatform, "1-UP");
-			door = new Door(background.getX() + 950, background.getY() + 890);
+			door = new Peach(background.getX() + 950, background.getY() + 890);
 		}
 	}
 	

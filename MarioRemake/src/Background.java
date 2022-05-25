@@ -30,6 +30,15 @@ public class Background{
 
 	} 
 	
+	public boolean outOfBounds() {
+		if (this.getX() > 0 || this.getX() + this.getWidth() < 1200) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
 	public boolean outOfBoundsLeft() {
 		if (this.getX() > 0) {
 			return true;

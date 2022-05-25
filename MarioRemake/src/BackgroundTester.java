@@ -67,7 +67,7 @@ public class BackgroundTester extends JPanel implements ActionListener, MouseLis
 	MarioObject key2 = new Key(0, 0);					//ADDED keys 2 and 3
 	MarioObject key3 = new Key(0, 0);
 	
-	Door door = new Door(background.getX() + 980, background.getY() + 890);
+	Peach door = new Peach(background.getX() + 980, background.getY() + 890);
 	
 	// main method with code and movement that is called 60 times per second
 	public void paint(Graphics g) {
