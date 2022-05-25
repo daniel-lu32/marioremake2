@@ -50,6 +50,7 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 	private boolean onBlock2 = false;
 	private boolean onBlock3 = false;
 	private boolean onBlock4 = false;
+	private boolean onPrison = false;	//ADDED
 	private boolean onMystBlock1 = false;
 	
 	boolean shortPipeInRange = false;	//ADDED
@@ -61,7 +62,8 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 	
 	Flag flag = new Flag (background.getX() + 880, originalPlatform);
 	KeyDisplay keyDisp = new KeyDisplay(450, 20);
-	Spikes spikes1 = new Spikes(120, originalPlatform);
+	Spikes spikes1 = new Spikes(120, originalPlatform + 10);
+	Spikes spikes2 = new Spikes(1050, originalPlatform + 10);	//ADDED
 	
 	Goomba goomba = new Goomba(background.getX() + 450, originalPlatform);
 	PowerUp big = new PowerUp(500, originalPlatform, "Big Mushroom");
@@ -76,7 +78,7 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 	MarioObject key1 = new Key(0, 0);
 	MarioObject key2 = new Key(0, 0);				
 	MarioObject key3 = new Key(0, 0);
-	Peach peach = new Peach(background.getX() + 950, background.getY() + 940);
+	Peach peach = new Peach(background.getX() + 950, platform - 47);
 	PowerUp livesicon = new PowerUp(8, 10, "1-UP");
 	Coin coinicon = new Coin(10, 55);
 
@@ -123,6 +125,7 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 		key3.paint(g);	
 		keyDisp.paint(g);
 		spikes1.paint(g);
+		spikes2.paint(g);
 		mystBlock1.paint(g); 
 		
 		// mass produce?
@@ -314,6 +317,8 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 		// Spikes
 		spikes1.setX(background.getX() + 120);
 		spikes1.setY(background.getY() + 1025);
+		spikes2.setX(background.getX() + 1050);		//ADDED
+		spikes2.setY(background.getY() + 1025);		//ADDED
 //		if (mario.getX() + mario.getWidth() >= spikes1.getX() && mario.getX() <= spikes1.getX() + spikes1.getWidth()) {
 //			if (mario.getY() + mario.getHeight() >= spikes1.getY() && mario.getY() <= spikes1.getY() + spikes1.getHeight()) {
 //				spikes1.setHit(true);
@@ -328,6 +333,14 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 			mario.setAbility("None");
 			System.out.println("spikes hit");
 			spikes1.setHit(true);
+		}
+		
+		if (mario.collide(spikes2) && !spikes2.getHit()) {		//ADDED METHOD
+			mario.setState(mario.getState() - 1);
+			mario.setHasAbility(false);
+			mario.setAbility("None");
+			System.out.println("spikes hit");
+			spikes2.setHit(true);
 		}
 		
 		// Prevent Mario from Going Off-Screen
@@ -375,6 +388,7 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 			goomba.setHit(false);
 			resetPosition();
 			spikes1.setHit(false);
+			spikes2.setHit(false);		//ADDED
 		}
 		
 		// PowerUp
@@ -443,9 +457,15 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 		onBlock2 = mario.aboveObject(block2, onBlock2);
 		onBlock3 = mario.aboveObject(block3, onBlock3);
 		onBlock4 = mario.aboveObject(block4, onBlock4);
+		if (peach.getStateLocked() == false) {				//ADDED
+			onPrison = false;								//ADDED
+		}													//ADDED
+		else {												//ADDED
+			onPrison = mario.aboveObject(peach, onPrison);	//ADDED
+		}
 		onMystBlock1 = mario.aboveMystBlock(mystBlock1, onMystBlock1, mystBlock1.getAvailable());	
 
-		if (!onShort && !onLong && !onBlock1 && !onBlock2 && !onBlock3 && !onBlock4 && !onMystBlock1) {	
+		if (!onShort && !onLong && !onBlock1 && !onBlock2 && !onBlock3 && !onBlock4 && !onMystBlock1 && !onPrison) {	//ADDED PRISON
 			platform = originalPlatform;
 		}
 		
@@ -488,6 +508,7 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 			if (frameTracker % 350 == 0) {
 				goomba.setHit(false);
 				spikes1.setHit(false);
+				spikes2.setHit(false);		//ADDED
 			}
 		}
 		// Paint the Lives and Coin Icons
@@ -558,8 +579,10 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 			onBlock2 = false;
 			onBlock3 = false;
 			onBlock4 = false;
+			onPrison = false;	//ADDED
 			goomba.setHit(false);
 			spikes1.setHit(false);
+			spikes2.setHit(false);		//ADDED
 			big.setHit(false);
 			ice.setHit(false);
 			fire.setHit(false);
@@ -568,13 +591,14 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 			mario = new Character(spawnX, originalPlatform);
 			flag = new Flag (880, originalPlatform);
 			keyDisp = new KeyDisplay(450, 20);
-			spikes1 = new Spikes(120, originalPlatform);
+			spikes1 = new Spikes(120, originalPlatform + 10);
+			spikes2 = new Spikes(1050, originalPlatform + 10);	//ADDED
 			goomba = new Goomba(550, originalPlatform);
 			big = new PowerUp(600, originalPlatform, "Big Mushroom");
 			ice = new PowerUp(700, originalPlatform, "Ice Flower");
 			fire = new PowerUp(800, originalPlatform, "Fire Flower");
 			oneup = new PowerUp(900, originalPlatform, "1-UP");
-			peach = new Peach(background.getX() + 950, background.getY() + 890);
+			peach = new Peach(background.getX() + 950, platform - 47);
 		}
 
 	}
@@ -670,7 +694,7 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 		}
 		
 		if (arg0.getKeyCode() == 40 && shortPipeInRange == true) {
-			background.setX(background.getX() - Math.abs(longPipe.getX() - shortPipe.getX()));
+			/*background.setX(background.getX() - Math.abs(longPipe.getX() - shortPipe.getX()));
 			if (background.outOfBoundsLeft() == true || background.outOfBoundsRight() == true) {
 				if (background.outOfBoundsLeft() == true) {
 					background.setX(0);
@@ -688,35 +712,45 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 			}
 			else {
 				mario.setX(mario.getX());
-			}
+			}*/
+			
+			//ADD IF STATEMENT HERE FOR DIFF LEVELS
+			platform = longPipe.getY() - 1;
+			background.setX(1200 - background.getWidth());
+			mario.setX(1050);
 			mario.setY(longPipe.getY() - mario.getHeight() - 1);
 			shortPipeInRange = false;
 		}
 		
 		else if (arg0.getKeyCode() == 40 && longPipeInRange == true) {
-				System.out.println("Got to 1");
-				background.setX(background.getX() + Math.abs(longPipe.getX() - shortPipe.getX()));
-				if (background.outOfBoundsLeft() == true || background.outOfBoundsRight() == true) {
-					if (background.outOfBoundsLeft() == true) {
-						background.setX(0);
-					}
-					if (background.outOfBoundsRight() == true) {
-						background.setX(1600 - background.getWidth());
-					}
-					//ADD IF STATEMENT HERE FOR DIFFERENT LEVELS, CHANGING THE X VALUE TO BE SET TO
-					if (shortPipe.getX() + 20 <= 0) {
-						mario.setX(400);
-					}
-					else {
-						mario.setX(shortPipe.getX() + 20);
-					}
+			/*System.out.println("Got to 1");
+			background.setX(background.getX() + Math.abs(longPipe.getX() - shortPipe.getX()));
+			if (background.outOfBoundsLeft() == true || background.outOfBoundsRight() == true) {
+				if (background.outOfBoundsLeft() == true) {
+					background.setX(0);
+				}
+				if (background.outOfBoundsRight() == true) {
+					background.setX(1600 - background.getWidth());
+				}
+				//ADD IF STATEMENT HERE FOR DIFFERENT LEVELS, CHANGING THE X VALUE TO BE SET TO
+				if (shortPipe.getX() + 20 <= 0) {
+					mario.setX(400);
 				}
 				else {
-					mario.setX(mario.getX());
+					mario.setX(shortPipe.getX() + 20);
 				}
-				System.out.println("Got to 2");
-				mario.setY(1200);
-				longPipeInRange = false;
+			}
+			else {
+				mario.setX(mario.getX());
+			}
+			System.out.println("Got to 2"); */
+			
+			//ADD IF STATEMENT HERE FOR DIFF LEVELS
+			platform = shortPipe.getY() - 1;
+			background.setX(0);
+			mario.setX(400);
+			mario.setY(shortPipe.getY() - mario.getHeight() - 1);
+			longPipeInRange = false;
 		}
 
 	}
