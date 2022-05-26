@@ -46,7 +46,7 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 	// Collision Tracker Variables
 	private boolean onShort1 = false;
 	private boolean onShort2 = false;
-	// private boolean onLong = false;
+	private boolean onLong = false;
 	private boolean onBlock1 = false;
 	private boolean onBlock2 = false;
 	private boolean onBlock3 = false;
@@ -59,6 +59,9 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 	private boolean onBlock10 = false;
 	private boolean onBlock11 = false;
 	private boolean onBlock12 = false;
+
+	boolean shortPipeInRange = false;	//ADDED
+	boolean longPipeInRange = false;	//ADDED
 	
 	private boolean onMystBlock1 = false;
 	
@@ -93,7 +96,7 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 
 	Pipe shortPipe1 = new Pipe(background.getX() + 250, 570, false, false);
 	Pipe shortPipe2 = new Pipe(background.getX() + 550, 570, true, false);
-	//Pipe longPipe = new Pipe(background.getX() + 450, 430, true, false);	
+	Pipe longPipe = new Pipe(background.getX() + 1700, 350, true, false);	
 	Block block1 = new Block(background.getX() + 700, 480, "Normal", false);
 	Block block2 = new Block(background.getX() + 740, 480, "Normal", false);
 	Block block3 = new Block(background.getX() + 780, 480, "Normal", false);
@@ -221,9 +224,33 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		shortPipe1.paint(g);
 		shortPipe2.setX(background.getX() + 550);
 		shortPipe2.paint(g);
-//		longPipe.setX(background.getX() + 450);
-//		longPipe.paint(g);
-//		
+		longPipe.setX(background.getX() + 1700);
+		longPipe.paint(g);
+		
+		if (mario.getX() + mario.getWidth() >= shortPipe2.getX() + 30 && mario.getX() <= shortPipe2.getX() + shortPipe2.getWidth() - 30) {
+			if (mario.getY() + mario.getHeight() >= shortPipe2.getY() - 60 && mario.getY() <= shortPipe2.getY()) {
+				shortPipeInRange = true;
+				g.setFont(keyFont);
+				g.drawString("press down to enter", shortPipe2.getX() - 10, shortPipe2.getY() - 50);
+			}	
+		}
+		else {
+			shortPipeInRange = false;
+		}
+		
+		if (mario.getX() + mario.getWidth() >= longPipe.getX() + 30 && mario.getX() <= longPipe.getX() + longPipe.getWidth() - 30) {
+			if (mario.getY() + mario.getHeight() >= longPipe.getY() - 60 && mario.getY() <= longPipe.getY()) {
+				longPipeInRange = true;
+				g.setFont(keyFont);
+				g.drawString("press down to enter", longPipe.getX() - 10, longPipe.getY() - 50);
+			}	
+		}
+		else {
+			longPipeInRange = false;
+		}
+		
+		
+		
 		// Flag
 		flag.setImage();
 		flag.setX(background.getX() + 780);
@@ -447,7 +474,7 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		
 		onShort1 = mario.aboveObject(shortPipe1, onShort1);
 		onShort2 = mario.aboveObject(shortPipe2, onShort2);
-//		onLong = mario.aboveObject(longPipe, onLong);
+		onLong = mario.aboveObject(longPipe, onLong);
 		onBlock1 = mario.aboveObject(block1, onBlock1);
 		onBlock2 = mario.aboveObject(block2, onBlock2);
 		onBlock3 = mario.aboveObject(block3, onBlock3);
@@ -462,7 +489,7 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		onBlock12 = mario.aboveObject(block12, onBlock12);
 		onMystBlock1 = mario.aboveMystBlock(mystBlock1, onMystBlock1, mystBlock1.getAvailable());	//CHANGED
 
-		if (/*!onLong && */!onShort1 && !onShort2 && !onBlock1 && !onBlock2 && !onBlock3 && !onBlock4 && !onMystBlock1 && !onBlock5 && !onBlock6 && !onBlock7 && !onBlock8 && !onBlock9 && !onBlock10 && !onBlock11 && !onBlock12) {		//CHANGED
+		if (!onLong && !onShort1 && !onShort2 && !onBlock1 && !onBlock2 && !onBlock3 && !onBlock4 && !onMystBlock1 && !onBlock5 && !onBlock6 && !onBlock7 && !onBlock8 && !onBlock9 && !onBlock10 && !onBlock11 && !onBlock12) {		//CHANGED
 			platform = originalPlatform;
 		}
 		
@@ -708,7 +735,28 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 			}
 		}
 		// END
-
+		if (arg0.getKeyCode() == 40 && shortPipeInRange == true) {
+			background.setX(background.getX() - Math.abs(longPipe.getX() - shortPipe2.getX()));
+			if (background.outOfBoundsLeft() == true || background.outOfBoundsRight() == true) {
+				if (background.outOfBoundsLeft() == true) {
+					background.setX(0);
+				}
+				if (background.outOfBoundsRight() == true) {
+					background.setX(1200 - background.getWidth());
+				}
+				//ADD IF STATEMENT HERE FOR DIFFERENT LEVELS, CHANGING THE X VALUE TO BE SET TO
+				if (longPipe.getX() + 20 >= 1200) {
+					mario.setX(1050);
+				}
+				else {
+					mario.setX(longPipe.getX() + 20);
+				}
+			}
+			else {
+				mario.setX(mario.getX());
+			}
+		}
+		
 	}
 
 	@Override
