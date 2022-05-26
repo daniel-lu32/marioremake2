@@ -88,7 +88,7 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 	Block block2 = new Block(background.getX() + 740, background.getY() + 435 + 480, "Normal", false);
 	Block block3 = new Block(background.getX() + 780, background.getY() + 435 + 480, "Normal", false);
 	Block block4 = new Block(background.getX() + 820, background.getY() + 435 + 480, "Normal", false);
-	Block mystBlock1 = new Block(background.getX() + 280, background.getY() + 860, "Mystery", true);
+	Block mystBlock1 = new Block(background.getX() + 280, background.getY() + 860, "Mystery", true);		//ADDED
 	
 	//ADDED
 	Music theme = new Music("Super Mario Bros. Theme Song.wav", true);
@@ -417,8 +417,8 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 		
 		if (mario.getState() < 0) {
 			lives--;	//ADDED
-			if (lives != 0) {
-				lifeLost.play();
+			if (lives != 0) {		//ADDED
+				lifeLost.play();	//ADDED
 			}
 			mario.setState(0);
 			mario.setHasAbility(false);
@@ -485,7 +485,7 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 		block3.paint(g);
 		block4.paint(g);
 		
-		mystBlock1.setX(background.getX() + 280);			
+		mystBlock1.setX(background.getX() + 280);		//ADDED		
 		if (mystBlock1.getHasCoin() == true) {		
 			mystBlock1.setY(background.getY() + 860);		
 		}													
@@ -626,8 +626,8 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 	}
 	public void endGame() {
 		if (lost) {
-			theme.stop();
-			gameOver.start();
+			theme.stop();		//ADDED
+			gameOver.start();	//ADDED
 			onShort = false;
 			onLong = false;
 			onBlock1 = false;
@@ -786,7 +786,7 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 			mario.setX(1050);
 			mario.setY(longPipe.getY() - mario.getHeight() - 1);
 			shortPipeInRange = false;
-			pipeSound.play();
+			pipeSound.play();		//ADDED
 		}
 		
 		else if (arg0.getKeyCode() == 40 && longPipeInRange == true) {
