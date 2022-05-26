@@ -75,9 +75,9 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 	PowerUp iceFromBlock = new PowerUp(0, originalPlatform, "Ice Flower");
 	PowerUp fireFromBlock = new PowerUp(0, originalPlatform, "Fire Flower");
 	PowerUp oneupFromBlock = new PowerUp(0, originalPlatform, "1-UP");
-	MarioObject key1 = new Key(0, 0);
-	MarioObject key2 = new Key(0, 0);				
-	MarioObject key3 = new Key(0, 0);
+	MarioObject key1 = new Key(100, 405);	//CHANGED
+	MarioObject key2 = new Key(680, 205);	//CHANGED
+	MarioObject key3 = new Key(1600, 305);	//CHANGED
 	Peach peach = new Peach(background.getX() + 950, platform - 47);
 	PowerUp livesicon = new PowerUp(8, 10, "1-UP");
 	Coin coinicon = new Coin(10, 55);
@@ -88,7 +88,19 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 	Block block2 = new Block(background.getX() + 740, background.getY() + 435 + 480, "Normal", false);
 	Block block3 = new Block(background.getX() + 780, background.getY() + 435 + 480, "Normal", false);
 	Block block4 = new Block(background.getX() + 820, background.getY() + 435 + 480, "Normal", false);
-	Block mystBlock1 = new Block(background.getX() + 300, background.getY() + 860, "Mystery", true);
+	Block mystBlock1 = new Block(background.getX() + 280, background.getY() + 860, "Mystery", true);
+	
+	//ADDED
+	Music theme = new Music("Super Mario Bros. Theme Song.wav", true);
+	Music coinSound = new Music("coin.wav", false);
+	Music pipeSound = new Music("pipe.wav", false);
+	Music jumpSound = new Music("jump.wav", false);
+	Music mystSound = new Music("mysteryBlock.wav", false);
+	Music levelClear = new Music("level-clear.wav", false);
+	Music lifeLost = new Music("life-lost.wav", false);
+	Music gameOver = new Music("game-over.wav", false);
+	Music powerUp = new Music("power-up.wav", false);
+	Music powerUpAppears = new Music("power-up-appears.wav", false);
 	
 	public Coin[] massProduceCoins() {
 		Coin[] x1 = new Coin[10];
@@ -116,6 +128,10 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 	public void paint(Graphics g) {
 		super.paintComponent(g);
 		
+		if (lives > 0) {	//ADDED
+			theme.start();
+		}
+		
 		// Paint the Background
 		background.paint(g);
 		// Paint Other Objects
@@ -133,6 +149,7 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 		for (int i = 0; i < x3.length; i++) {
 			if (mario.collide(x3[i])) {
 				x3[i].setCollided(true);
+				coinSound.play();		//ADDED
 				coins++;
 			}
 			if (!x3[i].getCollided()) {
@@ -193,68 +210,86 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 		// Paint Mario
 		mario.paint(g);
 		
-		// Key Mechanics -- ADDED 2 NEW KEYS, COPY OVER
-				//Key1
-				g.drawRect(key1.getX(), key1.getY(), key1.getWidth(), key1.getHeight());
-				if (((Key)key1).getAvailable() == true) {
-					key1.setX(background.getX() + 100);
-					key1.setY(background.getY() + 840);
-				}
-				else {
-					((Key)key1).setX(-500);
-				}
-				//Key2
-				g.drawRect(key2.getX(), key2.getY(), key2.getWidth(), key2.getHeight());
-				if (((Key)key2).getAvailable() == true) {
-					key2.setX(background.getX() + 680);
-					key2.setY(background.getY() + 640);
-				}
-				else {
-					((Key)key2).setX(-500);
-				}
-
-				//Key3
-				g.drawRect(key3.getX(), key3.getY(), key3.getWidth(), key3.getHeight());
-				if (((Key)key3).getAvailable() == true) {
-					key3.setX(background.getX() + 1600);
-					key3.setY(background.getY() + 740);
-				}
-				else {
-					((Key)key3).setX(-500);
-				}
-
+		// Key Mechanics -- CHANGED, COPY OVER
+		//Key1
+		g.drawRect(key1.getX(), key1.getY(), key1.getWidth(), key1.getHeight());
+		if (((Key)key1).getAvailable() == true) {
+			key1.setX(background.getX() + 100);
+			key1.setY(background.getY() + 840);
+		}
+		else {
+			if (lost == false) {
+				key1.setX(-500);
+			}
+			else {
+				key1.setX(((Key)key1).getSpawnX());
+				key1.setY(((Key)key1).getSpawnY());
 				
-				// Key Display Mechanics -- ADDED 2 NEW KEYS, COPY OVER
-				//Key1
-				if (((Key)key1).getAvailable() == true) {
-					if (mario.getX() + mario.getWidth() >= key1.getX() && mario.getX() <= key1.getX() + key1.getWidth()) {
-						if (mario.getY() + mario.getHeight() >= key1.getY() && mario.getY() <= key1.getY() + key1.getHeight()) {
-							System.out.println("KEY HIT" + (keyDisp.getState()));
-							keyDisp.setState(keyDisp.getState() + 1);
-							((Key)key1).setAvailable(false);
-						}
-					}
+			}
+		}
+		//Key2
+		g.drawRect(key2.getX(), key2.getY(), key2.getWidth(), key2.getHeight());
+		if (((Key)key2).getAvailable() == true) {
+			key2.setX(background.getX() + 680);
+			key2.setY(background.getY() + 640);
+		}
+		else {
+			if (lost == false) {
+				key2.setX(-500);
+			}
+			else {
+				key2.setX(((Key)key2).getSpawnX());
+				key2.setY(((Key)key2).getSpawnY());
+			}
+		}
+
+		//Key3
+		g.drawRect(key3.getX(), key3.getY(), key3.getWidth(), key3.getHeight());
+		if (((Key)key3).getAvailable() == true) {
+			key3.setX(background.getX() + 1600);
+			key3.setY(background.getY() + 740);
+		}
+		else {
+			if (lost == false) {
+				key3.setX(-500);
+			}
+			else {
+				key3.setX(((Key)key3).getSpawnX());
+				key3.setY(((Key)key3).getSpawnY());
+			}
+		}
+				
+		// Key Display Mechanics -- CHANGED, COPY OVER
+		//Key1
+		if (((Key)key1).getAvailable() == true) {
+			if (mario.getX() + mario.getWidth() >= key1.getX() && mario.getX() <= key1.getX() + key1.getWidth()) {
+				if (mario.getY() + mario.getHeight() >= key1.getY() && mario.getY() <= key1.getY() + key1.getHeight()) {
+					System.out.println("KEY HIT" + (keyDisp.getState()));
+					keyDisp.setState(keyDisp.getState() + 1);
+					((Key)key1).setAvailable(false);
 				}
-				//Key2
-				if (((Key)key2).getAvailable() == true) {
-					if (mario.getX() + mario.getWidth() >= key2.getX() && mario.getX() <= key2.getX() + key2.getWidth()) {
-						if (mario.getY() + mario.getHeight() >= key2.getY() && mario.getY() <= key2.getY() + key2.getHeight()) {
-							System.out.println("KEY HIT" + (keyDisp.getState()));
-							keyDisp.setState(keyDisp.getState() + 1);
-							((Key)key2).setAvailable(false);
-						}
-					}
+			}
+		}
+		//Key2
+		if (((Key)key2).getAvailable() == true) {
+			if (mario.getX() + mario.getWidth() >= key2.getX() && mario.getX() <= key2.getX() + key2.getWidth()) {
+				if (mario.getY() + mario.getHeight() >= key2.getY() && mario.getY() <= key2.getY() + key2.getHeight()) {
+					System.out.println("KEY HIT" + (keyDisp.getState()));
+					keyDisp.setState(keyDisp.getState() + 1);
+					((Key)key2).setAvailable(false);
 				}
-				//Key3
-				if (((Key)key3).getAvailable() == true) {
-					if (mario.getX() + mario.getWidth() >= key3.getX() && mario.getX() <= key3.getX() + key3.getWidth()) {
-						if (mario.getY() + mario.getHeight() >= key3.getY() && mario.getY() <= key3.getY() + key3.getHeight()) {
-							System.out.println("KEY HIT" + (keyDisp.getState()));
-							keyDisp.setState(keyDisp.getState() + 1);
-							((Key)key3).setAvailable(false);
-						}
-					}
+			}
+		}
+		//Key3
+		if (((Key)key3).getAvailable() == true) {
+			if (mario.getX() + mario.getWidth() >= key3.getX() && mario.getX() <= key3.getX() + key3.getWidth()) {
+				if (mario.getY() + mario.getHeight() >= key3.getY() && mario.getY() <= key3.getY() + key3.getHeight()) {
+					System.out.println("KEY HIT" + (keyDisp.getState()));
+					keyDisp.setState(keyDisp.getState() + 1);
+					((Key)key3).setAvailable(false);
 				}
+			}
+		}
 				
 		// Peach Mechanics
 		peach.setX(background.getX() + 950);
@@ -381,7 +416,10 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 		}
 		
 		if (mario.getState() < 0) {
-			lives--;
+			lives--;	//ADDED
+			if (lives != 0) {
+				lifeLost.play();
+			}
 			mario.setState(0);
 			mario.setHasAbility(false);
 			mario.setAbility("None");
@@ -413,24 +451,28 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 		
 		if (mario.collide(big) && !big.getHit()) {
 			big.setHit(true);
+			powerUp.play();		//ADDED
 			if (!mario.getHasAbility()) {
 				mario.setState(1);
 			}
 		}
 		if (mario.collide(ice) && !ice.getHit()) {
 			ice.setHit(true);
+			powerUp.play();		//ADDED
 			mario.setHasAbility(true);
 			mario.setState(2);
 			mario.setAbility("Ice");
 		}
 		if (mario.collide(fire) && !fire.getHit()) {
 			fire.setHit(true);
+			powerUp.play();		//ADDED
 			mario.setHasAbility(true);
 			mario.setState(2);
 			mario.setAbility("Fire");
 		}
 		if (mario.collide(oneup) && !oneup.getHit()) {
 			oneup.setHit(true);
+			powerUp.play();		//ADDED
 			lives++;
 		}
 		
@@ -443,7 +485,7 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 		block3.paint(g);
 		block4.paint(g);
 		
-		mystBlock1.setX(background.getX() + 300);			
+		mystBlock1.setX(background.getX() + 280);			
 		if (mystBlock1.getHasCoin() == true) {		
 			mystBlock1.setY(background.getY() + 860);		
 		}													
@@ -470,32 +512,41 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 		}
 		
 		if (mario.hittingObjectFromBelow(block1)) {
-			vy = 4;
+			vy = 4;	
 			summonBig = true;
+			powerUpAppears.play();	//ADDED
+			
 		}
 		if (mario.hittingObjectFromBelow(block2)) {
 			vy = 4;
 			summonIce = true;
+			powerUpAppears.play();	//ADDED
 		}
 		if (mario.hittingObjectFromBelow(block3)) {
 			vy = 4;
 			summonFire = true;
+			powerUpAppears.play();	//ADDED
 		}
 		if (mario.hittingObjectFromBelow(block4)) {
 			vy = 4;
 			summonOneup = true;
+			powerUpAppears.play();	//ADDED
 		}
 		if (mario.hittingMystBlockFromBelow(mystBlock1)) { 
+			if (mystBlock1.getHasCoin() == true) {	//ADDED
+				mystBlock1.mystHit();
+				mystSound.play();
+			}
 			vy = 4;
 		}
-		if (mystBlock1.getAvailable() == true) {
+		/*if (mystBlock1.getAvailable() == true) {		//DELETE
 			if (mario.getX() + mario.getWidth() >= mystBlock1.getX() && mario.getX() <= mystBlock1.getX() + mystBlock1.getWidth()) {
 				if (mario.getY() <= mystBlock1.getY() + 40 + 10 && mario.getY() >= mystBlock1.getY() + 40 - 10) {
 					System.out.println("block hit");
 					mystBlock1.mystHit();
 				}
 			}
-		}
+		}*/
 		// Top Text Display (Lives, Score, Coins, and Timer)
 		g.setFont(new Font("Unknown", Font.BOLD, 20));
 		
@@ -550,7 +601,9 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 			g.drawString("" + time / 60 + ":" + time % 60, 1100, 30);
 		}
 		if (lost) {
-			g.drawString("Game Over. Press R to Restart!", 400, 200);
+			Font gameOver = new Font("gameOver", Font.BOLD, 36);		//ADDED
+			g.setFont(gameOver);										//ADDED
+			g.drawString("Game Over. Press R to Restart!", 320, 200);	//CHANGED
 		}
 		
 	} // end of paint method
@@ -573,12 +626,21 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 	}
 	public void endGame() {
 		if (lost) {
+			theme.stop();
+			gameOver.start();
 			onShort = false;
 			onLong = false;
 			onBlock1 = false;
 			onBlock2 = false;
 			onBlock3 = false;
 			onBlock4 = false;
+			((Key)key1).setAvailable(true);		//ADDED
+			((Key)key2).setAvailable(true);		//ADDED
+			((Key)key3).setAvailable(true);		//ADDED
+			onMystBlock1 = false;	//ADDED
+			mystBlock1.setHasCoin(true);	//ADDED
+			mystBlock1.setAvailable(true);	//ADDED
+			mystBlock1.chooseImage();	//ADDED
 			onPrison = false;	//ADDED
 			goomba.setHit(false);
 			spikes1.setHit(false);
@@ -674,6 +736,7 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 		}
 		if (arg0.getKeyCode() == 38 && !mario.getJumping() && !lost && mario.getY() + mario.getHeight() >= platform) {
 			mario.setJumping(true);
+			jumpSound.play();		//ADDED
 //			if (mario.getJumping() == true) {
 //				background.slideVertical(true);
 //			}
@@ -686,11 +749,14 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 		if (arg0.getKeyCode() == 10) {
 			if (peach.getInRange() == true) {
 				peach.setStateLocked(false);
+				levelClear.play();		//ADDED
 				peach.chooseImage();
 			}
 		}
-		if (arg0.getKeyCode() == 82 && lost) {
-			reset();
+		if (arg0.getKeyCode() == 82) {	//CHANGED INTO NESTED, BUT NOT NEEDED
+			if (lost) {
+				reset();
+			}
 		}
 		
 		if (arg0.getKeyCode() == 40 && shortPipeInRange == true) {
@@ -720,6 +786,7 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 			mario.setX(1050);
 			mario.setY(longPipe.getY() - mario.getHeight() - 1);
 			shortPipeInRange = false;
+			pipeSound.play();
 		}
 		
 		else if (arg0.getKeyCode() == 40 && longPipeInRange == true) {
@@ -751,6 +818,7 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 			mario.setX(400);
 			mario.setY(shortPipe.getY() - mario.getHeight() - 1);
 			longPipeInRange = false;
+			pipeSound.play();	//ADDED
 		}
 
 	}

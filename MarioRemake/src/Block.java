@@ -87,6 +87,9 @@ public class Block extends MarioObject {
 	public void setHasCoin(boolean hasCoin) {
 		this.hasCoin = hasCoin;
 	}
+	public void setAvailable(boolean avail) {
+		available = avail;
+	}
 	
 	// graphics settings
 	public void paint(Graphics g) {

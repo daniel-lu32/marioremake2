@@ -67,6 +67,10 @@ public class Music implements Runnable  {
 			e.printStackTrace();
 		}
 	}
+	
+	public void stop() {
+		audioClip.stop();
+	}
 
 	@Override
 	public void run() {

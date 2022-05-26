@@ -11,9 +11,13 @@ public class Key extends MarioObject {
 	
 	// attributes
 	private boolean available;
+	private int spawnX;
+	private int spawnY;
 	
 	public Key(int x, int y) {
 		super(x, y);
+		spawnX = x;
+		spawnY = y;
 		available = true;
 		height = 48;
 		width = 36;
@@ -22,6 +26,14 @@ public class Key extends MarioObject {
 		img = getImage("/imgs/key2.gif");
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y);
+	}
+	
+	public int getSpawnX() {
+		return spawnX;
+	}
+	
+	public int getSpawnY() {
+		return spawnY;
 	}
 	
 	public int getRandomX(int min, int max) {
