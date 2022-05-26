@@ -19,6 +19,15 @@ public class MarioObject {
 		this.x = x;
 		this.y = y;
 	}
+	// collide method
+	public boolean collideObjects(MarioObject other) {
+		if (this.getX() + this.getWidth() >= other.getX() && this.getX() <= other.getX() + other.getWidth()) {
+			if (this.getY() + this.getWidth() >= other.getY() && this.getY() <= other.getY() + other.getHeight()) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	// getters
 	public int getX() {

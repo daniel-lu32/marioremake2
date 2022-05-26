@@ -17,25 +17,28 @@ public class PowerUp extends MarioObject {
 	public PowerUp(int x, int y, String type) {
 		super(x, y);
 		height = 36;
-		vx = -1;
 		this.type = type;
 		hit = false;
 		if (type.equals("Big Mushroom")) {
+			vx = -1;
 			img = getImage("/imgs/redmushroom2.png");
 			width = 36;
 			scaleX = 0.2;
 			scaleY = 0.2;
 		} else if (type.equals("Ice Flower")) {
+			vx = 0;
 			img = getImage("/imgs/iceflower2.png");
 			width = 32;
 			scaleX = 0.07;
 			scaleY = 0.075;
 		} else if (type.equals("Fire Flower")) {
+			vx = 0;
 			img = getImage("/imgs/fireflower2.png");
 			width = 34;
 			scaleX = 0.07;
 			scaleY = 0.07;
 		} else if (type.equals("1-UP")) {
+			vx = -1;
 			img = getImage("/imgs/greenmushroom2.png");
 			width = 36;
 			scaleX = 0.2;
@@ -44,7 +47,14 @@ public class PowerUp extends MarioObject {
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y);
 	}
-	
+	public boolean collide(MarioObject other) {
+		if (this.getX() + this.getWidth() >= other.getX() && this.getX() <= other.getX() + other.getWidth()) {
+			if (this.getY() + this.getWidth() >= other.getY() && this.getY() <= other.getY() + other.getHeight()) {
+				return true;
+			}
+		}
+		return false;
+	}
 	// getters
 	public int getVX() {
 		return vx;

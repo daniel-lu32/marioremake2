@@ -42,6 +42,7 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 	private boolean summonIce = false;
 	private boolean summonFire = false;
 	private boolean summonOneup = false;
+	private boolean goombaIsAlive = true;
 	
 	// Collision Tracker Variables
 	private boolean onShort1 = false;
@@ -59,11 +60,24 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 	private boolean onBlock10 = false;
 	private boolean onBlock11 = false;
 	private boolean onBlock12 = false;
+	private boolean onPrison = false;	//ADDED
 
 	boolean shortPipeInRange = false;	//ADDED
 	boolean longPipeInRange = false;	//ADDED
 	
 	private boolean onMystBlock1 = false;
+	
+	//ADDED
+		Music theme = new Music("Super Mario Bros. Theme Song.wav", true);
+		Music coinSound = new Music("coin.wav", false);
+		Music pipeSound = new Music("pipe.wav", false);
+		Music jumpSound = new Music("jump.wav", false);
+		Music mystSound = new Music("mysteryBlock.wav", false);
+		Music levelClear = new Music("level-clear.wav", false);
+		Music lifeLost = new Music("life-lost.wav", false);
+		Music gameOver = new Music("game-over.wav", false);
+		Music powerUp = new Music("power-up.wav", false);
+		Music powerUpAppears = new Music("power-up-appears.wav", false);
 	
 	// Fonts
 	Font keyFont = new Font("Unknown", Font.BOLD, 14);
@@ -96,7 +110,7 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 
 	Pipe shortPipe1 = new Pipe(background.getX() + 250, 570, false, false);
 	Pipe shortPipe2 = new Pipe(background.getX() + 550, 570, true, false);
-	Pipe longPipe = new Pipe(background.getX() + 1700, 350, true, false);	
+	Pipe longPipe = new Pipe(background.getX() + 1600, 350, true, false);	
 	Block block1 = new Block(background.getX() + 700, 480, "Normal", false);
 	Block block2 = new Block(background.getX() + 740, 480, "Normal", false);
 	Block block3 = new Block(background.getX() + 780, 480, "Normal", false);
@@ -114,14 +128,30 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 	Projectile iceball = new Projectile(mario.getX() + 20, originalPlatform, "Iceball");
 	Projectile fireball = new Projectile(mario.getX() + 20, originalPlatform, "Fireball");
 	PowerUp big = new PowerUp(500, originalPlatform, "Big Mushroom");
-	PowerUp ice = new PowerUp(600, originalPlatform, "Ice Flower");
-	PowerUp fire = new PowerUp(700, originalPlatform, "Fire Flower");
-	PowerUp oneup = new PowerUp(800, originalPlatform, "1-UP");
+	PowerUp ice = new PowerUp(block1.getX(), block1.getY() - 36, "Ice Flower");
+	PowerUp fire = new PowerUp(block2.getX(), block2.getY() - 36, "Fire Flower");
+	PowerUp oneup = new PowerUp(700, originalPlatform, "1-UP");
 	
 	
 	// main method with code and movement that is called 60 times per second
 	public void paint(Graphics g) {
 		super.paintComponent(g);
+		
+		if (lives > 0) {	//ADDED
+			theme.start();
+		}
+//		// mass produce?
+//		Coin[] x3 = massProduceCoins();
+//		for (int i = 0; i < x3.length; i++) {
+//			if (mario.collide(x3[i])) {
+//				x3[i].setCollided(true);
+//				coinSound.play();		//ADDED
+//				coins++;
+//			}
+//			if (!x3[i].getCollided()) {
+//				x3[i].paint(g);
+//			}
+//		}
 		
 		// Paint the Background
 		background.paint(g);
@@ -180,6 +210,7 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 				System.out.println("KEY HIT" + (keyDisp.getState()));
 				keyDisp.setState(keyDisp.getState() + 1);
 				key1.setAvailable(false);
+				score += 500;
 			}
 		}
 		// Key2
@@ -188,6 +219,7 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 				System.out.println("KEY HIT" + (keyDisp.getState()));
 				keyDisp.setState(keyDisp.getState() + 1);
 				key2.setAvailable(false);
+				score += 500;
 			}
 		}
 		// Key3
@@ -196,6 +228,7 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 				System.out.println("KEY HIT" + (keyDisp.getState()));
 				keyDisp.setState(keyDisp.getState() + 1);
 				key3.setAvailable(false);
+				score += 500;
 			}
 		}
 				
@@ -224,7 +257,7 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		shortPipe1.paint(g);
 		shortPipe2.setX(background.getX() + 550);
 		shortPipe2.paint(g);
-		longPipe.setX(background.getX() + 1700);
+		longPipe.setX(background.getX() + 1600);
 		longPipe.paint(g);
 		
 		if (mario.getX() + mario.getWidth() >= shortPipe2.getX() + 30 && mario.getX() <= shortPipe2.getX() + shortPipe2.getWidth() - 30) {
@@ -255,8 +288,9 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		flag.setImage();
 		flag.setX(background.getX() + 780);
 		flag.setY(440 - flag.getHeight() + mario.getHeight());
-		if (mario.collide(flag)) {
+		if (mario.collide(flag) && flag.getState() != 2) {
 			flag.setState(2);
+			score += 500;
 			spawnX = background.getX() + flag.getX() + 10;
 			spawnY = flag.getY() + flag.getHeight() - mario.getHeight();
 		}
@@ -289,7 +323,6 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		}
 		
 		
-		
 		if (fireball.getOnScreen()) {
 			fireball.paint(g);
 			fireball.setX(fireball.getX() + fireball.getVX());
@@ -310,29 +343,17 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		if (iceball.getX() >= mario.getX() + 400) {
 			iceball.setOnScreen(false);
 		}
+		if (fireball.getOnScreen() && fireball.collideObjects(goomba1)) {
+			goombaIsAlive = false;
+			fireball.setOnScreen(false);
+			score += 1000;
+		}
 
-//		// EDIT LATER
-//		bigFromBlock.setX(block1.getX());
-//		bigFromBlock.setY(block1.getY() - bigFromBlock.getHeight());
-//		iceFromBlock.setX(block2.getX());
-//		iceFromBlock.setY(block2.getY() - iceFromBlock.getHeight());
-//		fireFromBlock.setX(block3.getX());
-//		fireFromBlock.setY(block3.getY() - fireFromBlock.getHeight());
-//		oneupFromBlock.setX(block4.getX());
-//		oneupFromBlock.setY(block4.getY() - oneupFromBlock.getHeight());
-//		if (summonBig) {
-//			bigFromBlock.paint(g);
-//		}
-//		if (summonIce) {
-//			iceFromBlock.paint(g);
-//		}
-//		if (summonFire) {
-//			fireFromBlock.paint(g);
-//		}
-//		if (summonOneup) {
-//			oneupFromBlock.paint(g);
-//		}
-//		// EDIT LATER
+		if (iceball.getOnScreen() && iceball.collideObjects(goomba1)) {
+			goombaIsAlive = false;
+			iceball.setOnScreen(false);
+			score += 1000;
+		}
 		
 		// Prevent Mario from Going Off-Screen
 		if (mario.getX() <= 10) {	
@@ -345,7 +366,9 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		
 		// Goomba Mechanics
 		goomba1.setX(goomba1.getX() + goomba1.getVX());
-		goomba1.paint(g);
+		if (goombaIsAlive) {
+			goomba1.paint(g);
+		}
 		if (goomba1.collide(shortPipe1)) {
 			goomba1.setVX(goomba1.getVX() * -1);
 			if (goomba1.getX() <= shortPipe1.getX()) {
@@ -354,15 +377,6 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 				goomba1.setX(shortPipe1.getX() + shortPipe1.getWidth());
 			}
 		}
-		
-//		if (goomba.collide(longPipe)) {
-//			goomba.setVX(goomba.getVX() * -1);
-//			if (goomba.getX() <= longPipe.getX()) {
-//				goomba.setX(longPipe.getX() - goomba.getWidth());
-//			} else {
-//				goomba.setX(longPipe.getX() + longPipe.getWidth());
-//			}
-//		}
 		
 		if (goomba1.collide(shortPipe2)) {
 			goomba1.setVX(goomba1.getVX() * -1);
@@ -381,6 +395,9 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		
 		if (mario.getState() < 0) {
 			lives--;
+			if (lives != 0) {		//ADDED
+				lifeLost.play();	//ADDED
+			}
 			mario.setState(0);
 			mario.setHasAbility(false);
 			mario.setAbility("None");
@@ -393,18 +410,53 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		
 		// PowerUp
 		big.setX(big.getX() + big.getVX());
-		ice.setX(ice.getX() + big.getVX());
-		fire.setX(fire.getX() + big.getVX());
-		oneup.setX(oneup.getX() + big.getVX());
+		oneup.setX(oneup.getX() + oneup.getVX());
+		if (big.collide(shortPipe1)) {
+			big.setVX(big.getVX() * -1);
+			if (big.getX() <= shortPipe1.getX()) {
+				big.setX(shortPipe1.getX() - big.getWidth());
+			} else {
+				big.setX(shortPipe1.getX() + shortPipe1.getWidth());
+			}
+		}
+		
+		if (big.collide(shortPipe2)) {
+			big.setVX(big.getVX() * -1);
+			if (big.getX() <= shortPipe2.getX()) {
+				big.setX(shortPipe2.getX() - big.getWidth());
+			} else {
+				big.setX(shortPipe2.getX() + shortPipe2.getWidth());
+			}
+		}
+		ice.setX(block1.getX());
+		fire.setX(block2.getX());
+		
+		if (oneup.collide(longPipe)) {
+			oneup.setVX(oneup.getVX() * -1);
+			if (oneup.getX() <= longPipe.getX()) {
+				oneup.setX(longPipe.getX() - oneup.getWidth());
+			} else {
+				oneup.setX(longPipe.getX() + longPipe.getWidth());
+			}
+		}
+		
+		if (oneup.collide(shortPipe2)) {
+			oneup.setVX(oneup.getVX() * -1);
+			if (oneup.getX() <= shortPipe2.getX()) {
+				oneup.setX(shortPipe2.getX() - oneup.getWidth());
+			} else {
+				oneup.setX(shortPipe2.getX() + shortPipe2.getWidth());
+			}
+		}
 		
 		// Paint the Power Ups only if they have not been collected yet
 		if (!big.getHit()) {
 			big.paint(g);
 		}
-		if (!ice.getHit()) {
+		if (!ice.getHit() && summonIce) {
 			ice.paint(g);
 		}
-		if (!fire.getHit()) {
+		if (!fire.getHit() && summonFire) {
 			fire.paint(g);
 		}
 		if (!oneup.getHit()) {
@@ -413,25 +465,33 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		
 		if (mario.collide(big) && !big.getHit()) {
 			big.setHit(true);
+			score += 200;
+			powerUp.play();		//ADDED
 			if (!mario.getHasAbility()) {
 				mario.setState(1);
 			}
 		}
 		
-		if (mario.collide(ice) && !ice.getHit()) {
+		if (mario.collide(ice) && !ice.getHit() && summonIce) {
 			ice.setHit(true);
+			score += 400;
+			powerUp.play();		//ADDED
 			mario.setHasAbility(true);
 			mario.setState(2);
 			mario.setAbility("Ice");
 		}
-		if (mario.collide(fire) && !fire.getHit()) {
+		if (mario.collide(fire) && !fire.getHit() && summonFire) {
 			fire.setHit(true);
+			score += 400;
+			powerUp.play();		//ADDED
 			mario.setHasAbility(true);
 			mario.setState(2);
 			mario.setAbility("Fire");
 		}
 		if (mario.collide(oneup) && !oneup.getHit()) {
 			oneup.setHit(true);
+			score += 200;
+			powerUp.play();		//ADDED
 			lives++;
 		}
 
@@ -465,7 +525,7 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		block11.paint(g);
 		block12.paint(g);
 		
-		mystBlock1.setX(background.getX() + 900);
+		mystBlock1.setX(background.getX() + 450);
 		if (mystBlock1.getHasCoin()) {
 			mystBlock1.setY(481);
 		} else {
@@ -488,7 +548,14 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		onBlock11 = mario.aboveObject(block11, onBlock11);
 		onBlock12 = mario.aboveObject(block12, onBlock12);
 		onMystBlock1 = mario.aboveMystBlock(mystBlock1, onMystBlock1, mystBlock1.getAvailable());	//CHANGED
-
+		
+		if (peach.getStateLocked() == false) {				//ADDED
+			onPrison = false;								//ADDED
+		}													//ADDED
+		else {												//ADDED
+			onPrison = mario.aboveObject(peach, onPrison);	//ADDED
+		}
+		
 		if (!onLong && !onShort1 && !onShort2 && !onBlock1 && !onBlock2 && !onBlock3 && !onBlock4 && !onMystBlock1 && !onBlock5 && !onBlock6 && !onBlock7 && !onBlock8 && !onBlock9 && !onBlock10 && !onBlock11 && !onBlock12) {		//CHANGED
 			platform = originalPlatform;
 		}
@@ -496,10 +563,12 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		if (mario.hittingObjectFromBelow(block1)) {
 			vy = 4;
 			summonIce = true;
+			powerUpAppears.play();	//ADDED
 		}
 		if (mario.hittingObjectFromBelow(block2)) {
 			vy = 4;
 			summonFire = true;
+			powerUpAppears.play();	//ADDED
 		}
 		if (mario.hittingObjectFromBelow(block3) || mario.hittingObjectFromBelow(block4) || mario.hittingObjectFromBelow(block5) || mario.hittingObjectFromBelow(block6) || mario.hittingObjectFromBelow(block7) || mario.hittingObjectFromBelow(block8) || mario.hittingObjectFromBelow(block9) || mario.hittingObjectFromBelow(block10) || mario.hittingObjectFromBelow(block11) || mario.hittingObjectFromBelow(block12)) {
 			vy = 4;
@@ -512,6 +581,9 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 			if (mario.getX() + mario.getWidth() >= mystBlock1.getX() && mario.getX() <= mystBlock1.getX() + mystBlock1.getWidth()) {
 				if (mario.getY() <= mystBlock1.getY() + 40 + 10 && mario.getY() >= mystBlock1.getY() + 40 - 10) {
 					System.out.println("block hit");
+					int coinsToBeAdded = (int) (Math.random() * 8 + 1);
+					coins += coinsToBeAdded * 10;
+					score += coinsToBeAdded * 100;
 					mystBlock1.mystHit();
 				}
 			}
@@ -555,7 +627,7 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		}
 		// Paint the Score and High Score
 		g.drawString("Score: " + score, 200, 30);
-		g.drawString("High Score: " + score, 200, 80);
+		g.drawString("High Score: " + highScore, 200, 80);
 		if (score > highScore) {
 			highScore = score;
 		}
@@ -573,6 +645,8 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 			g.drawString("" + time / 60 + ":" + time % 60, 1100, 30);
 		}
 		if (lost) {
+			Font gameOver = new Font("Unknown", Font.BOLD, 36);		//ADDED
+			g.setFont(gameOver);										//ADDED
 			g.drawString("Game Over. Press R to Restart!", 400, 200);
 		}
 		
@@ -609,6 +683,8 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 	}
 	public void endGame() {
 		if (lost) {
+			theme.stop();		//ADDED
+			gameOver.start();	//ADDED
 			spawnX = 10;
 			spawnY = originalPlatform;
 			
@@ -638,6 +714,7 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 	// GameRunner Class Runner
 	public static void main(String[] arg) {
 		GameRunner f = new GameRunner();
+			
 	}
 	
 	// GameRunner Constructor
@@ -706,12 +783,6 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		}
 		if (arg0.getKeyCode() == 38 && !mario.getJumping() && !lost && mario.getY() + mario.getHeight() >= platform) {
 			mario.setJumping(true);
-//			if (mario.getJumping() == true) {
-//				background.slideVertical(true);
-//			}
-//			else {
-//				background.slideVertical(false);
-//			}
 			vy = -20;
 		}
 		
@@ -719,6 +790,8 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 			if (peach.getInRange() == true) {
 				peach.setStateLocked(false);
 				peach.chooseImage();
+				score += time * 10;
+				score += lives * 100;
 			}
 		}
 		if (arg0.getKeyCode() == 82 && lost) {
@@ -755,6 +828,44 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 			else {
 				mario.setX(mario.getX());
 			}
+			
+			//ADD IF STATEMENT HERE FOR DIFF LEVELS
+			platform = longPipe.getY() - 1;
+			background.setX(1200 - background.getWidth());
+			mario.setX(1050);
+			mario.setY(longPipe.getY() - mario.getHeight() - 1);
+			shortPipeInRange = false;
+		}
+		
+		else if (arg0.getKeyCode() == 40 && longPipeInRange == true) {
+			System.out.println("Got to 1");
+			background.setX(background.getX() + Math.abs(longPipe.getX() - shortPipe2.getX()));
+			if (background.outOfBoundsLeft() == true || background.outOfBoundsRight() == true) {
+				if (background.outOfBoundsLeft() == true) {
+					background.setX(0);
+				}
+				if (background.outOfBoundsRight() == true) {
+					background.setX(1600 - background.getWidth());
+				}
+				//ADD IF STATEMENT HERE FOR DIFFERENT LEVELS, CHANGING THE X VALUE TO BE SET TO
+				if (shortPipe2.getX() + 20 <= 0) {
+					mario.setX(620);
+				}
+				else {
+					mario.setX(background.getX() + shortPipe2.getX() + 20);
+				}
+			}
+			else {
+				mario.setX(mario.getX());
+			}
+			System.out.println("Got to 2");
+			
+			//ADD IF STATEMENT HERE FOR DIFF LEVELS
+			platform = shortPipe2.getY() - 1;
+			background.setX(0);
+			mario.setX(620);
+			mario.setY(shortPipe2.getY() - mario.getHeight() - 1);
+			longPipeInRange = false;
 		}
 		
 	}

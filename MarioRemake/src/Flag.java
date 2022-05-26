@@ -53,6 +53,9 @@ public class Flag extends MarioObject {
 	public boolean getReached() {
 		return reached;
 	}
+	public int getState() {
+		return state;
+	}
 	
 	// setters
 	public void setReachHeight(int reachHeight) {
