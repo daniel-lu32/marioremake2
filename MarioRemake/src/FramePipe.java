@@ -100,11 +100,11 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 	Music mystSound = new Music("mysteryBlock.wav", false);
 	Music levelClear = new Music("level-clear.wav", false);
 	Music lifeLost = new Music("life-lost.wav", false);
-	Music gameOver = new Music("game-over.wav", true);
+	Music gameOver = new Music("game-over.wav", true);	//ADDED2/CHANGED
 	Music powerUp = new Music("power-up.wav", false);
 	Music powerUpAppears = new Music("power-up-appears.wav", false);
 	
-	Music keySound = new Music("keySound.wav", false);
+	Music keySound = new Music("keySound.wav", false);	//ADDED2
 	
 	public Coin[] massProduceCoins() {
 		Coin[] x1 = new Coin[10];
@@ -131,6 +131,8 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 	// main method with code and movement that is called 60 times per second
 	public void paint(Graphics g) {
 		super.paintComponent(g);
+		
+		//ADDED2 -- COPY OVER THIS SECTION
 		if (levelClear.isRunning() || lifeLost.isRunning() || gameOver.isRunning()) {
 			otherAudioPlaying = true;
 		}
@@ -632,8 +634,8 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 			g.drawString("" + time / 60 + ":" + time % 60, 1100, 30);
 		}
 		if (lost) {
-			Font gameOverFont = new Font("gameOverFont", Font.BOLD, 36);		//ADDED
-			g.setFont(gameOverFont);										//ADDED
+			Font gameOverFont = new Font("gameOverFont", Font.BOLD, 36);		//ADDED2/CHANGED
+			g.setFont(gameOverFont);										//ADDED2/CHANGED
 			g.drawString("Game Over. Press R to Restart!", 320, 200);	//CHANGED
 		}
 		
@@ -657,7 +659,7 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 	}
 	public void endGame() {
 		if (lost) {
-			//theme.stop();		//ADDED
+			//theme.stop();		//ADDED2/cHANGED
 			gameOver.start();	//ADDED
 			onShort = false;
 			onLong = false;
