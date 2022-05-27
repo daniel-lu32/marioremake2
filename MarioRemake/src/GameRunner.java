@@ -41,7 +41,6 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 	
 	private boolean summonIce = false;
 	private boolean summonFire = false;
-	private boolean summonOneup = false;
 	private boolean goombaIsAlive = true;
 	
 	// Collision Tracker Variables
@@ -64,20 +63,22 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 
 	boolean shortPipeInRange = false;	//ADDED
 	boolean longPipeInRange = false;	//ADDED
+	private boolean otherAudioPlaying = false; 	//ADDED2
 	
 	private boolean onMystBlock1 = false;
 	
 	//ADDED
-		Music theme = new Music("Super Mario Bros. Theme Song.wav", true);
-		Music coinSound = new Music("coin.wav", false);
-		Music pipeSound = new Music("pipe.wav", false);
-		Music jumpSound = new Music("jump.wav", false);
-		Music mystSound = new Music("mysteryBlock.wav", false);
-		Music levelClear = new Music("level-clear.wav", false);
-		Music lifeLost = new Music("life-lost.wav", false);
-		Music gameOver = new Music("game-over.wav", false);
-		Music powerUp = new Music("power-up.wav", false);
-		Music powerUpAppears = new Music("power-up-appears.wav", false);
+	Music theme = new Music("Super Mario Bros. Theme Song.wav", true);
+	Music coinSound = new Music("coin.wav", false);
+	Music pipeSound = new Music("pipe.wav", false);
+	Music jumpSound = new Music("jump.wav", false);
+	Music mystSound = new Music("mysteryBlock.wav", false);
+	Music levelClear = new Music("level-clear.wav", false);
+	Music lifeLost = new Music("life-lost.wav", false);
+	Music gameOver = new Music("game-over.wav", true);	//ADDED2/CHANGED
+	Music powerUp = new Music("power-up.wav", false);
+	Music powerUpAppears = new Music("power-up-appears.wav", false);
+	Music keySound = new Music("keySound.wav", false);	//ADDED2
 	
 	// Fonts
 	Font keyFont = new Font("Unknown", Font.BOLD, 14);
@@ -136,10 +137,26 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 	// main method with code and movement that is called 60 times per second
 	public void paint(Graphics g) {
 		super.paintComponent(g);
-		
-		if (lives > 0) {	//ADDED
-			theme.start();
-		}
+		//ADDED2 -- COPY OVER THIS SECTION
+				if (levelClear.isRunning() || lifeLost.isRunning() || gameOver.isRunning()) {
+					otherAudioPlaying = true;
+				}
+				else {
+					otherAudioPlaying = false;
+				}
+				
+				if (lost == false && otherAudioPlaying == false) {	//ADDED
+					theme.start();
+				}
+				if (lost || otherAudioPlaying) {
+					theme.stop();
+					if (lost) {
+						gameOver.start();
+					}
+					else {
+						gameOver.stop();
+					}
+				}
 //		// mass produce?
 //		Coin[] x3 = massProduceCoins();
 //		for (int i = 0; i < x3.length; i++) {
@@ -210,7 +227,10 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 				System.out.println("KEY HIT" + (keyDisp.getState()));
 				keyDisp.setState(keyDisp.getState() + 1);
 				key1.setAvailable(false);
+				keySound.play();	//ADDED2
 				score += 500;
+			} else {					//ADDED2
+				keySound.stop();	//ADDED2
 			}
 		}
 		// Key2
@@ -220,6 +240,9 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 				keyDisp.setState(keyDisp.getState() + 1);
 				key2.setAvailable(false);
 				score += 500;
+				keySound.play();	//ADDED2
+			} else {					//ADDED2
+				keySound.stop();	//ADDED2
 			}
 		}
 		// Key3
@@ -229,6 +252,9 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 				keyDisp.setState(keyDisp.getState() + 1);
 				key3.setAvailable(false);
 				score += 500;
+				keySound.play();	//ADDED2
+			} else {					//ADDED2
+				keySound.stop();	//ADDED2
 			}
 		}
 				
@@ -264,7 +290,7 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 			if (mario.getY() + mario.getHeight() >= shortPipe2.getY() - 60 && mario.getY() <= shortPipe2.getY()) {
 				shortPipeInRange = true;
 				g.setFont(keyFont);
-				g.drawString("press down to enter", shortPipe2.getX() - 10, shortPipe2.getY() - 50);
+				g.drawString("Press down to enter!", shortPipe2.getX() - 10, shortPipe2.getY() - 50);
 			}	
 		}
 		else {
@@ -308,18 +334,21 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 			mario.setHasAbility(false);
 			mario.setAbility("None");
 			spikes1.setHit(true);
+			score -= 100;
 		}
 		if (mario.collide(spikes2) && !spikes2.getHit()) {
 			mario.setState(mario.getState() - 1);
 			mario.setHasAbility(false);
 			mario.setAbility("None");
 			spikes2.setHit(true);
+			score -= 100;
 		}
 		if (mario.collide(spikes3) && !spikes3.getHit()) {
 			mario.setState(mario.getState() - 1);
 			mario.setHasAbility(false);
 			mario.setAbility("None");
 			spikes3.setHit(true);
+			score -= 100;
 		}
 		
 		
@@ -386,11 +415,12 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 				goomba1.setX(shortPipe2.getX() + shortPipe2.getWidth());
 			}
 		}
-		if (mario.collide(goomba1) && !goomba1.getHit()) {
+		if (mario.collide(goomba1) && !goomba1.getHit() && goombaIsAlive) {
 			mario.setState(mario.getState() - 1);
 			mario.setHasAbility(false);
 			mario.setAbility("None");
 			goomba1.setHit(true);
+			score -= 300;
 		}
 		
 		if (mario.getState() < 0) {
@@ -562,13 +592,17 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		
 		if (mario.hittingObjectFromBelow(block1)) {
 			vy = 4;
+			if (!summonIce) {
+				powerUpAppears.play();	//ADDED
+			}
 			summonIce = true;
-			powerUpAppears.play();	//ADDED
 		}
 		if (mario.hittingObjectFromBelow(block2)) {
 			vy = 4;
+			if (!summonFire) {
+				powerUpAppears.play();	//ADDED
+			}
 			summonFire = true;
-			powerUpAppears.play();	//ADDED
 		}
 		if (mario.hittingObjectFromBelow(block3) || mario.hittingObjectFromBelow(block4) || mario.hittingObjectFromBelow(block5) || mario.hittingObjectFromBelow(block6) || mario.hittingObjectFromBelow(block7) || mario.hittingObjectFromBelow(block8) || mario.hittingObjectFromBelow(block9) || mario.hittingObjectFromBelow(block10) || mario.hittingObjectFromBelow(block11) || mario.hittingObjectFromBelow(block12)) {
 			vy = 4;
@@ -631,6 +665,9 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		if (score > highScore) {
 			highScore = score;
 		}
+		if (score < 0) {
+			score = 0;
+		}
 		
 		if (time <= 0) {
 			time = 0;
@@ -645,9 +682,9 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 			g.drawString("" + time / 60 + ":" + time % 60, 1100, 30);
 		}
 		if (lost) {
-			Font gameOver = new Font("Unknown", Font.BOLD, 36);		//ADDED
-			g.setFont(gameOver);										//ADDED
-			g.drawString("Game Over. Press R to Restart!", 400, 200);
+			Font gameOverFont = new Font("Unknown", Font.BOLD, 36);		//ADDED2/CHANGED
+			g.setFont(gameOverFont);										//ADDED2/CHANGED
+			g.drawString("Game Over. Press R to Restart!", 320, 200);	//CHANGED
 		}
 		
 	} // end of paint method
@@ -680,34 +717,81 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		frameTracker = 0;
 		platform = originalPlatform;
 		lost = false;
+		spawnX = 10;
+		spawnY = originalPlatform;
+
+		otherAudioPlaying = false; 	//ADDED2
+		
+		summonIce = false;
+		summonFire = false;
+		goombaIsAlive = true;
+		onShort1 = false;
+		onShort2 = false;
+		onLong = false;
+		onBlock1 = false;
+		onBlock2 = false;
+		onBlock3 = false;
+		onBlock4 = false;
+		onBlock5 = false;
+		onBlock6 = false;
+		onBlock7 = false;
+		onBlock8 = false;
+		onBlock9 = false;
+		onBlock10 = false;
+		onBlock11 = false;
+		onBlock12 = false;
+		onPrison = false;
+		shortPipeInRange = false;
+		longPipeInRange = false;
+		onMystBlock1 = false;
+		background = new Background(0, -435);
+		mario = new Character2(spawnX, originalPlatform);
+		flag = new Flag (background.getX() + 780, 440);
+		keyDisp = new KeyDisplay(450, 20);
+		goomba1 = new Goomba(background.getX() + 450, originalPlatform);
+		spikes1 = new Spikes(120, originalPlatform + 10);
+		spikes2 = new Spikes(800, originalPlatform + 10);
+		spikes3 = new Spikes(885, originalPlatform + 10);
+		key1 = new Key(0, 0);
+		key2 = new Key(0, 0);
+		key3 = new Key(0, 0);
+		peach = new Peach(background.getX() + 1350, 200);
+		livesicon = new PowerUp(8, 10, "1-UP");
+		coinicon = new Coin(10, 55);
+
+		shortPipe1 = new Pipe(background.getX() + 250, 570, false, false);
+		shortPipe2 = new Pipe(background.getX() + 550, 570, true, false);
+		longPipe = new Pipe(background.getX() + 1600, 350, true, false);	
+		block1 = new Block(background.getX() + 700, 480, "Normal", false);
+		block2 = new Block(background.getX() + 740, 480, "Normal", false);
+		block3 = new Block(background.getX() + 780, 480, "Normal", false);
+		block4 = new Block(background.getX() + 820, 480, "Normal", false);
+		block5 = new Block(background.getX() + 1000, 480, "Normal", false);
+		block6 = new Block(background.getX() + 1080, 440, "Normal", false);
+		block7 = new Block(background.getX() + 1160, 400, "Normal", false);
+		block8 = new Block(background.getX() + 1240, 360, "Normal", false);
+		block9 = new Block(background.getX() + 1280, 360, "Normal", false);
+		block10 = new Block(background.getX() + 1320, 360, "Normal", false);
+		block11 = new Block(background.getX() + 1360, 360, "Normal", false);
+		block12 = new Block(background.getX() + 1400, 360, "Normal", false);
+		mystBlock1 = new Block(background.getX() + 900, 481, "Mystery", true);
+		
+		iceball = new Projectile(mario.getX() + 20, originalPlatform, "Iceball");
+		fireball = new Projectile(mario.getX() + 20, originalPlatform, "Fireball");
+		big = new PowerUp(background.getX() + 500, originalPlatform, "Big Mushroom");
+		ice = new PowerUp(block1.getX(), block1.getY() - 36, "Ice Flower");
+		fire = new PowerUp(block2.getX(), block2.getY() - 36, "Fire Flower");
+		oneup = new PowerUp(background.getX() + 700, originalPlatform, "1-UP");
+				
 	}
 	public void endGame() {
 		if (lost) {
-			theme.stop();		//ADDED
+			//theme.stop();		//ADDED
 			gameOver.start();	//ADDED
 			spawnX = 10;
 			spawnY = originalPlatform;
 			
-			background = new Background(0, -435);
-			mario = new Character2(spawnX, spawnY);
-			
-			
-			onShort1 = false;
-			onShort2 = false;
-			// onLong = false;
-			onBlock1 = false;
-			onBlock2 = false;
-			onBlock3 = false;
-			onBlock4 = false;
-			flag = new Flag (880, originalPlatform);
-			keyDisp = new KeyDisplay(450, 20);
-			spikes1 = new Spikes(120, originalPlatform);
-			goomba1 = new Goomba(550, originalPlatform);
-			big = new PowerUp(600, originalPlatform, "Big Mushroom");
-			ice = new PowerUp(700, originalPlatform, "Ice Flower");
-			fire = new PowerUp(800, originalPlatform, "Fire Flower");
-			oneup = new PowerUp(900, originalPlatform, "1-UP");
-			peach = new Peach(background.getX() + 1350, 200);
+			resetPosition();
 		}
 	}
 	
@@ -790,6 +874,7 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 			if (peach.getInRange() == true) {
 				peach.setStateLocked(false);
 				peach.chooseImage();
+				score += 1000;
 				score += time * 10;
 				score += lives * 100;
 			}
@@ -797,6 +882,12 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		if (arg0.getKeyCode() == 82 && lost) {
 			reset();
 		}
+		
+		// emergency reset: Press \
+		if (arg0.getKeyCode() == 92) {
+			reset();
+		}
+		
 		
 		// DANIEL ADDED
 		if (arg0.getKeyCode() == 32) {
