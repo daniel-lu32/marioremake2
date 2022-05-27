@@ -71,6 +71,10 @@ public class Music implements Runnable  {
 	public void stop() {
 		audioClip.stop();
 	}
+	
+	public boolean isRunning() {
+		return audioClip.isRunning();
+	}
 
 	@Override
 	public void run() {

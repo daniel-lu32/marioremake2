@@ -56,6 +56,8 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 	boolean shortPipeInRange = false;	//ADDED
 	boolean longPipeInRange = false;	//ADDED
 	
+	private boolean otherAudioPlaying = false; 	//ADDED2
+	
 	// Objects
 	Background background = new Background(0, -435);
 	Character mario = new Character(spawnX, originalPlatform);
@@ -98,9 +100,11 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 	Music mystSound = new Music("mysteryBlock.wav", false);
 	Music levelClear = new Music("level-clear.wav", false);
 	Music lifeLost = new Music("life-lost.wav", false);
-	Music gameOver = new Music("game-over.wav", false);
+	Music gameOver = new Music("game-over.wav", true);
 	Music powerUp = new Music("power-up.wav", false);
 	Music powerUpAppears = new Music("power-up-appears.wav", false);
+	
+	Music keySound = new Music("keySound.wav", false);
 	
 	public Coin[] massProduceCoins() {
 		Coin[] x1 = new Coin[10];
@@ -127,9 +131,24 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 	// main method with code and movement that is called 60 times per second
 	public void paint(Graphics g) {
 		super.paintComponent(g);
+		if (levelClear.isRunning() || lifeLost.isRunning() || gameOver.isRunning()) {
+			otherAudioPlaying = true;
+		}
+		else {
+			otherAudioPlaying = false;
+		}
 		
-		if (lives > 0) {	//ADDED
+		if (lost == false && otherAudioPlaying == false) {	//ADDED
 			theme.start();
+		}
+		if (lost || otherAudioPlaying) {
+			theme.stop();
+			if (lost) {
+				gameOver.start();
+			}
+			else {
+				gameOver.stop();
+			}
 		}
 		
 		// Paint the Background
@@ -267,6 +286,10 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 					System.out.println("KEY HIT" + (keyDisp.getState()));
 					keyDisp.setState(keyDisp.getState() + 1);
 					((Key)key1).setAvailable(false);
+					keySound.play();	//ADDED2
+				}
+				else {					//ADDED2
+					keySound.stop();	//ADDED2
 				}
 			}
 		}
@@ -277,6 +300,10 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 					System.out.println("KEY HIT" + (keyDisp.getState()));
 					keyDisp.setState(keyDisp.getState() + 1);
 					((Key)key2).setAvailable(false);
+					keySound.play();	//ADDED2
+				}
+				else {					//ADDED2
+					keySound.stop();	//ADDED2
 				}
 			}
 		}
@@ -287,6 +314,10 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 					System.out.println("KEY HIT" + (keyDisp.getState()));
 					keyDisp.setState(keyDisp.getState() + 1);
 					((Key)key3).setAvailable(false);
+					keySound.play();	//ADDED2
+				}
+				else {					//ADDED2
+					keySound.stop();	//ADDED2
 				}
 			}
 		}
@@ -601,8 +632,8 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 			g.drawString("" + time / 60 + ":" + time % 60, 1100, 30);
 		}
 		if (lost) {
-			Font gameOver = new Font("gameOver", Font.BOLD, 36);		//ADDED
-			g.setFont(gameOver);										//ADDED
+			Font gameOverFont = new Font("gameOverFont", Font.BOLD, 36);		//ADDED
+			g.setFont(gameOverFont);										//ADDED
 			g.drawString("Game Over. Press R to Restart!", 320, 200);	//CHANGED
 		}
 		
@@ -626,7 +657,7 @@ public class FramePipe extends JPanel implements ActionListener, MouseListener, 
 	}
 	public void endGame() {
 		if (lost) {
-			theme.stop();		//ADDED
+			//theme.stop();		//ADDED
 			gameOver.start();	//ADDED
 			onShort = false;
 			onLong = false;
