@@ -1,8 +1,7 @@
 # Super Mario Bros 
 #### created by: Daniel Lu and Breanna Thayillam
 ## Objective 
-https://user-images.githubusercontent.com/90793524/170923787-242203f9-f442-497f-ab3c-661a49ac4143.mp4
-
+![final gif](https://user-images.githubusercontent.com/90793524/170924315-098eb6b4-9b00-44d1-8a48-12bf6080a26e.gif)
 
 ###### Keys:
 
