@@ -9,17 +9,21 @@ import java.net.URL;
 
 public class Projectile extends MarioObject {
 	
-	// attributes
-	private int vx;
-	private String type;
-	private boolean hit, onScreen;
+	// Projectile Attributes
+	private int vx; // Velocity of the Projectile
+	private String type; // Fireball or Iceball
+	private boolean hit, onScreen; // Whether or not the Projectile has hit something and whether or not it is on the screen
 	
+	// Projectile Constructor
 	public Projectile(int x, int y, String type) {
+		// Call the Superclass Constructor
 		super(x, y);
+		// Default velocity is set to 0
 		vx = 0;
 		this.type = type;
 		hit = false;
 		onScreen = false;
+		// Obtain the correct image file depending on whether the Projectile is a fireball or an iceball
 		if (type.equals("Fireball")) {
 			height = 18;
 			width = 32;
@@ -91,5 +95,6 @@ public class Projectile extends MarioObject {
 	}
 	
 }
+
 
 
