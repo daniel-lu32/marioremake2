@@ -614,7 +614,7 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		}
 		if (mario.hittingObjectFromBelow(block3) || mario.hittingObjectFromBelow(block4) || mario.hittingObjectFromBelow(block5) || mario.hittingObjectFromBelow(block6) || mario.hittingObjectFromBelow(block7) || mario.hittingObjectFromBelow(block8) || mario.hittingObjectFromBelow(block9) || mario.hittingObjectFromBelow(block10) || mario.hittingObjectFromBelow(block11) || mario.hittingObjectFromBelow(block12)) {
 			vy = 4;
-		}
+		} 
 		
 		if (mario.hittingMystBlockFromBelow(mystBlock1)) { 
 			if (mystBlock1.getHasCoin() == true) {	//ADDED
