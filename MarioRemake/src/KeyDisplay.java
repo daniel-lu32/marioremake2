@@ -12,6 +12,7 @@ public class KeyDisplay extends MarioObject {
 	// attributes
 	private int state;
 	
+	// constructor
 	public KeyDisplay(int x, int y) {
 		super(x, y);
 		height = 48;
@@ -30,6 +31,9 @@ public class KeyDisplay extends MarioObject {
 	}
 	
 	// setters
+	/*
+	 * sets the state variable to parameter keeps the state from going above 3, and calls chooseImage method each time
+	 */
 	public void setState(int stateParam) {
 		this.state = stateParam;
 		if (state > 3) {
@@ -38,6 +42,11 @@ public class KeyDisplay extends MarioObject {
 		chooseImage();
 	}
 	
+	/* If the state is 0, then the keyDisplay with 0 keys collected is shown
+	 * If the state is 1, then the keyDisplay with 1 keys collected is shown
+	 * If the state is 2, then the keyDisplay with 2 keys collected is shown
+	 * If the state is 3, then the keyDisplay with 3 keys collected is shown
+	 */
 	public void chooseImage() {
 		if (this.state == 0) {
 			img = getImage("/imgs/0keys.png");

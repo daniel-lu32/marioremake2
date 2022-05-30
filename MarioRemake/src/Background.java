@@ -30,6 +30,9 @@ public class Background{
 
 	} 
 	
+	/* if there is white space showing between the background and the screen (if the left side of the background has an X value greater than 0 or if the
+	 * right side has an X less than the screen display width 1200), then it returns true. If not, returns false.
+	 */
 	public boolean outOfBounds() {
 		if (this.getX() > 0 || this.getX() + this.getWidth() < 1200) {
 			return true;
@@ -39,6 +42,9 @@ public class Background{
 		}
 	}
 	
+	/* 
+	 * If the background is showing white space on the left side (using the same logic as above), returns true. Returns false otherwise.
+	 */
 	public boolean outOfBoundsLeft() {
 		if (this.getX() > 0) {
 			return true;
@@ -48,6 +54,9 @@ public class Background{
 		}
 	}
 	
+	/* 
+	 * If the background is showing white space on the right side (using the same logic as above), returns true. Returns false otherwise.
+	 */
 	public boolean outOfBoundsRight() {
 		if (this.getX() + this.getWidth() < 1200) {
 			return true;
@@ -57,14 +66,26 @@ public class Background{
 		}
 	}
 	
+	/* 
+	 * Variable vx is used as the horizontal velocity for the background. SetVX sets the vx value to the parameter inputted
+	 */
 	public void setVX (double newVX) {
 		this.vx = newVX;
 	}
 	
+	/* Variable vy is used as the vertical velocity for the background. SetVY sets the vy value to the parameter inputted. vy is not used anymore 
+	 * as we are no longer scrolling the backgorund vertically
+	 */
 	public void setVY (double newVY) {
 		this.vy = newVY;
 	}
 	
+	/* The slide method is what scrolls the backgound horizontally when the Mario character moves. Two booleans are inputted for if Mario is 
+	 * running left (when left arrow key pressed) or running right (right arrow pressed). If Mario is running left, then the background needs
+	 * to scroll to the opposite direction to make it seem like Mario is travelling across the background, so the vx is set to a positive value of
+	 * 4, then added to the current X value of background. When Mario is running right, the background should move left, so the vx is set to -4. If
+	 * neither running left or right is true, then the vx is set to 0 so the background doesn't move.
+	 */
 	public void slide(boolean moveLeft, boolean moveRight) {
 		if (moveLeft == true) {
 			vx = 4;
@@ -79,6 +100,9 @@ public class Background{
 		}
 	}
 	
+	/* This method was used for vertical background scrolling and is no longer used in the code.
+	 * 
+	 */
 	public void slideVertical(boolean jumping) {
 		if (jumping == true) {
 			vy = 2;

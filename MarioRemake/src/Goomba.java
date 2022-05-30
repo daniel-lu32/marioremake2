@@ -13,6 +13,7 @@ public class Goomba extends MarioObject {
 	private int vx;
 	private boolean hit;
 	
+	// constructor
 	public Goomba(int x, int y) {
 		super(x, y);
 		height = 36;
@@ -26,6 +27,9 @@ public class Goomba extends MarioObject {
 		init(x, y);
 	}
 	
+	/*
+	 * This method tests if the Goomba object is colliding with another MarioObject by checking if the x values and y values are within each other
+	 */
 	public boolean collide(MarioObject other) {
 		if (this.getX() + this.getWidth() >= other.getX() && this.getX() <= other.getX() + other.getWidth()) {
 			if (this.getY() + this.getWidth() >= other.getY() && this.getY() <= other.getY() + other.getHeight()) {

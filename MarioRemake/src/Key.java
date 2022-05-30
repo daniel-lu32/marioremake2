@@ -14,6 +14,7 @@ public class Key extends MarioObject {
 	private int spawnX;
 	private int spawnY;
 	
+	// constructor
 	public Key(int x, int y) {
 		super(x, y);
 		spawnX = x;
@@ -28,6 +29,9 @@ public class Key extends MarioObject {
 		init(x, y);
 	}
 	
+	/*
+	 * SpawnX and SpawnY are the original x and y values of the keys to which they should return when the game is over or reset
+	 */
 	public int getSpawnX() {
 		return spawnX;
 	}
@@ -36,6 +40,9 @@ public class Key extends MarioObject {
 		return spawnY;
 	}
 	
+	/*
+	 * These random methods aren't used anymore but used to form a random X and Y value for the keys
+	 */
 	public int getRandomX(int min, int max) {
 		int x = (int)(Math.random()*(min-max+1)) + min;
 		return x;

@@ -13,6 +13,7 @@ public class Peach extends MarioObject {
 	private boolean stateLocked;
 	private boolean inRange;
 	
+	// constructor
 	public Peach(int x, int y) {
 		super(x, y);
 		stateLocked = true;
@@ -26,6 +27,9 @@ public class Peach extends MarioObject {
 		init(x, y);
 	}
 	
+	/* This method determines which image is displayed for Peach
+	 * If the stateLocked boolean is true, then the locked image is shown, else the unlocked image
+	 */
 	public void chooseImage() {
 		if (this.stateLocked == true) {
 			img = getImage("/imgs/peachLocked.png");

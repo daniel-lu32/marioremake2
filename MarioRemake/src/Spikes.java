@@ -12,6 +12,7 @@ public class Spikes extends MarioObject {
 	// attributes
 	private boolean hit;
 	
+	//constructor
 	public Spikes(int x, int y) {
 		super(x, y);
 		height = 32;

@@ -12,9 +12,9 @@ public class Flag extends MarioObject {
 	// attributes
 	private int reachHeight;
 	private boolean reached;
-	
 	private int state;
 	
+	// constructor
 	public Flag (int x, int y) {
 		super(x, y);
 		height = 120;
@@ -29,6 +29,10 @@ public class Flag extends MarioObject {
 		init(x, y);
 	}
 	
+	/* If the state variable is 0, the displayed image is set to flag gif
+	 * If state is 1, image is set to a gif of the flag being raised, then state is set to 2
+	 * When state is set to 2, the else statement is run, setting the image to flag raised gif
+	 */
 	public void setImage() {
 		if (state == 0) {
 			img = getImage("/imgs/flag gif.gif");
@@ -42,6 +46,9 @@ public class Flag extends MarioObject {
 		}
 	}
 	
+	/*
+	 * This method is used to set the state variable
+	 */
 	public void setState(int stateParam) {
 		state = stateParam;
 	}

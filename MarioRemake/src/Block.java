@@ -12,9 +12,14 @@ public class Block extends MarioObject {
 	// attributes
 	private String brickType;
 	private boolean hasCoin;
-	private int coinValue;
 	private boolean available;
 	
+	// constructor
+	/* If a mystery block needs to be created, then the input brickType is "Mystery" and hasCoin is true, so the instance variables
+	 * are set to the according values. Mystery blocks have another variable called available which determines if the mystery block 
+	 * can be hit or has been already hit. Available is initially set to true and the image is set to mystery block. 
+	 * If a normal block needs to be created, the instance variables would be set to "Normal" and false for hasCoins. The image would be set to brick.
+	 */
 	public Block(int x, int y, String brickType, boolean hasCoin) {
 		super(x, y);
 		if (brickType.equals("Mystery")) {
@@ -25,8 +30,6 @@ public class Block extends MarioObject {
 			width = 40;
 			scaleX = 1.67;
 			scaleY = 1.67;
-			int rnd = (int)(Math.random()*5) + 1;
-			coinValue = rnd*100;
 			img = getImage("/imgs/mysteryBlockFINAL.gif");
 		}
 		else {
@@ -43,6 +46,14 @@ public class Block extends MarioObject {
 		init(x, y);
 	}
 	
+	/* This is the method that determines under what conditions each image should be shown. 
+	 * If brickType is "Mystery" and hasCoin and available are true, then the image is set to the default
+	 * mystery block gif. 
+	 * If brickType is mystery, hasCoin is false, and available is true, this means the coin in the block has already been 
+	 * collected, so available is set to false and the image is set to the gif of mystery block being hit. Since this image 
+	 * has a different height compared to the default gif, the height and y value have to be changed.
+	 * If brickType is "Normal", then the image is set to a brick image.
+	 */
 	public void chooseImage() {
 		if (brickType.equals("Mystery") && hasCoin == true && available == true) {
 			img = getImage("/imgs/mysteryBlockFINAL.gif");
@@ -60,6 +71,9 @@ public class Block extends MarioObject {
 		}
 	}
 	
+	/* This image is called when Mario hits the mystery block. It makes hasCoins false and calls the chooseImage method
+	 * so it sets the image to mystery block hit gif.
+	 */
 	public void mystHit() {
 		hasCoin = false;
 		chooseImage();
@@ -74,10 +88,6 @@ public class Block extends MarioObject {
 	}
 	public boolean getHasCoin() {
 		return hasCoin;
-	}
-	
-	public int getCoinValue() {
-		return coinValue;
 	}
 	
 	// setters
