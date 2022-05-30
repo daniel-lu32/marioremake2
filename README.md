@@ -26,6 +26,7 @@ Most of these classes have a basic class structure that creates an object with a
 The **chooseImage method** determines under what conditions each image should be shown. If brickType is "Mystery" and hasCoin and available are true, then the image is set to the default mystery block gif. If brickType is mystery, hasCoin is false, and available is true, this means the coins in the block have already been collected, so available is set to false and the image is set to the gif of mystery block being hit. Since this image has a different height compared to the default gif, the height and y value have to be changed. If brickType is "Normal", then the image is set to a brick image.
 
 ![image](https://user-images.githubusercontent.com/90793524/171040090-cb8f8136-1592-4f3d-bd52-b864a6e32a8d.png)
+
 The **mystHit method** is called when Mario collides with the mystery block. It sets hasCoins to false, then calls the chooseImage method.
 
 ![image](https://user-images.githubusercontent.com/90793524/171040237-f798395a-825e-44c7-a486-b7bc691d86d2.png)
@@ -34,7 +35,9 @@ The **mystHit method** is called when Mario collides with the mystery block. It 
 #### Music
 The Music class format was reused from our Quarter 2 Projects. In GameRunner, we created different Music objects, one for each instance we needed to play a sound effect.
 ![image](https://user-images.githubusercontent.com/90793524/171041188-dafbbdd2-78ff-47ef-a185-596fd1395181.png)
+
 Then, whenever Mario collided with another object or did an action, these sounds would be played.
+
 ![image](https://user-images.githubusercontent.com/90793524/171041330-32e3f94a-1077-4018-aaee-be225efcc160.png)
 
 #### 
