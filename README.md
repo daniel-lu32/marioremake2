@@ -34,6 +34,7 @@ The **mystHit method** is called when Mario collides with the mystery block. It 
 ### GameRunner
 #### Music
 The Music class format was reused from our Quarter 2 Projects. In GameRunner, we created different Music objects, one for each instance we needed to play a sound effect.
+
 ![image](https://user-images.githubusercontent.com/90793524/171041188-dafbbdd2-78ff-47ef-a185-596fd1395181.png)
 
 Then, whenever Mario collided with another object or did an action, these sounds would be played.
