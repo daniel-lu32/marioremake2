@@ -99,11 +99,10 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 	Spikes spikes2 = new Spikes(800, originalPlatform + 10);
 	Spikes spikes3 = new Spikes(885, originalPlatform + 10);
 	
+	Key key1 = new Key(100, 405);
+	Key key2 = new Key(680, 205);
+	Key key3 = new Key(1600, 305);
 	
-	
-	Key key1 = new Key(0, 0);
-	Key key2 = new Key(0, 0);
-	Key key3 = new Key(0, 0);
 	Peach peach = new Peach(background.getX() + 1350, 200);
 	
 	PowerUp livesicon = new PowerUp(8, 10, "1-UP");
@@ -220,41 +219,50 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 			key3.setX(-500);
 		}
 		
-		// Key Display Mechanics
-		// Key1
-		if (key1.getAvailable() == true) {
-			if (mario.collide(key1)) {
-				System.out.println("KEY HIT" + (keyDisp.getState()));
-				keyDisp.setState(keyDisp.getState() + 1);
-				key1.setAvailable(false);
-				keySound.play();	//ADDED2
-				score += 500;
-			} else {					//ADDED2
-				keySound.stop();	//ADDED2
+		// Key Display Mechanics -- CHANGED, COPY OVER
+		//Key1
+		if (((Key)key1).getAvailable() == true) {
+			if (mario.getX() + mario.getWidth() >= key1.getX() && mario.getX() <= key1.getX() + key1.getWidth()) {
+				if (mario.getY() + mario.getHeight() >= key1.getY() && mario.getY() <= key1.getY() + key1.getHeight()) {
+					System.out.println("KEY HIT" + (keyDisp.getState()));
+					keyDisp.setState(keyDisp.getState() + 1);
+					((Key)key1).setAvailable(false);
+					score += 500;
+					keySound.play();	//ADDED2
+				}
+				else {					//ADDED2
+					keySound.stop();	//ADDED2
+				}
 			}
 		}
-		// Key2
-		if (key2.getAvailable() == true) {
-			if (mario.collide(key2)) {
-				System.out.println("KEY HIT" + (keyDisp.getState()));
-				keyDisp.setState(keyDisp.getState() + 1);
-				key2.setAvailable(false);
-				score += 500;
-				keySound.play();	//ADDED2
-			} else {					//ADDED2
-				keySound.stop();	//ADDED2
+		//Key2
+		if (((Key)key2).getAvailable() == true) {
+			if (mario.getX() + mario.getWidth() >= key2.getX() && mario.getX() <= key2.getX() + key2.getWidth()) {
+				if (mario.getY() + mario.getHeight() >= key2.getY() && mario.getY() <= key2.getY() + key2.getHeight()) {
+					System.out.println("KEY HIT" + (keyDisp.getState()));
+					keyDisp.setState(keyDisp.getState() + 1);
+					((Key)key2).setAvailable(false);
+					keySound.play();	//ADDED2
+					score += 500;
+				}
+				else {					//ADDED2
+					keySound.stop();	//ADDED2
+				}
 			}
 		}
-		// Key3
-		if (key3.getAvailable() == true) {
-			if (mario.collide(key3)) {
-				System.out.println("KEY HIT" + (keyDisp.getState()));
-				keyDisp.setState(keyDisp.getState() + 1);
-				key3.setAvailable(false);
-				score += 500;
-				keySound.play();	//ADDED2
-			} else {					//ADDED2
-				keySound.stop();	//ADDED2
+		//Key3
+		if (((Key)key3).getAvailable() == true) {
+			if (mario.getX() + mario.getWidth() >= key3.getX() && mario.getX() <= key3.getX() + key3.getWidth()) {
+				if (mario.getY() + mario.getHeight() >= key3.getY() && mario.getY() <= key3.getY() + key3.getHeight()) {
+					System.out.println("KEY HIT" + (keyDisp.getState()));
+					keyDisp.setState(keyDisp.getState() + 1);
+					((Key)key3).setAvailable(false);
+					keySound.play();	//ADDED2
+					score += 500;
+				}
+				else {					//ADDED2
+					keySound.stop();	//ADDED2
+				}
 			}
 		}
 				
@@ -608,19 +616,16 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 			vy = 4;
 		}
 		
-		if (mario.hittingMystBlockFromBelow(mystBlock1)) { //CHANGED
-			vy = 4;
-		}
-		if (mystBlock1.getAvailable() == true) {
-			if (mario.getX() + mario.getWidth() >= mystBlock1.getX() && mario.getX() <= mystBlock1.getX() + mystBlock1.getWidth()) {
-				if (mario.getY() <= mystBlock1.getY() + 40 + 10 && mario.getY() >= mystBlock1.getY() + 40 - 10) {
-					System.out.println("block hit");
-					int coinsToBeAdded = (int) (Math.random() * 8 + 1);
-					coins += coinsToBeAdded * 10;
-					score += coinsToBeAdded * 100;
-					mystBlock1.mystHit();
-				}
+		if (mario.hittingMystBlockFromBelow(mystBlock1)) { 
+			if (mystBlock1.getHasCoin() == true) {	//ADDED
+				mystBlock1.mystHit();
+				mystSound.play();
+				int coinsToBeAdded = (int) (Math.random() * 8 + 1);
+				coins += coinsToBeAdded * 10;
+				score += coinsToBeAdded * 100;
+				mystBlock1.mystHit();
 			}
+			vy = 4;
 		}
 		// Top Text Display (Lives, Score, Coins, and Timer)
 		g.setFont(displayFont);
@@ -752,9 +757,12 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		spikes1 = new Spikes(120, originalPlatform + 10);
 		spikes2 = new Spikes(800, originalPlatform + 10);
 		spikes3 = new Spikes(885, originalPlatform + 10);
-		key1 = new Key(0, 0);
-		key2 = new Key(0, 0);
-		key3 = new Key(0, 0);
+		key1 = new Key(100, 405);
+		key1.setAvailable(true);
+		key2 = new Key(680, 205);
+		key2.setAvailable(true);
+		key3 = new Key(1600, 305);
+		key3.setAvailable(true);
 		peach = new Peach(background.getX() + 1350, 200);
 		livesicon = new PowerUp(8, 10, "1-UP");
 		coinicon = new Coin(10, 55);
@@ -867,12 +875,14 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		}
 		if (arg0.getKeyCode() == 38 && !mario.getJumping() && !lost && mario.getY() + mario.getHeight() >= platform) {
 			mario.setJumping(true);
+			jumpSound.play();
 			vy = -20;
 		}
 		
 		if (arg0.getKeyCode() == 10) {
 			if (peach.getInRange() == true) {
 				peach.setStateLocked(false);
+				levelClear.play();
 				peach.chooseImage();
 				score += 1000;
 				score += time * 10;
@@ -926,6 +936,7 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 			mario.setX(1050);
 			mario.setY(longPipe.getY() - mario.getHeight() - 1);
 			shortPipeInRange = false;
+			pipeSound.play();
 		}
 		
 		else if (arg0.getKeyCode() == 40 && longPipeInRange == true) {
@@ -957,6 +968,7 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 			mario.setX(620);
 			mario.setY(shortPipe2.getY() - mario.getHeight() - 1);
 			longPipeInRange = false;
+			pipeSound.play();
 		}
 		
 	}
