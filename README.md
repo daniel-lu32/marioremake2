@@ -1,14 +1,15 @@
-# Super Mario Bros 
-#### created by: Daniel Lu and Breanna Thayillam
+# Super Mario Bros
+#### Creators: Daniel Lu and Breanna Thayillam
 ## Objective 
 ![final gif](https://user-images.githubusercontent.com/90793524/170924315-098eb6b4-9b00-44d1-8a48-12bf6080a26e.gif)
-The main objective of the game is to free Princess Peach. In order to do this, you must collect all 3 keys while watching out for Goombas and spikes along the way, which could cost you some lives. There are some hidden power ups to help you as well, can you find them?
+The main objective of this game is to free Princess Peach. In order to accomplish this task, the player must collect all 3 keys while watching out for Goombas and Spikes along the way, which could cost the player some lives. There are also some hidden power ups to help the player out, can you find them?
 
 #### Keys:
-* left arrow: run left
-* right arrow: run right
-* up arrow: jump
-* down arrow: teleport through pipes
+* Left arrow: Run Left
+* Right arrow: Run Right
+* Up arrow: Jump
+* Down arrow: Teleport Through Pipes
+* Space bar: Use Power Up
 
 ## Classes
 
