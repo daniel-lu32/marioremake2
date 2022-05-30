@@ -9,17 +9,19 @@ import java.net.URL;
 
 public class MarioObject {
 	
-	// attributes
+	// Attributes that all MarioObjects have
 	protected int x, y, height, width;
 	protected double scaleX, scaleY;
 	protected Image img;
 	protected AffineTransform tx;
 
+	// MarioObject Superclass Constructor
 	public MarioObject(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
-	// collide method
+	
+	// Generic Collision Detection Method
 	public boolean collideObjects(MarioObject other) {
 		if (this.getX() + this.getWidth() >= other.getX() && this.getX() <= other.getX() + other.getWidth()) {
 			if (this.getY() + this.getWidth() >= other.getY() && this.getY() <= other.getY() + other.getHeight()) {
@@ -94,7 +96,7 @@ public class MarioObject {
 		return tempImage;
 	}
 	
-	// subclass methods
+	// Subclass methods
 	public void setImage() {
 		
 	}
@@ -103,3 +105,5 @@ public class MarioObject {
 	}
 	
 }
+
+
