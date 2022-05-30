@@ -9,16 +9,19 @@ import java.net.URL;
 
 public class PowerUp extends MarioObject {
 	
-	// attributes
-	private int vx;
-	private String type;
-	private boolean hit;
+	// PowerUp Attributes
+	private int vx; // Velocity of a moving PowerUp
+	private String type; // Ice Flower, Fire Flower, Big Mushroom, or 1-UP
+	private boolean hit; // Whether or not the PowerUp has collided with Mario
 	
+	// PowerUp Constructor
 	public PowerUp(int x, int y, String type) {
+		// Call the Superclass Constructor
 		super(x, y);
 		height = 36;
 		this.type = type;
 		hit = false;
+		// Obtain the correct image file depending on the type of PowerUp
 		if (type.equals("Big Mushroom")) {
 			vx = -1;
 			img = getImage("/imgs/redmushroom2.png");
@@ -47,6 +50,7 @@ public class PowerUp extends MarioObject {
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y);
 	}
+	// Collide method for PowerUp
 	public boolean collide(MarioObject other) {
 		if (this.getX() + this.getWidth() >= other.getX() && this.getX() <= other.getX() + other.getWidth()) {
 			if (this.getY() + this.getWidth() >= other.getY() && this.getY() <= other.getY() + other.getHeight()) {
@@ -103,5 +107,6 @@ public class PowerUp extends MarioObject {
 	}
 	
 }
+
 
 
