@@ -9,17 +9,18 @@ import java.net.URL;
 
 public class Coin extends MarioObject {
 	
-	// attributes
+	// Coin Attributes
 	private boolean collided;
 	
+	// Coin Constructor
 	public Coin(int x, int y) {
 		super(x, y);
 		width = 27;
-		height = 30; // temp values
+		height = 31;
 		img = getImage("/imgs/coinicon2.png");
 		collided = false;
-		scaleX = 0.2;
-		scaleY = 0.2;
+		scaleX = 0.15;
+		scaleY = 0.15;
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y);
 	}
