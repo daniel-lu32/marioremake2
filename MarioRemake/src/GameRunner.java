@@ -136,6 +136,12 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 	PowerUp fire = new PowerUp(block2.getX(), block2.getY() - 36, "Fire Flower");
 	PowerUp oneup = new PowerUp(700, originalPlatform, "1-UP");
 	
+	// Create collectible Coins
+	Coin coin1 = new Coin(block5.getX() + 6, block5.getY() - 35);
+	Coin coin2 = new Coin(block6.getX() + 6, block6.getY() - 35);
+	Coin coin3 = new Coin(block7.getX() + 6, block7.getY() - 35);
+	Coin coin4 = new Coin(block8.getX() + 6, block8.getY() - 35);
+	Coin coin5 = new Coin(block12.getX() + 6, block12.getY() - 35);
 	
 	// Most important method with code and movement that is called 35 times per second
 	public void paint(Graphics g) {
@@ -392,13 +398,13 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 			iceball.setOnScreen(false);
 		}
 		// If a Projectile hits the Goomba, then the Goomba dies, and the score increases
-		if (fireball.getOnScreen() && fireball.collideObjects(goomba1)) {
+		if (fireball.getOnScreen() && fireball.collideObjects(goomba1) && goombaIsAlive) {
 			goombaIsAlive = false;
 			fireball.setOnScreen(false);
 			score += 1000;
 		}
 
-		if (iceball.getOnScreen() && iceball.collideObjects(goomba1)) {
+		if (iceball.getOnScreen() && iceball.collideObjects(goomba1) && goombaIsAlive) {
 			goombaIsAlive = false;
 			iceball.setOnScreen(false);
 			score += 1000;
@@ -672,6 +678,60 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 			vy = 4;
 		}
 		
+		// Coin Mechanics
+		coin1.setX(block5.getX() + 8);
+		coin2.setX(block6.getX() + 8);
+		coin3.setX(block7.getX() + 8);
+		coin4.setX(block8.getX() + 8);
+		coin5.setX(block12.getX() + 8);
+		// Paint the Coins if they have not yet been collected
+		if (!coin1.getCollided()) {
+			coin1.paint(g);
+		}
+		if (!coin2.getCollided()) {
+			coin2.paint(g);
+		}
+		if (!coin3.getCollided()) {
+			coin3.paint(g);
+		}
+		if (!coin4.getCollided()) {
+			coin4.paint(g);
+		}
+		if (!coin5.getCollided()) {
+			coin5.paint(g);
+		}
+		// If Mario collects a coin, then a random number of coins, from 10 to 80, will be added to the Coin counter
+		if (mario.collide(coin1) && !coin1.getCollided()) {
+			coin1.setCollided(true);
+			int coinsToBeAdded = (int) (Math.random() * 8 + 1);
+			coins += coinsToBeAdded * 10;
+			score += coinsToBeAdded * 100;
+		}
+		if (mario.collide(coin2) && !coin2.getCollided()) {
+			coin2.setCollided(true);
+			int coinsToBeAdded = (int) (Math.random() * 8 + 1);
+			coins += coinsToBeAdded * 10;
+			score += coinsToBeAdded * 100;
+		}
+		if (mario.collide(coin3) && !coin3.getCollided()) {
+			coin3.setCollided(true);
+			int coinsToBeAdded = (int) (Math.random() * 8 + 1);
+			coins += coinsToBeAdded * 10;
+			score += coinsToBeAdded * 100;
+		}
+		if (mario.collide(coin4) && !coin4.getCollided()) {
+			coin4.setCollided(true);
+			int coinsToBeAdded = (int) (Math.random() * 8 + 1);
+			coins += coinsToBeAdded * 10;
+			score += coinsToBeAdded * 100;
+		}
+		if (mario.collide(coin5) && !coin5.getCollided()) {
+			coin5.setCollided(true);
+			int coinsToBeAdded = (int) (Math.random() * 8 + 1);
+			coins += coinsToBeAdded * 10;
+			score += coinsToBeAdded * 100;
+		}
+		
 		// Top Text Display (Lives, Score, Coins, and Timer)
 		g.setFont(displayFont);
 		
@@ -696,6 +756,8 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		
 		// Paint the Lives and Coin Icons
 		livesicon.paint(g);
+		coinicon.setScaleX(0.2);
+		coinicon.setScaleY(0.2);
 		coinicon.paint(g);
 		
 		// Paint the Number of Lives Remaining
@@ -942,7 +1004,7 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		}
 		
 		// If the Up Arrow Key is pressed and Mario isn't already jumping, then Mario jumps. His Y velocity is set to a negative value
-		if (arg0.getKeyCode() == 38 && !mario.getJumping() && !lost && mario.getY() + mario.getHeight() >= platform) {
+		if (arg0.getKeyCode() == 38 && !mario.getJumping() && !lost && mario.getY() + mario.getHeight() >= platform && !won) {
 			mario.setJumping(true);
 			jumpSound.play();
 			vy = -20;
