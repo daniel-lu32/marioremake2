@@ -80,6 +80,7 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 	
 	// Variable to track whether or not another audio file is being played
 	private boolean otherAudioPlaying = false;
+	private boolean gameOverSoundPlayed = false;
 	
 	// Fonts
 	Font keyFont = new Font("Unknown", Font.BOLD, 14);
@@ -162,12 +163,12 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		}
 		if (lost || otherAudioPlaying) {
 			theme.stop();
-			if (lost) {
-				gameOver.start();
-			}
-			else {
-				gameOver.stop();
-			}
+//			if (lost) {
+//				gameOver.start();
+//			}
+//			else {
+//				gameOver.stop();
+//			}
 		}
 		
 		// Paint the Background
@@ -859,6 +860,7 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		spawnX = 10;
 		spawnY = originalPlatform;
 		otherAudioPlaying = false;
+		gameOverSoundPlayed = false;
 		summonIce = false;
 		summonFire = false;
 		goombaIsAlive = true;
@@ -930,7 +932,10 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 	// This method is called 35 times per second, so as soon as the player has lost or won, the game will be ended
 	public void endGame() {
 		if (lost) {
-			gameOver.start();
+			if (!gameOverSoundPlayed) {
+				gameOver.play();
+				gameOverSoundPlayed = true;
+			}
 			spawnX = 10;
 			spawnY = originalPlatform;
 			resetPosition();
