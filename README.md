@@ -26,10 +26,12 @@ The Character2 Class is used to represent the main character, Mario. A multitude
 
 ![](https://github.com/daniel-lu32/marioremake2/blob/master/MarioRemake/src/imgs/mariostanding.png) 
 ![](https://github.com/daniel-lu32/marioremake2/blob/master/MarioRemake/src/imgs/icemariostanding.png) 
-![](https://github.com/daniel-lu32/marioremake2/blob/master/MarioRemake/src/imgs/firemariostanding.png) 
+![](https://github.com/daniel-lu32/marioremake2/blob/master/MarioRemake/src/imgs/firemariostanding.png)
+
 ![](https://github.com/daniel-lu32/marioremake2/blob/master/MarioRemake/src/imgs/mariorunningright.gif) 
 ![](https://github.com/daniel-lu32/marioremake2/blob/master/MarioRemake/src/imgs/icemariorunningright.gif) 
 ![](https://github.com/daniel-lu32/marioremake2/blob/master/MarioRemake/src/imgs/firemariorunningright.gif) 
+
 ![](https://github.com/daniel-lu32/marioremake2/blob/master/MarioRemake/src/imgs/mariorunningleft.gif) 
 ![](https://github.com/daniel-lu32/marioremake2/blob/master/MarioRemake/src/imgs/icemariorunningleft.gif) 
 ![](https://github.com/daniel-lu32/marioremake2/blob/master/MarioRemake/src/imgs/firemariorunningleft.gif) 
