@@ -41,9 +41,26 @@ The Spikes Class is used to represent all of the spikes that are laid on the gro
 ![](https://github.com/daniel-lu32/marioremake2/blob/master/MarioRemake/src/imgs/spikes.png) 
 
 ### Goomba Class
-The Goomba Class is used to represent the moving Goomba mushroom that Mario must also avoid. Only one Goomba is created in this version of the game. The Goomba moves back and forth between the 2 short pipes. The Goomba class also has a collision method to test for collisions with the pipes so that it knows when to change direction.
+The Goomba Class is used to represent the moving Goomba mushroom that Mario must also avoid. Only one Goomba is created in this version of the game. The Goomba moves back and forth between the 2 short pipes. The Goomba class also has a collision method to test for collisions with the pipes so that it knows when to change direction. Just like with the spikes, colliding with the Goomba will result in a debuff and a few seconds of invincibility to the Goomba. However, a Goomba can actually be eliminated if Mario shoots an iceball or a fireball at it. The Goomba object is painted onto the map as a GIF.
 
-![](https://github.com/daniel-lu32/marioremake2/blob/master/MarioRemake/src/imgs/goombagif2.gif) 
+![](https://github.com/daniel-lu32/marioremake2/blob/master/MarioRemake/src/imgs/readmeimgs/goombagif.png) 
+
+### Key Class
+The Key Class is used to represent the floating keys around the map that the player must collect in order to free Princess Peach and win the game. If Mario collects a key, the key will disappear and will be displayed at the top. Key objects are painted onto the map as GIFs.
+
+![](https://github.com/daniel-lu32/marioremake2/blob/master/MarioRemake/src/imgs/key2.gif) 
+
+### KeyDisplay Class
+The KeyDisplay Class is used to display, at the top, how many keys the player has successfully collected. The image of the KeyDisplay object changes based on how many keys have been collected. The KeyDisplay Class has the **setState** and **chooseImage** methods, which work together to display the correct image. 
+
+![](https://github.com/daniel-lu32/marioremake2/blob/master/MarioRemake/src/imgs/0keys.png) 
+![](https://github.com/daniel-lu32/marioremake2/blob/master/MarioRemake/src/imgs/2keys.png) 
+
+### Peach Class
+The Peach Class is used to represent Princess Peach and her cage. By default, the image that the Peach object contains is Princess Peach in a cage. The image changes to Princess Peach without the cage only after the player collects every key and frees Princess Peach, winning the game. The Peach Class also has a **chooseImage** method that determines whether or not the cage should be part of the image.
+
+![](https://github.com/daniel-lu32/marioremake2/blob/master/MarioRemake/src/imgs/peachLocked.png) 
+![](https://github.com/daniel-lu32/marioremake2/blob/master/MarioRemake/src/imgs/peachUnlocked.png) 
 
 ### Character2
 
