@@ -16,9 +16,9 @@ import java.awt.Font;
 
 public class BackgroundTester extends JPanel implements ActionListener, MouseListener, KeyListener {
 	
+	
 	/**
-	 * Game header
-	 * 
+	 * THIS IS JUST A TESTER CLASS.
 	 */
 	
 	// Static Variables
