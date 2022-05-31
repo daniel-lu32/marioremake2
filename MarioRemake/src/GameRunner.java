@@ -151,7 +151,7 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 			otherAudioPlaying = false;
 		}
 		
-		if (lost == false && otherAudioPlaying == false) {
+		if (lost == false && otherAudioPlaying == false && won == false) {
 			theme.start();
 		}
 		if (lost || otherAudioPlaying) {
@@ -315,6 +315,11 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		}
 		else {
 			longPipeInRange = false;
+		}
+		// Make sure that Mario does not go past the longPipe
+		if (mario.getX() > longPipe.getX() + longPipe.getWidth() && platform == originalPlatform && mario.getY() >= platform) {
+			mario.setX(longPipe.getX());
+			mario.setY(longPipe.getY() - mario.getHeight());
 		}
 		
 		// Flag Mechanics
