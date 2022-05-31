@@ -17,8 +17,7 @@ import java.awt.Font;
 public class FrameTester extends JPanel implements ActionListener, MouseListener, KeyListener {
 	
 	/**
-	 * Game header
-	 * 
+	 * THIS IS JUST A TESTER CLASS.
 	 */
 	
 	// variables and trackers
