@@ -17,7 +17,23 @@ import java.awt.Font;
 public class GameRunner extends JPanel implements ActionListener, MouseListener, KeyListener {
 	
 	/**
-	 * Game header
+	 * Super Mario Bros
+	 * Creators: Daniel Lu and Breanna Thayillam
+	 * The main objective of this game is to free Princess Peach.
+	 * In order to accomplish this task, you must collect all 3 keys while watching out for Goombas and Spikes along the way, which could cost you lives.
+	 * There are also some hidden power ups to help the player out. Can you find them?
+	 * Each time you hit a Mystery Block or collect a coin, you will be given either 10, 20, 30, ..., or 80 coins.
+	 * 100 coins is equivalent to one life.
+	 * The Fire and Ice flowers are hidden within certain Blocks.
+	 * Projectiles can only be fired to the right, and only one Projectile can be on the screen at any point in time.
+	 * Projectiles, such as fireballs or iceballs, will disappear after traveling far away enough from Mario.
+	 * 
+	 * Controls
+	 * Left arrow: Run Left
+	 * Right arrow: Run Right
+	 * Up arrow: Jump
+	 * Down arrow: Teleport Through Pipes
+	 * Space bar: Use Power Up
 	 * 
 	 */
 	
