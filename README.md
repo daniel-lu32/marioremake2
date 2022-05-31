@@ -1,11 +1,17 @@
 # Super Mario Bros
 #### Creators: Daniel Lu and Breanna Thayillam
-## Objective 
+## Overview and Objective
 ![final gif](https://user-images.githubusercontent.com/90793524/170924315-098eb6b4-9b00-44d1-8a48-12bf6080a26e.gif)
 
-The main objective of this game is to free Princess Peach. In order to accomplish this task, the player must collect all 3 keys while watching out for Goombas and Spikes along the way, which could cost the player some lives. There are also some hidden power ups to help the player out, can you find them?
+The main objective of this game is to free Princess Peach. In order to accomplish this task, the player must collect all 3 keys while watching out for Goombas and Spikes along the way, which could cost the player some lives. There are also some hidden power ups to help the player out. Can you find them?
 
-#### Keys:
+There are 2 types of Power Ups in this game that the player can obtain: Ice and Fire. The only way to obtain these Power Ups is by collecting the hidden Ice and Fire flowers. With these Power Ups, the player is then able to eliminate enemies.
+
+In addition, the player can teleport to another part of the map by going through certain pipes. Furthermore, the player can collect coins. Each coin will award the player a random number of coins from 10 to 80. Collecting coins greatly boosts your score, so try to collect as many as possible!
+
+Finally, beware of the Goombas and the Spikes. Try to free Princess Peach before it is too late! Keep in mind that you are also on a timer. Good luck and have fun!
+
+## Controls
 * Left arrow: Run Left
 * Right arrow: Run Right
 * Up arrow: Jump
@@ -13,6 +19,9 @@ The main objective of this game is to free Princess Peach. In order to accomplis
 * Space bar: Use Power Up
 
 ## Classes
+### PowerUp Class:
+The PowerUp Class is used to represent the 4 friendly entities that Mario can collect. The 4 PowerUps are the Ice Flower, the Fire Flower, the Big Mushroom, and the 1-UP Mushroom. Each PowerUp object has a specific picture that is retrieved in when the object is created. Each PowerUp is created once in the GameRunner class. 
+
 
 ### Character2
 
