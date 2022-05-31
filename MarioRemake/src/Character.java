@@ -6,6 +6,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.net.URL;
+	
+	/**
+	 * THIS IS JUST A VERSION OF THE CHARACTER CLASS USED FOR TESTING.
+	 */
 
 public class Character {
 	private int x, y, height, width, vx, state;
