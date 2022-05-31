@@ -2,6 +2,7 @@
 #### Creators: Daniel Lu and Breanna Thayillam
 ## Objective 
 ![final gif](https://user-images.githubusercontent.com/90793524/170924315-098eb6b4-9b00-44d1-8a48-12bf6080a26e.gif)
+
 The main objective of this game is to free Princess Peach. In order to accomplish this task, the player must collect all 3 keys while watching out for Goombas and Spikes along the way, which could cost the player some lives. There are also some hidden power ups to help the player out, can you find them?
 
 #### Keys:
