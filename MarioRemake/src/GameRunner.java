@@ -703,30 +703,35 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		// If Mario collects a coin, then a random number of coins, from 10 to 80, will be added to the Coin counter
 		if (mario.collide(coin1) && !coin1.getCollided()) {
 			coin1.setCollided(true);
+			coinSound.play();
 			int coinsToBeAdded = (int) (Math.random() * 8 + 1);
 			coins += coinsToBeAdded * 10;
 			score += coinsToBeAdded * 100;
 		}
 		if (mario.collide(coin2) && !coin2.getCollided()) {
 			coin2.setCollided(true);
+			coinSound.play();
 			int coinsToBeAdded = (int) (Math.random() * 8 + 1);
 			coins += coinsToBeAdded * 10;
 			score += coinsToBeAdded * 100;
 		}
 		if (mario.collide(coin3) && !coin3.getCollided()) {
 			coin3.setCollided(true);
+			coinSound.play();
 			int coinsToBeAdded = (int) (Math.random() * 8 + 1);
 			coins += coinsToBeAdded * 10;
 			score += coinsToBeAdded * 100;
 		}
 		if (mario.collide(coin4) && !coin4.getCollided()) {
 			coin4.setCollided(true);
+			coinSound.play();
 			int coinsToBeAdded = (int) (Math.random() * 8 + 1);
 			coins += coinsToBeAdded * 10;
 			score += coinsToBeAdded * 100;
 		}
 		if (mario.collide(coin5) && !coin5.getCollided()) {
 			coin5.setCollided(true);
+			coinSound.play();
 			int coinsToBeAdded = (int) (Math.random() * 8 + 1);
 			coins += coinsToBeAdded * 10;
 			score += coinsToBeAdded * 100;
@@ -814,6 +819,7 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 			g.drawString("You Won! :) Press R to try for a Better Score!", 260, 200);
 		}
 		// Paint Arrows to hint at where the hidden PowerUps are
+		g.setFont(displayFont);
 		g.drawString("^^^^^^", block1.getX(), block1.getY() + 60);
 		
 		
