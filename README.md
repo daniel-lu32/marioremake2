@@ -19,9 +19,31 @@ Finally, beware of the Goombas and the Spikes. Try to free Princess Peach before
 * Space bar: Use Power Up
 
 ## Classes
-### PowerUp Class:
-The PowerUp Class is used to represent the 4 friendly entities that Mario can collect. The 4 PowerUps are the Ice Flower, the Fire Flower, the Big Mushroom, and the 1-UP Mushroom. Each PowerUp object has a specific picture that is retrieved in when the object is created. Each PowerUp is created once in the GameRunner class. 
+### PowerUp Class
+The PowerUp Class is used to represent the 4 friendly entities that Mario can collect. The 4 PowerUps are the Ice Flower, the Fire Flower, the Big Mushroom, and the 1-UP Mushroom. Each PowerUp object has a specific picture that is retrieved in when the object is created. The Red Mushroom and Green Mushroom move back and forth between pipes.
 
+![](https://github.com/daniel-lu32/marioremake2/blob/master/MarioRemake/src/imgs/readmeimgs/powerups.png) 
+
+### Projectile Class
+The Projectile Class is used to represent the 2 types of attacks that Mario can perform. The 2 Projectiles are iceballs and fireballs. Projectiles only travel to the right.
+
+![](https://github.com/daniel-lu32/marioremake2/blob/master/MarioRemake/src/imgs/iceball.png) 
+![](https://github.com/daniel-lu32/marioremake2/blob/master/MarioRemake/src/imgs/fireball.png) 
+
+### Pipe Class
+The Pipe Class is used to represent the different types of pipes that are in the game. In this specific version, there are 2 short pipes and 1 long pipe. Mario can enter the long pipe and one of the short pipes in order to teleport to the other pipe. Mario can also stand on pipes and jump along their sides.
+
+![](https://github.com/daniel-lu32/marioremake2/blob/master/MarioRemake/src/imgs/pipe.png) 
+
+### Spikes Class
+The Spikes Class is used to represent all of the spikes that are laid on the ground that Mario must avoid. Each Spikes object contains 6 spikes. Whenever Mario gets hit by a spike, he will either lose his ability, become smaller, or lose a life, depending on his current state. The player will be given invincibility frames to the spikes for a short period of time.
+
+![](https://github.com/daniel-lu32/marioremake2/blob/master/MarioRemake/src/imgs/spikes.png) 
+
+### Goomba Class
+The Goomba Class is used to represent the moving Goomba mushroom that Mario must also avoid. Only one Goomba is created in this version of the game. The Goomba moves back and forth between the 2 short pipes. The Goomba class also has a collision method to test for collisions with the pipes so that it knows when to change direction.
+
+![](https://github.com/daniel-lu32/marioremake2/blob/master/MarioRemake/src/imgs/goombagif2.gif) 
 
 ### Character2
 
