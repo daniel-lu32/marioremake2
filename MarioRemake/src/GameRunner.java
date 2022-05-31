@@ -323,7 +323,7 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 			longPipeInRange = false;
 		}
 		// Make sure that Mario does not go past the longPipe
-		if (mario.getX() > longPipe.getX() + longPipe.getWidth() && platform == originalPlatform && mario.getY() >= platform) {
+		if (mario.getX() > longPipe.getX() + longPipe.getWidth() && mario.getY() >= platform) {
 			mario.setX(longPipe.getX());
 			mario.setY(longPipe.getY() - mario.getHeight());
 		}
@@ -813,6 +813,9 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 			g.setFont(gameOverFont);
 			g.drawString("You Won! :) Press R to try for a Better Score!", 260, 200);
 		}
+		// Paint Arrows to hint at where the hidden PowerUps are
+		g.drawString("^^^^^^", block1.getX(), block1.getY() + 60);
+		
 		
 	}
 	
@@ -911,7 +914,11 @@ public class GameRunner extends JPanel implements ActionListener, MouseListener,
 		ice = new PowerUp(block1.getX(), block1.getY() - 36, "Ice Flower");
 		fire = new PowerUp(block2.getX(), block2.getY() - 36, "Fire Flower");
 		oneup = new PowerUp(background.getX() + 700, originalPlatform, "1-UP");
-				
+		coin1 = new Coin(block5.getX() + 6, block5.getY() - 35);
+		coin2 = new Coin(block6.getX() + 6, block6.getY() - 35);
+		coin3 = new Coin(block7.getX() + 6, block7.getY() - 35);
+		coin4 = new Coin(block8.getX() + 6, block8.getY() - 35);
+		coin5 = new Coin(block12.getX() + 6, block12.getY() - 35);
 	}
 	
 	// This method is called 35 times per second, so as soon as the player has lost or won, the game will be ended
