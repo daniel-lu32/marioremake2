@@ -130,6 +130,7 @@ Then, whenever Mario collided with another object or did an action, these sounds
 The GameRunner class is what essentially declares, instatiates, and paints the objects of each class mentioned above.
 
 Instantiate Objects: ![image](https://user-images.githubusercontent.com/90793524/171324476-4c063b91-9272-4edb-bc08-5ce7b2c9d6a1.png)
+
 Paint Objects: ![image](https://user-images.githubusercontent.com/90793524/171324581-7c24cac1-4b9e-4340-9c97-99ac13447dd2.png)
 
 The GameRunner class determines how the objects interact with each other, which the game is dependent upon. GameRunner contains information about when a life should be lost, when a game should be ended, and much more due to these interactions among the objects. An example of this is how it makes use of the collide method in the Character2 class to check whether any two objects are intersecting and respond accordingly.
