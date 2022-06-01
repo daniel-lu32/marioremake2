@@ -9,6 +9,8 @@ There are 2 types of Power Ups in this game that the player can obtain: Ice and 
 
 In addition, the player can teleport to another part of the map by going through certain pipes. Furthermore, the player can collect coins. Each coin will award the player a random number of coins from 10 to 80. Collecting coins greatly boosts your score, so try to collect as many as possible!
 
+Reaching a flag acts as a checkpoint for the player, and thus allows them to respawn at the checkpoint the next time they lose a life rather than at the start.
+
 Finally, beware of the Goombas and the Spikes. Try to free Princess Peach before it is too late! Keep in mind that you are also on a timer. Good luck and have fun!
 
 ## Controls
@@ -74,22 +76,29 @@ The KeyDisplay Class is used to display, at the top, how many keys the player ha
 ![](https://github.com/daniel-lu32/marioremake2/blob/master/MarioRemake/src/imgs/0keys.png) 
 ![](https://github.com/daniel-lu32/marioremake2/blob/master/MarioRemake/src/imgs/2keys.png) 
 
+### Coin Class
+The Coin class creates and displays an image of a coin, which the player is able to collect to obtain a higher score.
+
+![coinicon2](https://user-images.githubusercontent.com/90793524/171324245-acaec772-ed5d-4ecd-bed4-37d74f6d4fb1.png)
+
 ### Peach Class
+
 The Peach Class is used to represent Princess Peach and her cage. By default, the image that the Peach object contains is Princess Peach in a cage. The image changes to Princess Peach without the cage only after the player collects every key and frees Princess Peach, winning the game. The Peach Class also has a **chooseImage** method that determines whether or not the cage should be part of the image.
 
 ![](https://github.com/daniel-lu32/marioremake2/blob/master/MarioRemake/src/imgs/peachLocked.png) 
 ![](https://github.com/daniel-lu32/marioremake2/blob/master/MarioRemake/src/imgs/peachUnlocked.png) 
 
 ### Background
+The Background class contains instance variables and methods that control the position and other features of the Background image.
 
 ![background](https://user-images.githubusercontent.com/90793524/171323178-e8663051-f06b-4e3a-9bdf-45405d2f937c.png)
 
-The background class contains instance variables and methods that control the position and other features of the Background image.
 The **slide method** is what determines the horizontal scrolling of the background. Two booleans are inputted for if Mario is running left (when left arrow key pressed) or running right (right arrow pressed). If Mario is running left, then the background needs to scroll to the opposite direction to make it seem like Mario is travelling across the background, so the vx is set to a positive value of 4, then added to the current X value of background. When Mario is running right, the background should move left, so the vx is set to -4. If neither running left or right is true, then the vx is set to 0 so the background doesn't move.
 
 ![image](https://user-images.githubusercontent.com/90793524/171039337-462b614b-8f30-4852-b0c4-5dae310140c1.png)
 
 ### Block Class
+The Block class is used to display both normal and mystery blocks, each with their own features and abilities.
 
 ![brick](https://user-images.githubusercontent.com/90793524/171323237-69f33840-6a6b-498d-af6d-d37d8b55b21f.png)
 ![mysteryBlockFINAL](https://user-images.githubusercontent.com/90793524/171323259-c3aeb4ef-4b6e-4025-a2b7-13c60bd4d2d5.gif)
@@ -103,7 +112,11 @@ The **mystHit method** is called when Mario collides with the mystery block. It 
 
 ![image](https://user-images.githubusercontent.com/90793524/171040237-f798395a-825e-44c7-a486-b7bc691d86d2.png)
 
-### GameRunner Class
+### Flag Class
+The Flag class is used to create and display a gif of a lowered or raised flag, depending on whether the character reached the flag or not. If the character reaaches and raises the flag, they will respawn here rather than at the start the next time they lose a life.
+
+![flag raised](https://user-images.githubusercontent.com/90793524/171323694-fbc1fe0c-60dc-471c-b19b-efde09372c13.gif)
+
 ### Music Class
 The Music class format was reused from our Quarter 2 Projects. In GameRunner, we created different Music objects, one for each instance we needed to play a sound effect.
 
@@ -112,5 +125,19 @@ The Music class format was reused from our Quarter 2 Projects. In GameRunner, we
 Then, whenever Mario collided with another object or did an action, these sounds would be played.
 
 ![image](https://user-images.githubusercontent.com/90793524/171041330-32e3f94a-1077-4018-aaee-be225efcc160.png)
+
+### GameRunner Class
+The GameRunner class is what essentially declares, instatiates, and paints the objects of each class mentioned above.
+
+Instantiate Objects: ![image](https://user-images.githubusercontent.com/90793524/171324476-4c063b91-9272-4edb-bc08-5ce7b2c9d6a1.png)
+Paint Objects: ![image](https://user-images.githubusercontent.com/90793524/171324581-7c24cac1-4b9e-4340-9c97-99ac13447dd2.png)
+
+The GameRunner class determines how the objects interact with each other, which the game is dependent upon. GameRunner contains information about when a life should be lost, when a game should be ended, and much more due to these interactions among the objects. An example of this is how it makes use of the collide method in the Character2 class to check whether any two objects are intersecting and respond accordingly.
+
+![image](https://user-images.githubusercontent.com/90793524/171324871-3f83133d-3a91-4c44-b54a-e4b840b16614.png)
+
+GameRunner is also used to perform actions when certain keys are pressed, which is controlled by the **keyPressed** and **keyReleased** methods. An example of this is shown below, in which the image displayed for Mario and Mario's velocities are modified indirectly using methods in Character2 when the right arrow key is pressed.
+
+![image](https://user-images.githubusercontent.com/90793524/171325286-3bf191eb-21ee-491d-aaeb-17f59d818989.png)
 
 #### 
